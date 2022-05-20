@@ -97,4 +97,14 @@ public class Unit : MonoBehaviour
         // TODO: Change death behaviour (graveyard?)
         Destroy(this);
     }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Select the unit
+    /// </summary>
+    public void Select()
+    {
+        Board.instance.SelectUnit(this);
+    }
 }

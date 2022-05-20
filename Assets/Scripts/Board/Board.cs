@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 /// <summary>
 ///     The Board class is used to represent the game board on which the unit are placed in the Planning Phase to fight during the Battle Phase
@@ -14,6 +15,7 @@ public class Board : MonoBehaviour
     public int xSize;
     public int ySize;
     public Dictionary<(int, int), Tile> _tiles = new Dictionary<(int, int), Tile>();    // Contains every tile on the board, with their (x,y) coordinate as key
+    private Unit _selectedUnit;
 
     // Public get/set
     public List<Unit> playerUnits { get => _playerUnits; set => _playerUnits = value; }
@@ -121,13 +123,46 @@ public class Board : MonoBehaviour
         if (unit.tile != tile)
         {
             // Reset previous tile's unit reference
-            unit.tile.ResetUnit();
+            if (unit.tile != null)
+            {
+                unit.tile.ResetUnit();
+            }
 
             // Move unit to tile
             unit.Move(tile);
 
             // Set new tile's unit reference
             tile.unit = unit;
+        }
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Select a unit
+    /// </summary>
+    /// <param name="unit"> Unit to select </param>
+    public void SelectUnit(Unit unit)
+    {
+        //EventSystem.current.SetSelectedGameObject(null);
+        //EventSystem.current.SetSelectedGameObject(unit.gameObject);
+        _selectedUnit = unit;
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Select the tile
+    ///     If a unit is selected, move selected unit to this tile
+    /// </summary>
+    /// <param name="tile"> Tile to move the selected unit to </param>
+    public void SelectTile(Tile tile)
+    {
+        if (_selectedUnit != null)
+        {
+            MoveUnit(_selectedUnit, tile);
+            EventSystem.current.SetSelectedGameObject(null);
+            _selectedUnit = null;
         }
     }
 }

@@ -35,4 +35,14 @@ public class Tile : MonoBehaviour
     {
         _unit = null;
     }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Select the tile
+    /// </summary>
+    public void Select()
+    {
+        Board.instance.SelectTile(this);
+    }
 }

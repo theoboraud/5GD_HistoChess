@@ -51,7 +51,10 @@ public class BattleManager : MonoBehaviour
 
             if (nextTile != null)
             {
-                Board.instance.MoveUnit(unit, nextTile);
+                if (nextTile.unit == null)
+                {
+                    Board.instance.MoveUnit(unit, nextTile);
+                }
             }
         }
     }
