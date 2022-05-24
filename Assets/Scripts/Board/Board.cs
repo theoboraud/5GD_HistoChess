@@ -10,15 +10,16 @@ public class Board : MonoBehaviour
 {
     public static Board instance;                                                       // Board static reference
     public GameObject tilesGO;                                                          // Contains all tiles references in Unity Editor
-    public List<Unit> _playerUnits = new List<Unit>();                                  // Player units on the board
-    private List<Unit> _enemyUnits = new List<Unit>();                                  // Enemy units on the board
-    public int xSize;
-    public int ySize;
+    [SerializeField]private List<Unit> _playerUnits = new List<Unit>();                 // Player units on the board
+    [SerializeField]private List<Unit> _enemyUnits = new List<Unit>();                  // Enemy units on the board
+    [SerializeField] private int _xSize = 6;
+    [SerializeField] private int _ySize = 6;
     public Dictionary<(int, int), Tile> _tiles = new Dictionary<(int, int), Tile>();    // Contains every tile on the board, with their (x,y) coordinate as key
     private Unit _selectedUnit;
 
     // Public get/set
     public List<Unit> playerUnits { get => _playerUnits; set => _playerUnits = value; }
+    public List<Unit> enemyUnits { get => _enemyUnits; set => _enemyUnits = value; }
 
     // ----------------------------------------------------------------------------------------
 
@@ -45,18 +46,31 @@ public class Board : MonoBehaviour
     {
         int x = 0;
         int y = 0;
-        foreach(Transform childLine in tilesGO.transform)
+
+        foreach (Transform childTile in tilesGO.transform)
         {
-            foreach(Transform childTile in childLine)
+
+            Tile tile = childTile.gameObject.GetComponent<Tile>();
+            tile.x = x;
+            tile.y = y;
+            _tiles.Add((x,y), tile);
+            x++;
+
+            if (x >= _xSize)
             {
-                Tile tile = childTile.gameObject.GetComponent<Tile>();
-                tile.x = x;
-                tile.y = y;
-                _tiles.Add((x,y), tile);
-                x++;
+                x = 0;
+                y++;
             }
-            x = 0;
-            y++;
+        }
+
+        foreach (Unit unit in _playerUnits)
+        {
+            unit.Init();
+        }
+
+        foreach (Unit unit in _enemyUnits)
+        {
+            unit.Init();
         }
     }
 
@@ -71,12 +85,12 @@ public class Board : MonoBehaviour
     public Tile GetTile(int x, int y)
     {
         // If x or y is not in the array, returns null
-        if (x >= xSize || x < 0)
+        if (x >= _xSize || x < 0)
         {
             //Debug.Log("Board.GetUnit(" + x + ", " + y + "): " + x + " is not contained in the array _tiles[" + _tiles.GetLength(0) + "," + _tiles.GetLength(1) + "]");
             return null;
         }
-        if (y >= ySize || y < 0)
+        if (y >= _ySize || y < 0)
         {
             //Debug.Log("Board.GetUnit(" + x + ", " + y + "): " + y + " is not contained in the array _tiles[" + _tiles.GetLength(0) + "," + _tiles.GetLength(1) + "]");
             return null;
@@ -144,8 +158,6 @@ public class Board : MonoBehaviour
     /// <param name="unit"> Unit to select </param>
     public void SelectUnit(Unit unit)
     {
-        //EventSystem.current.SetSelectedGameObject(null);
-        //EventSystem.current.SetSelectedGameObject(unit.gameObject);
         _selectedUnit = unit;
     }
 
@@ -161,8 +173,21 @@ public class Board : MonoBehaviour
         if (_selectedUnit != null)
         {
             MoveUnit(_selectedUnit, tile);
-            EventSystem.current.SetSelectedGameObject(null);
             _selectedUnit = null;
         }
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Kill the given unit
+    /// </summary>
+    /// <param name="unit"> Unit to kill </param>
+    public void KillUnit(Unit unit)
+    {
+        unit.tile.ResetUnit();
+        _playerUnits.Remove(unit);
+        _enemyUnits.Remove(unit);
+        Destroy(unit.gameObject);
     }
 }

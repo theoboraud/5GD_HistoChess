@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Enums;
+using TMPro;
 
 /// <summary>
 ///     An Unit represents the game instance of a given UnitReference in the game
@@ -9,13 +11,19 @@ using UnityEngine;
 /// </summary>
 public class Unit : MonoBehaviour
 {
-    private int _hp;                                    // Unit health points, dies when reduced to 0
-    private int _power;                                 // How much damage this unit deals when fighting
-    private int _speed;                                 // How much tiles this unit moves every battle round
-    private int _range;                                 // How far the unit attack can reach
-    private int _commandPoints;                         // Cost to place the unit on the board
-    private int _initiative;                            // Low initiatives will move last but be attacked first
-    public Tile _tile;                                  // Tile on which the unit is located, if any
+    [Header("Unit stats")]
+    [SerializeField] private int _hp = 1;                   // Unit health points, dies when reduced to 0
+    [SerializeField] private int _power = 1;                // How much damage this unit deals when fighting
+    [SerializeField] private int _speed = 1;                // How much tiles this unit moves every battle round
+    [SerializeField] private int _range = 1;                // How far the unit attack can reach
+    [SerializeField] private int _commandPoints = 1;        // Cost to place the unit on the board
+    [SerializeField] private int _initiative = 1;           // Low initiatives will move last but be attacked first
+    public Faction faction;                                 // Faction to which this unit belongs to
+
+    [Header("References")]
+    [SerializeField] private TMP_Text _powerValue;
+    [SerializeField] private TMP_Text _healthValue;
+    private Tile _tile;                                     // Tile on which the unit is located, if any
 
     // Public get/set
     public Tile tile { get => _tile; }
@@ -27,12 +35,19 @@ public class Unit : MonoBehaviour
     /// </summary>
     public void Init()
     {
-        // TODO: Add all variable to init and their init value
-        _hp = 1;
-        _power = 1;
-        _speed = 1;
-        _range = 1;
-        _commandPoints = 1;
+        // TODO: Add all variable to init and their init value from the UnitReference
+        UpdateStats();
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Update all stats and their in-game visual
+    /// </summary>
+    public void UpdateStats()
+    {
+        _powerValue.text = _power.ToString();
+        _healthValue.text = _hp.ToString();
     }
 
     // ----------------------------------------------------------------------------------------
@@ -66,25 +81,22 @@ public class Unit : MonoBehaviour
     ///     Called when this unit receives damage
     /// </summary>
     /// <param name="damage"> How much damage this unit is dealt </param>
-    public void DealtDamage(int damage)
+    public void TakeDamage(int damage)
     {
         // Minimum 0hp
         _hp = Mathf.Clamp(_hp - damage, 0, _hp);
-        // checks if the unit is now dead
-        CheckDeath();
+        UpdateStats();
     }
 
     // ----------------------------------------------------------------------------------------
 
     /// <summary>
-    ///     Check if this unit survives the damage it has been dealt
+    ///     Check if this unit has been killed
     /// </summary>
-    public void CheckDeath()
+    /// <returns> Whether or not this unit should die </param>
+    public bool CheckDeath()
     {
-        if (_hp == 0)
-        {
-            Die();
-        }
+        return _hp == 0;
     }
 
     // ----------------------------------------------------------------------------------------
@@ -95,7 +107,7 @@ public class Unit : MonoBehaviour
     public void Die()
     {
         // TODO: Change death behaviour (graveyard?)
-        Destroy(this);
+        Board.instance.KillUnit(this);
     }
 
     // ----------------------------------------------------------------------------------------
@@ -103,7 +115,7 @@ public class Unit : MonoBehaviour
     /// <summary>
     ///     Select the unit
     /// </summary>
-    public void Select()
+    public void OnMouseDown()
     {
         Board.instance.SelectUnit(this);
     }

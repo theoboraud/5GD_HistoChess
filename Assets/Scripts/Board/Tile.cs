@@ -7,9 +7,9 @@ using UnityEngine;
 /// </summary>
 public class Tile : MonoBehaviour
 {
-    private int _x;                                             // X coordinate of the tile
-    private int _y;                                             // Y coordinate of the tile
-    private Unit _unit;                                         // Unit on the tile, if any
+    [SerializeField] private int _x;                                             // X coordinate of the tile
+    [SerializeField] private int _y;                                             // Y coordinate of the tile
+    private Unit _unit;                                                          // Unit on the tile, if any
 
     // Public get/set
     public int x { get => _x; set => _x = value; }
@@ -41,7 +41,7 @@ public class Tile : MonoBehaviour
     /// <summary>
     ///     Select the tile
     /// </summary>
-    public void Select()
+    public void OnMouseDown()
     {
         Board.instance.SelectTile(this);
     }
