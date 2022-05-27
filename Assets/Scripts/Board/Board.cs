@@ -130,8 +130,8 @@ public class Board : MonoBehaviour
     /// <summary>
     ///     Move a given Unit to a given Tile
     /// </summary>
-    /// <param name="tile"> Tile of the unit to return, if any </param>
-    /// <returns> Unit located on tile, if any </returns>
+    /// <param name="unit"> Unit to move </param>
+    /// <param name="tile"> Tile to which the unit will move </param>
     public void MoveUnit(Unit unit, Tile tile)
     {
         if (unit.tile != tile)
@@ -148,6 +148,126 @@ public class Board : MonoBehaviour
             // Set new tile's unit reference
             tile.unit = unit;
         }
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Returns all tiles in strict range of a given unit
+    /// </summary>
+    /// <param name="unit"> Unit searching for every tile in its range </param>
+    /// <param name="range"> Range value the unit is searching tiles in </param>
+    /// <returns> List of tiles in range of the given unit </returns>
+    public List<Tile> GetTilesInRange(Unit unit, int range)
+    {
+        List<Tile> tilesInRange = new List<Tile>();
+
+        if (range == 1)
+        {
+            tilesInRange.Add(GetTile(unit.tile.x + 1, unit.tile.y));
+            tilesInRange.Add(GetTile(unit.tile.x - 1, unit.tile.y));
+            tilesInRange.Add(GetTile(unit.tile.x, unit.tile.y + 1));
+            tilesInRange.Add(GetTile(unit.tile.x, unit.tile.y - 1));
+        }
+
+        if (range == 2)
+        {
+            tilesInRange.Add(GetTile(unit.tile.x + 2, unit.tile.y));
+            tilesInRange.Add(GetTile(unit.tile.x - 2, unit.tile.y));
+            tilesInRange.Add(GetTile(unit.tile.x, unit.tile.y + 2));
+            tilesInRange.Add(GetTile(unit.tile.x, unit.tile.y - 2));
+
+            tilesInRange.Add(GetTile(unit.tile.x + 1, unit.tile.y + 1));
+            tilesInRange.Add(GetTile(unit.tile.x + 1, unit.tile.y - 1));
+            tilesInRange.Add(GetTile(unit.tile.x - 1, unit.tile.y + 1));
+            tilesInRange.Add(GetTile(unit.tile.x - 1, unit.tile.y - 1));
+        }
+
+        if (range == 3)
+        {
+            tilesInRange.Add(GetTile(unit.tile.x + 3, unit.tile.y));
+            tilesInRange.Add(GetTile(unit.tile.x - 3, unit.tile.y));
+            tilesInRange.Add(GetTile(unit.tile.x, unit.tile.y + 3));
+            tilesInRange.Add(GetTile(unit.tile.x, unit.tile.y - 3));
+
+            tilesInRange.Add(GetTile(unit.tile.x + 2, unit.tile.y + 1));
+            tilesInRange.Add(GetTile(unit.tile.x + 2, unit.tile.y - 1));
+            tilesInRange.Add(GetTile(unit.tile.x - 2, unit.tile.y + 1));
+            tilesInRange.Add(GetTile(unit.tile.x - 2, unit.tile.y - 1));
+
+            tilesInRange.Add(GetTile(unit.tile.x + 1, unit.tile.y + 2));
+            tilesInRange.Add(GetTile(unit.tile.x + 1, unit.tile.y - 2));
+            tilesInRange.Add(GetTile(unit.tile.x - 1, unit.tile.y + 2));
+            tilesInRange.Add(GetTile(unit.tile.x - 1, unit.tile.y - 2));
+        }
+
+        for (int i = 0; i < tilesInRange.Count; i++)
+        {
+            if (tilesInRange[i] == null)
+            {
+                tilesInRange.Remove(tilesInRange[i]);
+            }
+        }
+
+        return tilesInRange;
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Return the highest priority taret, depending on its initiative
+    /// </summary>
+    /// <param name="unit"> Unit searching for priority target </param>
+    /// <param name="range"> Max range value the unit is searching tiles in </param>
+    /// <returns> Unit located on tile, if any </returns>
+    public Unit GetPriorityTarget(Unit unit, int range)
+    {
+        List<Unit> priorityTargets = new List<Unit>();
+        int initiative = 0;
+
+        // Search for all closest enemy units
+        for (int i = 1; i <= range; i++)
+        {
+            List<Tile> tilesInRange = GetTilesInRange(unit, i);
+
+            foreach (Tile tile in tilesInRange)
+            {
+                if (tile.unit != null)
+                {
+                    // If the tile contains an unit of the opposite faction
+                    if (unit.faction != tile.unit.faction)
+                    {
+                        // If unit has initiative higher or equal to current highest initiative, add unit to the list
+                        if (tile.unit.initiative >= initiative)
+                        {
+                            // If the unit initiative is higher than the current highest initiative, we clear the list and update the highest initiative
+                            if (tile.unit.initiative > initiative)
+                            {
+                                initiative = tile.unit.initiative;
+                                priorityTargets = new List<Unit>();
+                            }
+                            priorityTargets.Add(tile.unit);
+                        }
+
+                    }
+                }
+            }
+
+            // If the initiative list contains at least one unit, the target search is stopped
+            if (priorityTargets.Count > 0)
+            {
+                i = range;
+            }
+        }
+
+        // Select a random target among registered priority targets, if any
+        if (priorityTargets.Count > 0)
+        {
+            return priorityTargets[Random.Range(0, priorityTargets.Count)];
+        }
+
+        // If no priority targets selected, return null
+        return null;
     }
 
     // ----------------------------------------------------------------------------------------

@@ -95,40 +95,30 @@ public class BattleManager : MonoBehaviour
         for (int i = 0; i < Board.instance.playerUnits.Count; i++)
         {
             Unit unit = Board.instance.playerUnits[i];
-            Tile targetTile = null;
+            Unit targetUnit = null;
             if (unit.tile != null)
             {
-                targetTile = Board.instance.GetTile(unit.tile.x + 1, unit.tile.y);
+                targetUnit = Board.instance.GetPriorityTarget(unit, unit.range);
             }
 
-            if (targetTile != null)
+            if (targetUnit != null)
             {
-                Unit targetUnit = targetTile.unit;
-
-                if (targetUnit != null)
-                {
-                    UnitAttack(unit, targetUnit);
-                }
+                UnitAttack(unit, targetUnit);
             }
         }
 
         for (int i = 0; i < Board.instance.enemyUnits.Count; i++)
         {
             Unit unit = Board.instance.enemyUnits[i];
-            Tile targetTile = null;
+            Unit targetUnit = null;
             if (unit.tile != null)
             {
-                targetTile = Board.instance.GetTile(unit.tile.x - 1, unit.tile.y);
+                targetUnit = Board.instance.GetPriorityTarget(unit, unit.range);
             }
 
-            if (targetTile != null)
+            if (targetUnit != null)
             {
-                Unit targetUnit = targetTile.unit;
-
-                if (targetUnit != null)
-                {
-                    UnitAttack(unit, targetUnit);
-                }
+                UnitAttack(unit, targetUnit);
             }
         }
 

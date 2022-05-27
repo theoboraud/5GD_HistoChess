@@ -45,4 +45,15 @@ public class Tile : MonoBehaviour
     {
         Board.instance.SelectTile(this);
     }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Whether or not an unit can move on this tile
+    /// </summary>
+    /// <returns> True if an unit can move on the tile, false otherwise </param>
+    public bool FreeForMovement()
+    {
+        return _unit == null;
+    }
 }
