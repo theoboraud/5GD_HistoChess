@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System.Linq;
 
 /// <summary>
 ///     The Board class is used to represent the game board on which the unit are placed in the Planning Phase to fight during the Battle Phase
@@ -153,121 +154,195 @@ public class Board : MonoBehaviour
     // ----------------------------------------------------------------------------------------
 
     /// <summary>
-    ///     Returns all tiles in strict range of a given unit
+    ///     Move a given Unit to a given Tile
     /// </summary>
-    /// <param name="unit"> Unit searching for every tile in its range </param>
-    /// <param name="range"> Range value the unit is searching tiles in </param>
-    /// <returns> List of tiles in range of the given unit </returns>
-    public List<Tile> GetTilesInRange(Unit unit, int range)
+    /// <param name="unit"> Unit to move </param>
+    /// <param name="tile"> Tile to which the unit will move </param>
+    public void MoveUnitTowards(Unit unit, Tile tile)
     {
-        List<Tile> tilesInRange = new List<Tile>();
-
-        if (range == 1)
+        if (unit.tile != tile)
         {
-            tilesInRange.Add(GetTile(unit.tile.x + 1, unit.tile.y));
-            tilesInRange.Add(GetTile(unit.tile.x - 1, unit.tile.y));
-            tilesInRange.Add(GetTile(unit.tile.x, unit.tile.y + 1));
-            tilesInRange.Add(GetTile(unit.tile.x, unit.tile.y - 1));
+            Debug.Log($"Unit should move from {unit.tile} to {GetPath(unit.tile, tile)[0]}");
+            MoveUnit(unit, GetPath(unit.tile, tile)[0]);
         }
-
-        if (range == 2)
-        {
-            tilesInRange.Add(GetTile(unit.tile.x + 2, unit.tile.y));
-            tilesInRange.Add(GetTile(unit.tile.x - 2, unit.tile.y));
-            tilesInRange.Add(GetTile(unit.tile.x, unit.tile.y + 2));
-            tilesInRange.Add(GetTile(unit.tile.x, unit.tile.y - 2));
-
-            tilesInRange.Add(GetTile(unit.tile.x + 1, unit.tile.y + 1));
-            tilesInRange.Add(GetTile(unit.tile.x + 1, unit.tile.y - 1));
-            tilesInRange.Add(GetTile(unit.tile.x - 1, unit.tile.y + 1));
-            tilesInRange.Add(GetTile(unit.tile.x - 1, unit.tile.y - 1));
-        }
-
-        if (range == 3)
-        {
-            tilesInRange.Add(GetTile(unit.tile.x + 3, unit.tile.y));
-            tilesInRange.Add(GetTile(unit.tile.x - 3, unit.tile.y));
-            tilesInRange.Add(GetTile(unit.tile.x, unit.tile.y + 3));
-            tilesInRange.Add(GetTile(unit.tile.x, unit.tile.y - 3));
-
-            tilesInRange.Add(GetTile(unit.tile.x + 2, unit.tile.y + 1));
-            tilesInRange.Add(GetTile(unit.tile.x + 2, unit.tile.y - 1));
-            tilesInRange.Add(GetTile(unit.tile.x - 2, unit.tile.y + 1));
-            tilesInRange.Add(GetTile(unit.tile.x - 2, unit.tile.y - 1));
-
-            tilesInRange.Add(GetTile(unit.tile.x + 1, unit.tile.y + 2));
-            tilesInRange.Add(GetTile(unit.tile.x + 1, unit.tile.y - 2));
-            tilesInRange.Add(GetTile(unit.tile.x - 1, unit.tile.y + 2));
-            tilesInRange.Add(GetTile(unit.tile.x - 1, unit.tile.y - 2));
-        }
-
-        for (int i = 0; i < tilesInRange.Count; i++)
-        {
-            if (tilesInRange[i] == null)
-            {
-                tilesInRange.Remove(tilesInRange[i]);
-            }
-        }
-
-        return tilesInRange;
     }
 
     // ----------------------------------------------------------------------------------------
 
     /// <summary>
-    ///     Return the highest priority taret, depending on its initiative
+    ///     Calculates the distance between two units
     /// </summary>
-    /// <param name="unit"> Unit searching for priority target </param>
-    /// <param name="range"> Max range value the unit is searching tiles in </param>
-    /// <returns> Unit located on tile, if any </returns>
-    public Unit GetPriorityTarget(Unit unit, int range)
+    /// <param name="unit1"> First unit from which the distance is calculated </param>
+    /// <param name="unit2"> Second unit from which the distance is calculated </param>
+    /// <returns> Returns distance between the two units </returns>
+    public int GetDistance(Unit unit1, Unit unit2)
     {
-        List<Unit> priorityTargets = new List<Unit>();
-        int initiative = 0;
+        return Mathf.Abs(unit1.tile.x - unit2.tile.x) + Mathf.Abs(unit1.tile.y - unit2.tile.y);
+    }
 
-        // Search for all closest enemy units
-        for (int i = 1; i <= range; i++)
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Calculates the distance between two tiles
+    /// </summary>
+    /// <param name="tile1"> First tile from which the distance is calculated </param>
+    /// <param name="tile2"> Second tile from which the distance is calculated </param>
+    /// <returns> Returns distance between the two tiles </returns>
+    public int GetDistance(Tile tile1, Tile tile2)
+    {
+        return Mathf.Abs(tile1.x - tile2.x) + Mathf.Abs(tile1.y - tile2.y);
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Return closest and highest priority units from a given Tile
+    /// </summary>
+    /// <param name="tile"> Tile from which the distance is calculated </param>
+    /// <param name="units"> Units to sort by distance and initiative </param>
+    /// <returns> Units ordered by distance and initiative </returns>
+    public List<Unit> OrderUnitsByDistanceAndInitiative(Tile tile, List<Unit> units)
+    {
+        List<Unit> orderedUnits = units.OrderBy(unit => GetPath(unit.tile, tile).Count).ToList();// * 10 + unit.initiative).ToList();
+        return orderedUnits;
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Return tile path between two given tiles
+    /// </summary>
+    /// <param name="startTile"> First tile to calculate the path from </param>
+    /// <param name="endTile"> Second tile to calculate the path from </param>
+    /// <returns> Return tile path between the two given tiles </returns>
+    public List<Tile> GetPath(Tile startTile, Tile endTile)
+    {
+        List<Tile> openList = new List<Tile>();
+        List<Tile> closedList = new List<Tile>();
+
+        startTile.tileCost = 0;
+        openList.Add(startTile);
+
+        Tile currentTile;
+        while (openList.Count > 0)
         {
-            List<Tile> tilesInRange = GetTilesInRange(unit, i);
+            currentTile = LowestCostTile(openList);
 
-            foreach (Tile tile in tilesInRange)
+            if (currentTile == endTile)
             {
-                if (tile.unit != null)
-                {
-                    // If the tile contains an unit of the opposite faction
-                    if (unit.faction != tile.unit.faction)
-                    {
-                        // If unit has initiative higher or equal to current highest initiative, add unit to the list
-                        if (tile.unit.initiative >= initiative)
-                        {
-                            // If the unit initiative is higher than the current highest initiative, we clear the list and update the highest initiative
-                            if (tile.unit.initiative > initiative)
-                            {
-                                initiative = tile.unit.initiative;
-                                priorityTargets = new List<Unit>();
-                            }
-                            priorityTargets.Add(tile.unit);
-                        }
+                Debug.Log("Found end tile");
+                return MakePath(endTile);
+            }
 
+            openList.Remove(currentTile);
+            closedList.Add(currentTile);
+
+            foreach (Tile neighbourTile in GetNeighbourTiles(currentTile))
+            {
+                if (closedList.Contains(neighbourTile))
+                {
+                    continue;
+                }
+
+                int cost = currentTile.tileCost + 10;
+
+                if (neighbourTile.tileCost > cost)
+                {
+                    neighbourTile.cameFromTile = currentTile;
+                    neighbourTile.tileCost = cost;
+
+                    if (!openList.Contains(neighbourTile))
+                    {
+                        Debug.Log($"Added NeighbourTile {neighbourTile}");
+                        openList.Add(neighbourTile);
                     }
                 }
             }
-
-            // If the initiative list contains at least one unit, the target search is stopped
-            if (priorityTargets.Count > 0)
-            {
-                i = range;
-            }
         }
-
-        // Select a random target among registered priority targets, if any
-        if (priorityTargets.Count > 0)
-        {
-            return priorityTargets[Random.Range(0, priorityTargets.Count)];
-        }
-
-        // If no priority targets selected, return null
+        Debug.Log("No end tile");
         return null;
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Return all neighbours tiles
+    /// </summary>
+    /// <param name="tile"> Tile from which to get all neighbour tiles </param>
+    /// <returns> Return list of neighbour tiles </returns>
+    public List<Tile> GetNeighbourTiles(Tile tile)
+    {
+        List<Tile> neighbourTiles = new List<Tile>();
+
+        if (GetTile(tile.x + 1, tile.y) != null)
+        {
+            neighbourTiles.Add(GetTile(tile.x + 1, tile.y));
+        }
+        if (GetTile(tile.x - 1, tile.y) != null)
+        {
+            neighbourTiles.Add(GetTile(tile.x - 1, tile.y));
+        }
+        if (GetTile(tile.x, tile.y + 1) != null)
+        {
+            neighbourTiles.Add(GetTile(tile.x, tile.y + 1));
+        }
+        if (GetTile(tile.x, tile.y - 1) != null)
+        {
+            neighbourTiles.Add(GetTile(tile.x, tile.y - 1));
+        }
+
+        return neighbourTiles;
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Return lowest cost tile from a list of tiles
+    /// </summary>
+    /// <param name="tiles"> Tiles to select the lowest cost tile from </param>
+    /// <returns> Return lowest cost tile </returns>
+    public Tile LowestCostTile(List<Tile> tiles)
+    {
+        return tiles.OrderBy(tile => tile.tileCost).ToList()[0];
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Return the path given the cameFromTile in each tile
+    /// </summary>
+    /// <param name="tile"> Tiles to return the path from </param>
+    /// <returns> Return optimal path </returns>
+    public List<Tile> MakePath(Tile tile)
+    {
+        Debug.Log("Path made");
+        List<Tile> path = new List<Tile>();
+        path.Add(tile);
+        while (tile.cameFromTile != null)
+        {
+            tile = tile.cameFromTile;
+            path.Add(tile);
+        }
+        path.Reverse();
+        path.Remove(path[0]);
+        ResetTiles();
+        return path;
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Return the path given the cameFromTile in each tile
+    /// </summary>
+    /// <param name="tile"> Tiles to return the path from </param>
+    /// <returns> Return optimal path </returns>
+    public void ResetTiles()
+    {
+        foreach (Tile tile in _tiles.Values)
+        {
+            tile.cameFromTile = null;
+            tile.tileCost = 9999;
+        }
     }
 
     // ----------------------------------------------------------------------------------------

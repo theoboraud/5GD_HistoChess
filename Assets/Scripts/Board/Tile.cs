@@ -11,6 +11,10 @@ public class Tile : MonoBehaviour
     [SerializeField] private int _y;                                             // Y coordinate of the tile
     private Unit _unit;                                                          // Unit on the tile, if any
 
+    // Pathfinding variables
+    [System.NonSerialized] public Tile cameFromTile = null;
+    [System.NonSerialized] public int tileCost = 9999;
+
     // Public get/set
     public int x { get => _x; set => _x = value; }
     public int y { get => _y; set => _y = value; }

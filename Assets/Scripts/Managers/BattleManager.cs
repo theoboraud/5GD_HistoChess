@@ -53,34 +53,30 @@ public class BattleManager : MonoBehaviour
         foreach (Unit unit in Board.instance.playerUnits)
         {
             Tile nextTile = null;
+
             if (unit.tile != null)
             {
-                nextTile = Board.instance.GetTile(unit.tile.x + 1, unit.tile.y);
+                nextTile = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits)[0].tile;
             }
 
             if (nextTile != null)
             {
-                if (nextTile.unit == null)
-                {
-                    Board.instance.MoveUnit(unit, nextTile);
-                }
+                Board.instance.MoveUnitTowards(unit, nextTile);
             }
         }
 
         foreach (Unit unit in Board.instance.enemyUnits)
         {
             Tile nextTile = null;
+
             if (unit.tile != null)
             {
-                nextTile = Board.instance.GetTile(unit.tile.x - 1, unit.tile.y);
+                nextTile = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.playerUnits)[0].tile;
             }
 
             if (nextTile != null)
             {
-                if (nextTile.unit == null)
-                {
-                    Board.instance.MoveUnit(unit, nextTile);
-                }
+                Board.instance.MoveUnitTowards(unit, nextTile);
             }
         }
     }
@@ -98,7 +94,12 @@ public class BattleManager : MonoBehaviour
             Unit targetUnit = null;
             if (unit.tile != null)
             {
-                targetUnit = Board.instance.GetPriorityTarget(unit, unit.range);
+                targetUnit = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits)[0];
+                // If closest enemy if too far, no attack target for this turn
+                if (Board.instance.GetDistance(unit.tile, targetUnit.tile) > unit.range)
+                {
+                    targetUnit = null;
+                }
             }
 
             if (targetUnit != null)
@@ -113,7 +114,12 @@ public class BattleManager : MonoBehaviour
             Unit targetUnit = null;
             if (unit.tile != null)
             {
-                targetUnit = Board.instance.GetPriorityTarget(unit, unit.range);
+                targetUnit = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.playerUnits)[0];
+                // If closest enemy if too far, no attack target for this turn
+                if (Board.instance.GetDistance(unit.tile, targetUnit.tile) > unit.range)
+                {
+                    targetUnit = null;
+                }
             }
 
             if (targetUnit != null)
