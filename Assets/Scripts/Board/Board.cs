@@ -199,7 +199,20 @@ public class Board : MonoBehaviour
     // ----------------------------------------------------------------------------------------
 
     /// <summary>
-    ///     Return closest and highest priority units from a given Tile
+    ///     Return units ordered by highest initiative
+    /// </summary>
+    /// <param name="units"> Units to sort by distance and initiative </param>
+    /// <returns> Units ordered by distance and initiative </returns>
+    public List<Unit> OrderUnitsByInitiative(List<Unit> units)
+    {
+        List<Unit> orderedUnits = units.OrderByDescending(unit => unit.initiative).ToList();
+        return orderedUnits;
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Return units ordered by closest distance from a given tile and highest initiative
     /// </summary>
     /// <param name="tile"> Tile from which the distance is calculated </param>
     /// <param name="units"> Units to sort by distance and initiative </param>
@@ -412,5 +425,39 @@ public class Board : MonoBehaviour
         _playerUnits.Remove(unit);
         _enemyUnits.Remove(unit);
         Destroy(unit.gameObject);
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Returns a list of all units
+    /// </summary>
+    /// </returns> List of all units
+    public List<Unit> GetAllUnits()
+    {
+        List<Unit> allUnits = new List<Unit>();
+
+        foreach (Unit playerUnit in _playerUnits)
+        {
+            allUnits.Add(playerUnit);
+        }
+
+        foreach (Unit enemyUnit in _enemyUnits)
+        {
+            allUnits.Add(enemyUnit);
+        }
+
+        // Randomly shuffles the list
+        int n = allUnits.Count;
+        while (n > 1)
+        {
+            n--;
+            int k = Random.Range(0, n + 1);
+            Unit unit = allUnits[k];
+            allUnits[k] = allUnits[n];
+            allUnits[n] = unit;
+        }
+
+        return allUnits;
     }
 }

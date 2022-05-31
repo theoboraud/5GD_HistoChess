@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Enums;
 
 /// <summary>
 ///     The BattleManager class manages every battle happening during the Battle Phase
@@ -50,31 +51,21 @@ public class BattleManager : MonoBehaviour
     /// </summary>
     private void MovePhase()
     {
-        foreach (Unit unit in Board.instance.playerUnits)
+        List<Unit> orderedUnits = Board.instance.OrderUnitsByInitiative(Board.instance.GetAllUnits());
+        foreach (Unit unit in orderedUnits)
         {
             Unit targetUnit = null;
 
             if (unit.tile != null)
             {
-                targetUnit = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits)[0];
-            }
-
-            if (targetUnit != null)
-            {
-                if (!Board.instance.CanAttack(unit, targetUnit))
+                if (unit.faction == Faction.Friendly)
                 {
-                    Board.instance.MoveUnitTowards(unit, targetUnit.tile);
+                    targetUnit = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits)[0];
                 }
-            }
-        }
-
-        foreach (Unit unit in Board.instance.enemyUnits)
-        {
-            Unit targetUnit = null;
-
-            if (unit.tile != null)
-            {
-                targetUnit = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.playerUnits)[0];
+                else if (unit.faction == Faction.Hostile)
+                {
+                    targetUnit = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.playerUnits)[0];
+                }
             }
 
             if (targetUnit != null)
