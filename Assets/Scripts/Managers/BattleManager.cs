@@ -54,25 +54,30 @@ public class BattleManager : MonoBehaviour
         List<Unit> orderedUnits = Board.instance.OrderUnitsByInitiative(Board.instance.GetAllUnits());
         foreach (Unit unit in orderedUnits)
         {
-            Unit targetUnit = null;
-
-            if (unit.tile != null)
+            // For each movement point (unit's speed), the unit will move one tile towards an enemy
+            for (int i = 0; i < unit.speed; i++)
             {
-                if (unit.faction == Faction.Friendly)
-                {
-                    targetUnit = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits)[0];
-                }
-                else if (unit.faction == Faction.Hostile)
-                {
-                    targetUnit = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.playerUnits)[0];
-                }
-            }
+                Unit targetUnit = null;
 
-            if (targetUnit != null)
-            {
-                if (!Board.instance.CanAttack(unit, targetUnit))
+                if (unit.tile != null)
                 {
-                    Board.instance.MoveUnitTowards(unit, targetUnit.tile);
+                    if (unit.faction == Faction.Friendly)
+                    {
+                        targetUnit = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits)[0];
+                    }
+                    else if (unit.faction == Faction.Hostile)
+                    {
+                        targetUnit = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.playerUnits)[0];
+                    }
+                }
+
+                if (targetUnit != null)
+                {
+                    // If unit can't attack this closest target unit, it will move towards it
+                    if (!Board.instance.CanAttack(unit, targetUnit))
+                    {
+                        Board.instance.MoveUnitTowards(unit, targetUnit.tile);
+                    }
                 }
             }
         }

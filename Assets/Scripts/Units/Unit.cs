@@ -29,6 +29,7 @@ public class Unit : MonoBehaviour
     public Tile tile { get => _tile; }
     public int range { get => _range; }
     public int initiative { get => _initiative; }
+    public int speed { get => _speed; }
 
     // ----------------------------------------------------------------------------------------
 
