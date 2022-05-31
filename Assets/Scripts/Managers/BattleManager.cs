@@ -65,7 +65,7 @@ public class BattleManager : MonoBehaviour
                     {
                         targetUnit = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits)[0];
                     }
-                    else if (unit.faction == Faction.Hostile)
+                    else if (unit.faction == Faction.Enemy)
                     {
                         targetUnit = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.playerUnits)[0];
                     }

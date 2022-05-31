@@ -49,15 +49,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbef076c4cc8b427d889edb5c6db95f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hp: 1
   _power: 1
+  _hp: 1
   _speed: 1
   _range: 1
-  _commandPoints: 1
   _initiative: 1
-  faction: 1
+  _commandPoints: 1
+  _faction: 1
+  _unitReference: {fileID: 11400000, guid: ba9174547de854135a7bf9c55f96f980, type: 2}
+  _spriteRenderer: {fileID: 2224830586811726286}
   _powerValue: {fileID: 1207478370720445938}
-  _healthValue: {fileID: 581035823410721836}
+  _hpValue: {fileID: 581035823410721836}
 --- !u!114 &1587107987753722559
 MonoBehaviour:
   m_ObjectHideFlags: 0

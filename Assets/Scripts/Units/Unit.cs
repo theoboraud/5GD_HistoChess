@@ -12,24 +12,30 @@ using TMPro;
 public class Unit : MonoBehaviour
 {
     [Header("Unit stats")]
-    [SerializeField] private int _hp = 1;                   // Unit health points, dies when reduced to 0
-    [SerializeField] private int _power = 1;                // How much damage this unit deals when fighting
-    [SerializeField] private int _speed = 1;                // How much tiles this unit moves every battle round
-    [SerializeField] private int _range = 1;                // How far the unit attack can reach
-    [SerializeField] private int _commandPoints = 1;        // Cost to place the unit on the board
-    [SerializeField] private int _initiative = 1;           // Low initiatives will move last but be attacked first
-    public Faction faction;                                 // Faction to which this unit belongs to
+    [SerializeField] private int _power = 1;                    // How much damage this unit deals when fighting
+    [SerializeField] private int _hp = 1;                       // Unit health points, dies when reduced to 0
+    [SerializeField] private int _speed = 1;                    // How much tiles this unit moves every battle round
+    [SerializeField] private int _range = 1;                    // How far the unit attack can reach
+    [SerializeField] private int _initiative = 1;               // Low initiatives will move last but be attacked first
+    [SerializeField] private int _commandPoints = 1;            // Cost to place the unit on the board
+    [SerializeField] private Faction _faction;                  // Faction to which this unit belongs to
 
     [Header("References")]
-    [SerializeField] private TMP_Text _powerValue;
-    [SerializeField] private TMP_Text _healthValue;
-    private Tile _tile;                                     // Tile on which the unit is located, if any
+    [SerializeField] private UnitReference _unitReference;      // Unit Reference scriptable object
+    [SerializeField] private SpriteRenderer _spriteRenderer;    // Sprite Renderer reference
+    [SerializeField] private TMP_Text _powerValue;              // TextMeshPro component containing the power value string
+    [SerializeField] private TMP_Text _hpValue;                 // TextMeshPro component containing the health point value string
+    private Tile _tile;                                         // Tile on which the unit is located, if any
 
     // Public get/set
-    public Tile tile { get => _tile; }
+    public int power { get => _power; }
+    public int hp { get => _hp; }
+    public int speed { get => _speed; }
     public int range { get => _range; }
     public int initiative { get => _initiative; }
-    public int speed { get => _speed; }
+    public int commandPoints { get => _commandPoints; }
+    public Faction faction { get => _faction; }
+    public Tile tile { get => _tile; }
 
     // ----------------------------------------------------------------------------------------
 
@@ -38,7 +44,19 @@ public class Unit : MonoBehaviour
     /// </summary>
     public void Init()
     {
-        // TODO: Add all variable to init and their init value from the UnitReference
+        // If the Unit Reference is initialized, load all unit variables from it
+        if (_unitReference != null)
+        {
+            _power = _unitReference.power;
+            _hp = _unitReference.hp;
+            _speed = _unitReference.speed;
+            _range = _unitReference.range;
+            _initiative = _unitReference.initiative;
+            _commandPoints = _unitReference.commandPoints;
+            _faction = _unitReference.faction;
+            _spriteRenderer.sprite = _unitReference.sprite;
+        }
+
         UpdateStats();
     }
 
@@ -50,7 +68,19 @@ public class Unit : MonoBehaviour
     public void UpdateStats()
     {
         _powerValue.text = _power.ToString();
-        _healthValue.text = _hp.ToString();
+        _hpValue.text = _hp.ToString();
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Load the given Unit Reference and change this unit's variables to correspond to the new Unit Reference
+    /// </summary>
+    /// <param name="unitReference"> Target Unit Reference to load </param>
+    public void LoadUnitReference(UnitReference unitReference)
+    {
+        _unitReference = unitReference;
+        Init();
     }
 
     // ----------------------------------------------------------------------------------------

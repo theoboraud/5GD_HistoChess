@@ -462,26 +462,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 742069690}
     m_Modifications:
-    - target: {fileID: 27523021548090350, guid: 22a2deeb480db4d50ac9d32e51549364, type: 3}
-      propertyPath: _hp
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 27523021548090350, guid: 22a2deeb480db4d50ac9d32e51549364, type: 3}
-      propertyPath: _power
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 27523021548090350, guid: 22a2deeb480db4d50ac9d32e51549364, type: 3}
-      propertyPath: _range
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 27523021548090350, guid: 22a2deeb480db4d50ac9d32e51549364, type: 3}
-      propertyPath: _speed
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 27523021548090350, guid: 22a2deeb480db4d50ac9d32e51549364, type: 3}
-      propertyPath: _initiative
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 27523021548090354, guid: 22a2deeb480db4d50ac9d32e51549364, type: 3}
       propertyPath: m_Name
       value: PlayerUnit
@@ -1282,14 +1262,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 742069690}
     m_Modifications:
-    - target: {fileID: 27523021548090350, guid: 22a2deeb480db4d50ac9d32e51549364, type: 3}
-      propertyPath: _hp
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 27523021548090350, guid: 22a2deeb480db4d50ac9d32e51549364, type: 3}
-      propertyPath: _initiative
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 27523021548090354, guid: 22a2deeb480db4d50ac9d32e51549364, type: 3}
       propertyPath: m_Name
       value: PlayerUnit (1)
@@ -2211,14 +2183,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 742069690}
     m_Modifications:
-    - target: {fileID: 27523021548090350, guid: 22a2deeb480db4d50ac9d32e51549364, type: 3}
-      propertyPath: _hp
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 27523021548090350, guid: 22a2deeb480db4d50ac9d32e51549364, type: 3}
-      propertyPath: _initiative
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 27523021548090354, guid: 22a2deeb480db4d50ac9d32e51549364, type: 3}
       propertyPath: m_Name
       value: PlayerUnit (2)
@@ -3504,10 +3468,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 700309402}
     m_Modifications:
-    - target: {fileID: 766496456485484296, guid: f7920fca1eafa4a5a8847add9b4b0f74, type: 3}
-      propertyPath: _hp
-      value: 6
-      objectReference: {fileID: 0}
     - target: {fileID: 766496456485484308, guid: f7920fca1eafa4a5a8847add9b4b0f74, type: 3}
       propertyPath: m_Name
       value: EnemyUnit
