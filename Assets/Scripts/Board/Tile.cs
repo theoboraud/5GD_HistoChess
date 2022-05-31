@@ -9,7 +9,7 @@ public class Tile : MonoBehaviour
 {
     [SerializeField] private int _x;                                             // X coordinate of the tile
     [SerializeField] private int _y;                                             // Y coordinate of the tile
-    private Unit _unit;                                                          // Unit on the tile, if any
+    private Unit _unit = null;                                                   // Unit on the tile, if any
 
     // Pathfinding variables
     [System.NonSerialized] public Tile cameFromTile = null;

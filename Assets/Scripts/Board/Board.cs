@@ -162,8 +162,11 @@ public class Board : MonoBehaviour
     {
         if (unit.tile != tile)
         {
-            Debug.Log($"Unit should move from {unit.tile} to {GetPath(unit.tile, tile)[0]}");
-            MoveUnit(unit, GetPath(unit.tile, tile)[0]);
+            if (GetPath(unit.tile, tile).Count > 0)
+            {
+                Debug.Log($"Unit should move from {unit.tile} to {GetPath(unit.tile, tile)[0]}");
+                MoveUnit(unit, GetPath(unit.tile, tile)[0]);
+            }
         }
     }
 
@@ -239,7 +242,7 @@ public class Board : MonoBehaviour
 
             foreach (Tile neighbourTile in GetNeighbourTiles(currentTile))
             {
-                if (closedList.Contains(neighbourTile))
+                if (closedList.Contains(neighbourTile) || (!neighbourTile.FreeForMovement() && neighbourTile != endTile))
                 {
                     continue;
                 }
@@ -323,8 +326,20 @@ public class Board : MonoBehaviour
             tile = tile.cameFromTile;
             path.Add(tile);
         }
+        // Remove end tile
+        if (path.Count > 0)
+        {
+            path.Remove(path[0]);
+        }
+
+        // Reverse the order, to start from the starting tile
         path.Reverse();
-        path.Remove(path[0]);
+        // Remove starting tile
+        if (path.Count > 0)
+        {
+            path.Remove(path[0]);
+        }
+
         ResetTiles();
         return path;
     }
