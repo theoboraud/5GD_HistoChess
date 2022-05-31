@@ -363,6 +363,19 @@ public class Board : MonoBehaviour
     // ----------------------------------------------------------------------------------------
 
     /// <summary>
+    ///     Whether or not a given unit can attack a given target unit
+    /// </summary>
+    /// <param name="attackingUnit"> Attacking unit </param>
+    /// <param name="targetUnit"> Target unit </param>
+    /// <returns> Return true if targetUnit is in range of attackingUnit </returns>
+    public bool CanAttack(Unit attackingUnit, Unit targetUnit)
+    {
+        return GetDistance(attackingUnit.tile, targetUnit.tile) <= attackingUnit.range;
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
     ///     Select a unit
     /// </summary>
     /// <param name="unit"> Unit to select </param>

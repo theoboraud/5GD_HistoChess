@@ -52,31 +52,37 @@ public class BattleManager : MonoBehaviour
     {
         foreach (Unit unit in Board.instance.playerUnits)
         {
-            Tile nextTile = null;
+            Unit targetUnit = null;
 
             if (unit.tile != null)
             {
-                nextTile = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits)[0].tile;
+                targetUnit = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits)[0];
             }
 
-            if (nextTile != null)
+            if (targetUnit != null)
             {
-                Board.instance.MoveUnitTowards(unit, nextTile);
+                if (!Board.instance.CanAttack(unit, targetUnit))
+                {
+                    Board.instance.MoveUnitTowards(unit, targetUnit.tile);
+                }
             }
         }
 
         foreach (Unit unit in Board.instance.enemyUnits)
         {
-            Tile nextTile = null;
+            Unit targetUnit = null;
 
             if (unit.tile != null)
             {
-                nextTile = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.playerUnits)[0].tile;
+                targetUnit = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.playerUnits)[0];
             }
 
-            if (nextTile != null)
+            if (targetUnit != null)
             {
-                Board.instance.MoveUnitTowards(unit, nextTile);
+                if (!Board.instance.CanAttack(unit, targetUnit))
+                {
+                    Board.instance.MoveUnitTowards(unit, targetUnit.tile);
+                }
             }
         }
     }
@@ -96,7 +102,7 @@ public class BattleManager : MonoBehaviour
             {
                 targetUnit = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits)[0];
                 // If closest enemy if too far, no attack target for this turn
-                if (Board.instance.GetDistance(unit.tile, targetUnit.tile) > unit.range)
+                if (!Board.instance.CanAttack(unit, targetUnit))
                 {
                     targetUnit = null;
                 }
@@ -116,7 +122,7 @@ public class BattleManager : MonoBehaviour
             {
                 targetUnit = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.playerUnits)[0];
                 // If closest enemy if too far, no attack target for this turn
-                if (Board.instance.GetDistance(unit.tile, targetUnit.tile) > unit.range)
+                if (!Board.instance.CanAttack(unit, targetUnit))
                 {
                     targetUnit = null;
                 }

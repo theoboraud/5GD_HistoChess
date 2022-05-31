@@ -467,6 +467,10 @@ PrefabInstance:
       value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 27523021548090350, guid: 22a2deeb480db4d50ac9d32e51549364, type: 3}
+      propertyPath: _range
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 27523021548090350, guid: 22a2deeb480db4d50ac9d32e51549364, type: 3}
       propertyPath: _initiative
       value: 3
       objectReference: {fileID: 0}
@@ -1272,7 +1276,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 27523021548090350, guid: 22a2deeb480db4d50ac9d32e51549364, type: 3}
       propertyPath: _hp
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 27523021548090350, guid: 22a2deeb480db4d50ac9d32e51549364, type: 3}
       propertyPath: _initiative
