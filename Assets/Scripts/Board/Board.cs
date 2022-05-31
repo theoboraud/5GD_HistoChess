@@ -219,7 +219,13 @@ public class Board : MonoBehaviour
     /// <returns> Units ordered by distance and initiative </returns>
     public List<Unit> OrderUnitsByDistanceAndInitiative(Tile tile, List<Unit> units)
     {
-        List<Unit> orderedUnits = units.OrderBy(unit => GetPath(unit.tile, tile).Count * 10 + (10 - unit.initiative)).ToList();
+        List<Unit> orderedUnits = new List<Unit>();
+        // If there are units in the given unit list
+        if (units.Count > 0)
+        {
+            orderedUnits = units.OrderBy(unit => GetPath(unit.tile, tile).Count * 10 + (10 - unit.initiative)).ToList();
+        }
+
         return orderedUnits;
     }
 

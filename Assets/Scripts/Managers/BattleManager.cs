@@ -61,11 +61,11 @@ public class BattleManager : MonoBehaviour
 
                 if (unit.tile != null)
                 {
-                    if (unit.faction == Faction.Friendly)
+                    if (unit.faction == Faction.Friendly && Board.instance.enemyUnits.Count > 0)
                     {
                         targetUnit = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits)[0];
                     }
-                    else if (unit.faction == Faction.Enemy)
+                    else if (unit.faction == Faction.Enemy && Board.instance.playerUnits.Count > 0)
                     {
                         targetUnit = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.playerUnits)[0];
                     }
@@ -94,13 +94,13 @@ public class BattleManager : MonoBehaviour
         {
             Unit unit = Board.instance.playerUnits[i];
             Unit targetUnit = null;
-            if (unit.tile != null)
+            if (unit.tile != null && Board.instance.enemyUnits.Count > 0)
             {
-                targetUnit = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits)[0];
+                Unit closestHostileUnit = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits)[0];
                 // If closest enemy if too far, no attack target for this turn
-                if (!Board.instance.CanAttack(unit, targetUnit))
+                if (Board.instance.CanAttack(unit, closestHostileUnit))
                 {
-                    targetUnit = null;
+                    targetUnit = closestHostileUnit;
                 }
             }
 
@@ -114,13 +114,13 @@ public class BattleManager : MonoBehaviour
         {
             Unit unit = Board.instance.enemyUnits[i];
             Unit targetUnit = null;
-            if (unit.tile != null)
+            if (unit.tile != null && Board.instance.playerUnits.Count > 0)
             {
-                targetUnit = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.playerUnits)[0];
+                Unit closestHostileUnit = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.playerUnits)[0];
                 // If closest enemy if too far, no attack target for this turn
-                if (!Board.instance.CanAttack(unit, targetUnit))
+                if (Board.instance.CanAttack(unit, closestHostileUnit))
                 {
-                    targetUnit = null;
+                    targetUnit = closestHostileUnit;
                 }
             }
 

@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f1f8f60d9c16748e7b0d394fd50e53c9, type: 3}
-  m_Name: F_Peasant
+  m_Name: Guard
   m_EditorClassIdentifier: 
-  power: 1
-  hp: 1
+  power: 2
+  hp: 3
   speed: 1
   range: 1
   commandPoints: 1
   initiative: 1
-  faction: 0
-  sprite: {fileID: 21300000, guid: 836eae8914d574c729baf71e9272f8d1, type: 3}
+  friendlySprite: {fileID: 21300000, guid: 2cd805d8fd6a34d5c9dbe60cbaa0db5b, type: 3}
+  enemySprite: {fileID: 21300000, guid: 57b70c29937cb4115b6446b1cdf390e4, type: 3}

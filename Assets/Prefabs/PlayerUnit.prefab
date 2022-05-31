@@ -56,7 +56,7 @@ MonoBehaviour:
   _initiative: 1
   _commandPoints: 1
   _faction: 0
-  _unitReference: {fileID: 11400000, guid: 62c8d6e08c4eb4f1da07c982dd69beec, type: 2}
+  _unitReference: {fileID: 11400000, guid: 2caa4a7f9706d40fb8535e5cf37090d9, type: 2}
   _spriteRenderer: {fileID: 1450937379840556328}
   _powerValue: {fileID: 6399244378664910875}
   _hpValue: {fileID: 4043752203613049578}
@@ -278,8 +278,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 4
-  m_fontSizeBase: 4
+  m_fontSize: 4.5
+  m_fontSizeBase: 4.5
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -535,8 +535,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 4
-  m_fontSizeBase: 4
+  m_fontSize: 4.5
+  m_fontSizeBase: 4.5
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

@@ -20,8 +20,8 @@ public class UnitReference : ScriptableObject
     public int range = 1;                       // How far the unit attack can reach
     public int commandPoints = 1;               // Cost to place the unit on the board
     public int initiative = 1;                  // Low initiatives will move last but be attacked first
-    public Faction faction;                     // Faction to which this unit belongs to
 
-    [Header("Unit sprite")]
-    public Sprite sprite;                       // Unit sprite reference              
+    [Header("Unit sprites")]
+    public Sprite friendlySprite;               // Unit friendly sprite reference
+    public Sprite enemySprite;                  // Unit enemy sprite reference
 }

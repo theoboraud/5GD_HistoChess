@@ -53,8 +53,15 @@ public class Unit : MonoBehaviour
             _range = _unitReference.range;
             _initiative = _unitReference.initiative;
             _commandPoints = _unitReference.commandPoints;
-            _faction = _unitReference.faction;
-            _spriteRenderer.sprite = _unitReference.sprite;
+            
+            if (_faction == Faction.Friendly)
+            {
+                _spriteRenderer.sprite = _unitReference.friendlySprite;
+            }
+            else if (_faction == Faction.Enemy)
+            {
+                _spriteRenderer.sprite = _unitReference.enemySprite;
+            }
         }
 
         UpdateStats();
@@ -77,9 +84,10 @@ public class Unit : MonoBehaviour
     ///     Load the given Unit Reference and change this unit's variables to correspond to the new Unit Reference
     /// </summary>
     /// <param name="unitReference"> Target Unit Reference to load </param>
-    public void LoadUnitReference(UnitReference unitReference)
+    public void LoadUnitReference(UnitReference unitReference, Faction faction)
     {
         _unitReference = unitReference;
+        _faction = faction;
         Init();
     }
 
