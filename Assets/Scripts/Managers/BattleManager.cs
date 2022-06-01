@@ -49,7 +49,7 @@ public class BattleManager : MonoBehaviour
     /// <summary>
     ///     All units move during the Move Phase if possible
     /// </summary>
-    private void MovePhase()
+    private IEnumerator MovePhase()
     {
         List<Unit> orderedUnits = Board.instance.OrderUnitsByInitiative(Board.instance.GetAllUnits());
         foreach (Unit unit in orderedUnits)
@@ -80,7 +80,31 @@ public class BattleManager : MonoBehaviour
                     }
                 }
             }
+
+            //yield return WaitForKeyPress(KeyCode.Space);
+            yield return new WaitForSeconds(1f);
         }
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Wait for a given key
+    /// </summary>
+    /// <param name="key"> Key to wait for </param>
+    private IEnumerator WaitForKeyPress(KeyCode key)
+    {
+        bool done = false;
+        while(!done) // essentially a "while true", but with a bool to break out naturally
+        {
+            if(Input.GetKeyDown(key))
+            {
+                done = true; // breaks the loop
+            }
+            yield return null; // wait until next frame, then continue execution from here (loop continues)
+        }
+
+        // now this function returns
     }
 
     // ----------------------------------------------------------------------------------------
@@ -182,7 +206,7 @@ public class BattleManager : MonoBehaviour
 
         if (_movePhase)
         {
-            MovePhase();
+            StartCoroutine("MovePhase");
             _btnText.text = "Attack Phase";
             _btnText.transform.parent.GetComponent<Image>().color = Color.red;
         }
