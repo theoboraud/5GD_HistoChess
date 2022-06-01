@@ -18,6 +18,7 @@ public class EnemyReserve : MonoBehaviour
     [SerializeField] private List<Transform> _reserveZones = new List<Transform>();     // All reserve zone where units appear on
     private List<Unit> _reserveUnits = new List<Unit>();                                // All units in the reserve
     [SerializeField] private GameObject _unitPrefab;                                    // Unit prefab
+    private int _unitsCount = 0;
 
     // ----------------------------------------------------------------------------------------
 
@@ -58,7 +59,8 @@ public class EnemyReserve : MonoBehaviour
         if (_reserveUnits.Count < _reserveZones.Count)
         {
             GameObject _spawnedUnitGO = Instantiate(_unitPrefab);
-            _spawnedUnitGO.name = $"{_faction}Soldier_{_reserveUnits.Count}";
+            _spawnedUnitGO.name = $"{_faction}Soldier_{_unitsCount}";
+            _unitsCount++;
             Unit _spawnedUnit = _spawnedUnitGO.GetComponent<Unit>();
             AddUnit(_spawnedUnit);
             _spawnedUnit.LoadUnitReference(unitReference, _faction);
