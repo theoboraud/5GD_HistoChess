@@ -53,6 +53,8 @@ MonoBehaviour:
   _shopItemReferences:
   - {fileID: 11400000, guid: 734dc57b4e3894996a58c328b0576dfb, type: 2}
   - {fileID: 11400000, guid: 2caa4a7f9706d40fb8535e5cf37090d9, type: 2}
+  - {fileID: 11400000, guid: 2886793703ea34cc191e7b055fa48a1e, type: 2}
+  - {fileID: 11400000, guid: 5b8b8084a34f141a3bac5dbed1e382cf, type: 2}
   _shopZones:
   - {fileID: 6180475923868714767}
   - {fileID: 2335420173709677085}

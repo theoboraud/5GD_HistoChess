@@ -13,6 +13,9 @@ public class ShopItem : MonoBehaviour, ISelectableEntity
     [SerializeField] private UnitReference _unitReference;          // Unit Reference
     [SerializeField] private SpriteRenderer _spriteRenderer;        // Sprite renderer reference
     [SerializeField] private Faction _faction;                      // Faction reference
+    [SerializeField] private TMP_Text _powerValue;                  // Power value text reference
+    [SerializeField] private TMP_Text _hpValue;                     // Health point value text reference
+
 
     // Public get/set
     public UnitReference unitReference { get => _unitReference; }
@@ -26,6 +29,8 @@ public class ShopItem : MonoBehaviour, ISelectableEntity
     private void Init()
     {
         _spriteRenderer.sprite = _faction == Faction.Friendly ? _unitReference.friendlySprite : _unitReference.enemySprite;
+        _powerValue.text = _unitReference.power.ToString();
+        _hpValue.text = _unitReference.hp.ToString();
     }
 
     // ----------------------------------------------------------------------------------------
