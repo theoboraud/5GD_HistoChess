@@ -17,6 +17,8 @@ public class ShopItem : MonoBehaviour, ISelectableEntity
     [SerializeField] private TMP_Text _hpValue;                     // Health point value text reference
     [SerializeField] private GameObject _rangeIcon;                 // Range icon GameObject reference
     [SerializeField] private TMP_Text _rangeValue;                  // Range value text reference
+    [SerializeField] private GameObject _commandPointsIcon;         // Command points icon GameObject reference
+    [SerializeField] private TMP_Text _commandPointsValue;          // Command points value text reference
 
 
     // Public get/set
@@ -39,6 +41,8 @@ public class ShopItem : MonoBehaviour, ISelectableEntity
             _rangeIcon.SetActive(true);
             _rangeValue.text = _unitReference.range.ToString();
         }
+        _commandPointsIcon.SetActive(true);
+        _commandPointsValue.text = _unitReference.commandPoints.ToString();
     }
 
     // ----------------------------------------------------------------------------------------

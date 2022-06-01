@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Linq;
+using TMPro;
 using Enums;
 
 /// <summary>
@@ -11,8 +12,11 @@ using Enums;
 public class Board : MonoBehaviour
 {
     // Variables
+    private const int MAX_COMMAND_POINTS = 14;
     [SerializeField] private int _xSize = 6;
     [SerializeField] private int _ySize = 6;
+    private int _playerCommandPoints;
+    private int _enemyCommandPoints;
 
     // References
     public static Board instance;                                                       // Board static reference
@@ -23,6 +27,8 @@ public class Board : MonoBehaviour
     private Unit _selectedUnit;                                                         // Current selected unit, if any
     [SerializeField] private Transform _playerUnitsParent;
     [SerializeField] private Transform _enemyUnitsParent;
+    [SerializeField] private TMP_Text _playerCommandPointsValue;
+    [SerializeField] private TMP_Text _enemyCommandPointsValue;
 
     // Public get/set
     public List<Unit> playerUnits { get => _playerUnits; set => _playerUnits = value; }
@@ -51,6 +57,8 @@ public class Board : MonoBehaviour
     /// </summary>
     public void Init()
     {
+        _playerCommandPoints = MAX_COMMAND_POINTS;
+        _enemyCommandPoints = MAX_COMMAND_POINTS;
         int x = 0;
         int y = 0;
 
@@ -410,31 +418,36 @@ public class Board : MonoBehaviour
     {
         if (_selectedUnit != null)
         {
-            // If the unit was in the reserve, remove it
-            if (Reserve.instance.IsInReserve(_selectedUnit))
+            // If the corresponding player's command points are sufficient to place down the unit
+            if ((_selectedUnit.faction == Faction.Friendly && _playerCommandPoints >= _selectedUnit.commandPoints) || (_selectedUnit.faction == Faction.Enemy && _enemyCommandPoints >= _selectedUnit.commandPoints))
             {
-                Reserve.instance.RemoveUnit(_selectedUnit);
-            }
-            if (EnemyReserve.instance.IsInReserve(_selectedUnit))
-            {
-                EnemyReserve.instance.RemoveUnit(_selectedUnit);
-            }
-            // If the unit is not yet on the board, add it to the corresponding list
-            if (!GetAllUnits().Contains(_selectedUnit))
-            {
-                if (_selectedUnit.faction == Faction.Friendly)
+                // If the unit was in the reserve, remove it
+                if (Reserve.instance.IsInReserve(_selectedUnit))
                 {
-                    _playerUnits.Add(_selectedUnit);
-                    _selectedUnit.transform.parent = _playerUnitsParent;
+                    Reserve.instance.RemoveUnit(_selectedUnit);
                 }
-                else if (_selectedUnit.faction == Faction.Enemy)
+                if (EnemyReserve.instance.IsInReserve(_selectedUnit))
                 {
-                    _enemyUnits.Add(_selectedUnit);
-                    _selectedUnit.transform.parent = _enemyUnitsParent;
+                    EnemyReserve.instance.RemoveUnit(_selectedUnit);
                 }
+                // If the unit is not yet on the board, add it to the corresponding list
+                if (!GetAllUnits().Contains(_selectedUnit))
+                {
+                    if (_selectedUnit.faction == Faction.Friendly)
+                    {
+                        _playerUnits.Add(_selectedUnit);
+                        _selectedUnit.transform.parent = _playerUnitsParent;
+                    }
+                    else if (_selectedUnit.faction == Faction.Enemy)
+                    {
+                        _enemyUnits.Add(_selectedUnit);
+                        _selectedUnit.transform.parent = _enemyUnitsParent;
+                    }
+                }
+                UpdateCommandPoints();
+                MoveUnit(_selectedUnit, tile);
+                _selectedUnit = null;
             }
-            MoveUnit(_selectedUnit, tile);
-            _selectedUnit = null;
         }
     }
 
@@ -450,6 +463,7 @@ public class Board : MonoBehaviour
         _playerUnits.Remove(unit);
         _enemyUnits.Remove(unit);
         Destroy(unit.gameObject);
+        UpdateCommandPoints();
     }
 
     // ----------------------------------------------------------------------------------------
@@ -484,5 +498,29 @@ public class Board : MonoBehaviour
         }
 
         return allUnits;
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Update command points totals
+    /// </summary>
+    public void UpdateCommandPoints()
+    {
+        // Update player command points
+        _playerCommandPoints = MAX_COMMAND_POINTS;
+        for (int i = 0; i < _playerUnits.Count; i++)
+        {
+            _playerCommandPoints -= _playerUnits[i].commandPoints;
+        }
+        _playerCommandPointsValue.text = $"{_playerCommandPoints}/{MAX_COMMAND_POINTS}";
+
+        // Update enemy command points
+        _enemyCommandPoints = MAX_COMMAND_POINTS;
+        for (int i = 0; i < _enemyUnits.Count; i++)
+        {
+            _enemyCommandPoints -= _enemyUnits[i].commandPoints;
+        }
+        _enemyCommandPointsValue.text = $"{_enemyCommandPoints}/{MAX_COMMAND_POINTS}";
     }
 }

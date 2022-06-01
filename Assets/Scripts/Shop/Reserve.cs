@@ -75,11 +75,9 @@ public class Reserve : MonoBehaviour
         // If there is still some place for new units in the reserve
         if (_reserveUnits.Count < _reserveZones.Count)
         {
-            unit.transform.parent = _reserveZones[_reserveUnits.Count];
-            unit.transform.position = unit.transform.parent.position;
-            unit.transform.localScale = Vector3.one * 1.2f;
             _reserveUnits.Add(unit);
         }
+        ReorderReserveUnits();
     }
 
     // ----------------------------------------------------------------------------------------
@@ -91,6 +89,23 @@ public class Reserve : MonoBehaviour
     public void RemoveUnit(Unit unit)
     {
         _reserveUnits.Remove(unit);
+        ReorderReserveUnits();
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Reorder all reserve units
+    /// </summary>
+    public void ReorderReserveUnits()
+    {
+        for (int i = 0; i < _reserveUnits.Count; i++)
+        {
+            Unit unit = _reserveUnits[i];
+            unit.transform.parent = _reserveZones[i];
+            unit.transform.position = unit.transform.parent.position;
+            unit.transform.localScale = Vector3.one * 1.2f;
+        }
     }
 
     // ----------------------------------------------------------------------------------------
