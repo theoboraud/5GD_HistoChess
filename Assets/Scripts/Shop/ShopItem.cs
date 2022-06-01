@@ -82,7 +82,14 @@ public class ShopItem : MonoBehaviour, ISelectableEntity
     /// </summary>
     public void Select()
     {
-        Shop.instance.BuyShopItem(this);
+        if (_faction == Faction.Friendly)
+        {
+            Shop.instance.BuyShopItem(this);
+        }
+        else if (_faction == Faction.Enemy)
+        {
+            EnemyShop.instance.BuyShopItem(this);
+        }
     }
 
     // ----------------------------------------------------------------------------------------

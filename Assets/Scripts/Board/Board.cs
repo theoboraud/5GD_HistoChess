@@ -69,11 +69,6 @@ public class Board : MonoBehaviour
                 y++;
             }
         }
-
-        foreach (Unit unit in _enemyUnits)
-        {
-            unit.Init();
-        }
     }
 
     // ----------------------------------------------------------------------------------------
@@ -419,6 +414,10 @@ public class Board : MonoBehaviour
             if (Reserve.instance.IsInReserve(_selectedUnit))
             {
                 Reserve.instance.RemoveUnit(_selectedUnit);
+            }
+            if (EnemyReserve.instance.IsInReserve(_selectedUnit))
+            {
+                EnemyReserve.instance.RemoveUnit(_selectedUnit);
             }
             // If the unit is not yet on the board, add it to the corresponding list
             if (!GetAllUnits().Contains(_selectedUnit))

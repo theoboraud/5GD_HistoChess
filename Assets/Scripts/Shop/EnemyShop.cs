@@ -4,16 +4,17 @@ using UnityEngine;
 using Enums;
 
 /// <summary>
+///     TESTING ONLY
 ///     The shop is used by the player to spawn units on the board
 /// </summary>
-public class Shop : MonoBehaviour
+public class EnemyShop : MonoBehaviour
 {
     // Variables
     private const int NB_SHOP_ITEMS = 5;
     [SerializeField] private Faction _faction;
 
     // References
-    public static Shop instance;                                                                            // Static reference
+    public static EnemyShop instance;                                                                            // Static reference
     [SerializeField] private List<UnitReference> _shopItemReferences = new List<UnitReference>();           // Possible shop items
     private List<ShopItem> _shopItems = new List<ShopItem>();                                               // All shop items shown in the shop
     [SerializeField] private List<Transform> _shopZones = new List<Transform>();                            // Shop spawning zone where shop items spawn
@@ -73,7 +74,7 @@ public class Shop : MonoBehaviour
     /// <param name="shopItem"> shopItem to buy </param>
     public void BuyShopItem(ShopItem shopItem)
     {
-        Reserve.instance.SpawnUnit(shopItem.unitReference);
+        EnemyReserve.instance.SpawnUnit(shopItem.unitReference);
 
         DeleteShopItem(shopItem);
     }

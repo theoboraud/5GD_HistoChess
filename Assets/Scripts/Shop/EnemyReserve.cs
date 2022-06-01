@@ -4,16 +4,17 @@ using UnityEngine;
 using Enums;
 
 /// <summary>
+///     TESTING ONLY
 ///     The zone where units spawn when bought
 ///     It represents the player reserve
 /// </summary>
-public class Reserve : MonoBehaviour
+public class EnemyReserve : MonoBehaviour
 {
     // Variables
     [SerializeField] private Faction _faction;                                          // Unit faction
 
     // References
-    public static Reserve instance;
+    public static EnemyReserve instance;
     [SerializeField] private List<Transform> _reserveZones = new List<Transform>();     // All reserve zone where units appear on
     private List<Unit> _reserveUnits = new List<Unit>();                                // All units in the reserve
     [SerializeField] private GameObject _unitPrefab;                                    // Unit prefab
