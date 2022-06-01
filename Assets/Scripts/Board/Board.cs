@@ -3,20 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using System.Linq;
+using Enums;
 
 /// <summary>
 ///     The Board class is used to represent the game board on which the unit are placed in the Planning Phase to fight during the Battle Phase
 /// </summary>
 public class Board : MonoBehaviour
 {
-    public static Board instance;                                                       // Board static reference
-    public GameObject tilesGO;                                                          // Contains all tiles references in Unity Editor
-    [SerializeField]private List<Unit> _playerUnits = new List<Unit>();                 // Player units on the board
-    [SerializeField]private List<Unit> _enemyUnits = new List<Unit>();                  // Enemy units on the board
+    // Variables
     [SerializeField] private int _xSize = 6;
     [SerializeField] private int _ySize = 6;
+
+    // References
+    public static Board instance;                                                       // Board static reference
+    public GameObject tilesGO;                                                          // Contains all tiles references in Unity Editor
+    [SerializeField] private List<Unit> _playerUnits = new List<Unit>();                // Player units on the board
+    [SerializeField] private List<Unit> _enemyUnits = new List<Unit>();                 // Enemy units on the board
     public Dictionary<(int, int), Tile> _tiles = new Dictionary<(int, int), Tile>();    // Contains every tile on the board, with their (x,y) coordinate as key
-    private Unit _selectedUnit;
+    private Unit _selectedUnit;                                                         // Current selected unit, if any
+    [SerializeField] private Transform _playerUnitsParent;
+    [SerializeField] private Transform _enemyUnitsParent;
 
     // Public get/set
     public List<Unit> playerUnits { get => _playerUnits; set => _playerUnits = value; }
@@ -62,11 +68,6 @@ public class Board : MonoBehaviour
                 x = 0;
                 y++;
             }
-        }
-
-        foreach (Unit unit in _playerUnits)
-        {
-            unit.Init();
         }
 
         foreach (Unit unit in _enemyUnits)
@@ -414,6 +415,25 @@ public class Board : MonoBehaviour
     {
         if (_selectedUnit != null)
         {
+            // If the unit was in the reserve, remove it
+            if (Reserve.instance.IsInReserve(_selectedUnit))
+            {
+                Reserve.instance.RemoveUnit(_selectedUnit);
+            }
+            // If the unit is not yet on the board, add it to the corresponding list
+            if (!GetAllUnits().Contains(_selectedUnit))
+            {
+                if (_selectedUnit.faction == Faction.Friendly)
+                {
+                    _playerUnits.Add(_selectedUnit);
+                    _selectedUnit.transform.parent = _playerUnitsParent;
+                }
+                else if (_selectedUnit.faction == Faction.Enemy)
+                {
+                    _enemyUnits.Add(_selectedUnit);
+                    _selectedUnit.transform.parent = _enemyUnitsParent;
+                }
+            }
             MoveUnit(_selectedUnit, tile);
             _selectedUnit = null;
         }

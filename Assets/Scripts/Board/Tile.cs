@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 ///     The Tile class is used to represent a tile on the board, on which a unit can be placed and move to/from
 /// </summary>
-public class Tile : MonoBehaviour
+public class Tile : MonoBehaviour, ISelectableEntity
 {
     [SerializeField] private int _x;                                             // X coordinate of the tile
     [SerializeField] private int _y;                                             // Y coordinate of the tile
@@ -43,9 +43,30 @@ public class Tile : MonoBehaviour
     // ----------------------------------------------------------------------------------------
 
     /// <summary>
-    ///     Select the tile
+    ///     Whether or not an unit can move on this tile
+    /// </summary>
+    /// <returns> True if an unit can move on the tile, false otherwise </param>
+    public bool FreeForMovement()
+    {
+        return _unit == null;
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Called when the tile has been clicked on
     /// </summary>
     public void OnMouseDown()
+    {
+        Select();
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Select the tile
+    /// </summary>
+    public void Select()
     {
         Board.instance.SelectTile(this);
     }
@@ -53,11 +74,10 @@ public class Tile : MonoBehaviour
     // ----------------------------------------------------------------------------------------
 
     /// <summary>
-    ///     Whether or not an unit can move on this tile
+    ///     Unselect the tile
     /// </summary>
-    /// <returns> True if an unit can move on the tile, false otherwise </param>
-    public bool FreeForMovement()
+    public void Unselect()
     {
-        return _unit == null;
+        // TODO: Unselect behaviour
     }
 }

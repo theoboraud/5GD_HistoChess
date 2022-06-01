@@ -1,13 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Enums;
-using TMPro;
 
 /// <summary>
-///     An Unit represents the game instance of a given UnitReference in the game
-///     They are bought and placed on the board during the Planning Phase,
-///     and fight the opponent's units during the Battle Phase via BattleManager
+///     An Unit Reference contains all data related to a specific unit in the game
+///     Each Unit Reference contains statistics, sprites, audio files...
 /// </summary>
 [System.Serializable]
 [CreateAssetMenu(fileName = "UnitReference", menuName = "ScriptableObjects/UnitReference")]

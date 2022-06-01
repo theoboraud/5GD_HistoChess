@@ -1,15 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Enums;
 using TMPro;
+using Enums;
 
 /// <summary>
 ///     An Unit represents the game instance of a given UnitReference in the game
 ///     They are bought and placed on the board during the Planning Phase,
 ///     and fight the opponent's units during the Battle Phase via BattleManager
 /// </summary>
-public class Unit : MonoBehaviour
+public class Unit : MonoBehaviour, ISelectableEntity
 {
     [Header("Unit stats")]
     [SerializeField] private int _power = 1;                    // How much damage this unit deals when fighting
@@ -53,7 +53,7 @@ public class Unit : MonoBehaviour
             _range = _unitReference.range;
             _initiative = _unitReference.initiative;
             _commandPoints = _unitReference.commandPoints;
-            
+
             if (_faction == Faction.Friendly)
             {
                 _spriteRenderer.sprite = _unitReference.friendlySprite;
@@ -154,10 +154,30 @@ public class Unit : MonoBehaviour
     // ----------------------------------------------------------------------------------------
 
     /// <summary>
-    ///     Select the unit
+    ///     Called when the unit has been clicked on
     /// </summary>
     public void OnMouseDown()
     {
+        Select();
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Select the unit
+    /// </summary>
+    public void Select()
+    {
         Board.instance.SelectUnit(this);
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Unselect the unit
+    /// </summary>
+    public void Unselect()
+    {
+        // TODO: Unselect behaviour
     }
 }
