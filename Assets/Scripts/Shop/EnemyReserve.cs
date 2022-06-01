@@ -59,7 +59,7 @@ public class EnemyReserve : MonoBehaviour
         if (_reserveUnits.Count < _reserveZones.Count)
         {
             GameObject _spawnedUnitGO = Instantiate(_unitPrefab);
-            _spawnedUnitGO.name = $"{_faction}Soldier_{_unitsCount}";
+            _spawnedUnitGO.name = $"{_faction}{unitReference.name}_{_unitsCount}";
             _unitsCount++;
             Unit _spawnedUnit = _spawnedUnitGO.GetComponent<Unit>();
             AddUnit(_spawnedUnit);

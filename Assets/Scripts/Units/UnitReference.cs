@@ -10,6 +10,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "UnitReference", menuName = "ScriptableObjects/UnitReference")]
 public class UnitReference : ScriptableObject
 {
+    [Header("Unit name")]
+    public string name = "";                    // Unit name
+
     [Header("Unit stats")]
     public int power = 1;                       // How much damage this unit deals when fighting
     public int hp = 1;                          // Unit health points, dies when reduced to 0
