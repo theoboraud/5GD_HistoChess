@@ -81,7 +81,6 @@ public class BattleManager : MonoBehaviour
                 }
             }
 
-            //yield return WaitForKeyPress(KeyCode.Space);
             yield return new WaitForSeconds(1f);
         }
     }
@@ -112,18 +111,32 @@ public class BattleManager : MonoBehaviour
     /// <summary>
     ///     All units attack during the Attack Phase if possible
     /// </summary>
-    private void AttackPhase()
+    private IEnumerator AttackPhase()
     {
-        for (int i = 0; i < Board.instance.playerUnits.Count; i++)
+        List<Unit> allUnits = Board.instance.GetAllUnits();
+
+        for (int i = 0; i < allUnits.Count; i++)
         {
-            Unit unit = Board.instance.playerUnits[i];
+            Unit unit = allUnits[i];
+            Unit closestHostileUnit = null;
             Unit targetUnit = null;
-            if (unit.tile != null && Board.instance.enemyUnits.Count > 0)
+
+            if (unit.tile != null)
             {
-                Unit closestHostileUnit = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits)[0];
+                if (unit.faction == Faction.Friendly && Board.instance.enemyUnits.Count > 0)
+                {
+                    closestHostileUnit = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits)[0];
+                }
+
+                else if (unit.faction == Faction.Enemy && Board.instance.playerUnits.Count > 0)
+                {
+                    closestHostileUnit = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.playerUnits)[0];
+                }
+
                 // If closest enemy if too far, no attack target for this turn
                 if (Board.instance.CanAttack(unit, closestHostileUnit))
                 {
+                    Debug.Log($"{unit} can attack {closestHostileUnit}");
                     targetUnit = closestHostileUnit;
                 }
             }
@@ -132,26 +145,8 @@ public class BattleManager : MonoBehaviour
             {
                 UnitAttack(unit, targetUnit);
             }
-        }
 
-        for (int i = 0; i < Board.instance.enemyUnits.Count; i++)
-        {
-            Unit unit = Board.instance.enemyUnits[i];
-            Unit targetUnit = null;
-            if (unit.tile != null && Board.instance.playerUnits.Count > 0)
-            {
-                Unit closestHostileUnit = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.playerUnits)[0];
-                // If closest enemy if too far, no attack target for this turn
-                if (Board.instance.CanAttack(unit, closestHostileUnit))
-                {
-                    targetUnit = closestHostileUnit;
-                }
-            }
-
-            if (targetUnit != null)
-            {
-                UnitAttack(unit, targetUnit);
-            }
+            yield return new WaitForSeconds(1f);
         }
 
         KillDeathList();
@@ -212,7 +207,7 @@ public class BattleManager : MonoBehaviour
         }
         else
         {
-            AttackPhase();
+            StartCoroutine("AttackPhase");
             _btnText.text = "Move Phase";
             _btnText.transform.parent.GetComponent<Image>().color = Color.green;
         }

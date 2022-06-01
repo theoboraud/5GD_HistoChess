@@ -256,7 +256,7 @@ public class Board : MonoBehaviour
 
             if (currentTile == endTile)
             {
-                Debug.Log("Found end tile");
+                //Debug.Log("Found end tile");
                 return MakePath(endTile);
             }
 
@@ -279,13 +279,13 @@ public class Board : MonoBehaviour
 
                     if (!openList.Contains(neighbourTile))
                     {
-                        Debug.Log($"Added NeighbourTile {neighbourTile}");
+                        //Debug.Log($"Added NeighbourTile {neighbourTile}");
                         openList.Add(neighbourTile);
                     }
                 }
             }
         }
-        Debug.Log("No end tile");
+        //Debug.Log("No end tile");
         return null;
     }
 
@@ -341,7 +341,7 @@ public class Board : MonoBehaviour
     /// <returns> Return optimal path </returns>
     public List<Tile> MakePath(Tile tile)
     {
-        Debug.Log("Path made");
+        //Debug.Log("Path made");
         List<Tile> path = new List<Tile>();
         path.Add(tile);
         while (tile.cameFromTile != null)
@@ -393,7 +393,11 @@ public class Board : MonoBehaviour
     /// <returns> Return true if targetUnit is in range of attackingUnit </returns>
     public bool CanAttack(Unit attackingUnit, Unit targetUnit)
     {
-        return GetDistance(attackingUnit.tile, targetUnit.tile) <= attackingUnit.range;
+        if (attackingUnit != null && targetUnit != null)
+        {
+            return GetDistance(attackingUnit.tile, targetUnit.tile) <= attackingUnit.range;
+        }
+        return false;
     }
 
     // ----------------------------------------------------------------------------------------
