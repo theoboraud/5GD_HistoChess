@@ -25,6 +25,8 @@ public class Unit : MonoBehaviour, ISelectableEntity
     [SerializeField] private SpriteRenderer _spriteRenderer;    // Sprite Renderer reference
     [SerializeField] private TMP_Text _powerValue;              // TextMeshPro component containing the power value string
     [SerializeField] private TMP_Text _hpValue;                 // TextMeshPro component containing the health point value string
+    [SerializeField] private GameObject _rangeIcon;             // Range icon GameObject reference
+    [SerializeField] private TMP_Text _rangeValue;              // Range value text reference
     private Tile _tile;                                         // Tile on which the unit is located, if any
 
     // Public get/set
@@ -76,6 +78,12 @@ public class Unit : MonoBehaviour, ISelectableEntity
     {
         _powerValue.text = _power.ToString();
         _hpValue.text = _hp.ToString();
+        // Range icon visible only if the unit has a range greater than 1
+        if (_range > 1)
+        {
+            _rangeIcon.SetActive(true);
+            _rangeValue.text = _range.ToString();
+        }
     }
 
     // ----------------------------------------------------------------------------------------

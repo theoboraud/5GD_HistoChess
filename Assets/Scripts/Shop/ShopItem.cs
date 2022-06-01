@@ -15,6 +15,8 @@ public class ShopItem : MonoBehaviour, ISelectableEntity
     [SerializeField] private Faction _faction;                      // Faction reference
     [SerializeField] private TMP_Text _powerValue;                  // Power value text reference
     [SerializeField] private TMP_Text _hpValue;                     // Health point value text reference
+    [SerializeField] private GameObject _rangeIcon;                 // Range icon GameObject reference
+    [SerializeField] private TMP_Text _rangeValue;                  // Range value text reference
 
 
     // Public get/set
@@ -31,6 +33,12 @@ public class ShopItem : MonoBehaviour, ISelectableEntity
         _spriteRenderer.sprite = _faction == Faction.Friendly ? _unitReference.friendlySprite : _unitReference.enemySprite;
         _powerValue.text = _unitReference.power.ToString();
         _hpValue.text = _unitReference.hp.ToString();
+        // Range icon visible only if the unit has a range greater than 1
+        if (_unitReference.range > 1)
+        {
+            _rangeIcon.SetActive(true);
+            _rangeValue.text = _unitReference.range.ToString();
+        }
     }
 
     // ----------------------------------------------------------------------------------------
