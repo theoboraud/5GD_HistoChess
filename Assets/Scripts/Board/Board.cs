@@ -450,6 +450,7 @@ public class Board : MonoBehaviour
                 }
                 UpdateCommandPoints();
                 MoveUnit(_selectedUnit, tile);
+                _selectedUnit.Unselect();
                 _selectedUnit = null;
             }
         }

@@ -29,7 +29,10 @@ public class Unit : MonoBehaviour, ISelectableEntity
     [SerializeField] private TMP_Text _rangeValue;              // Range value text reference
     [SerializeField] private GameObject _commandPointsIcon;     // Command points icon GameObject reference
     [SerializeField] private TMP_Text _commandPointsValue;      // Command points value text reference
+    [SerializeField] private GameObject _activeFeedback;        // Active feedback game object
+    [SerializeField] private GameObject _hurtFeedback;          // Active feedback game object
     private Tile _tile;                                         // Tile on which the unit is located, if any
+
 
     // Public get/set
     public int power { get => _power; }
@@ -183,6 +186,7 @@ public class Unit : MonoBehaviour, ISelectableEntity
     public void Select()
     {
         Board.instance.SelectUnit(this);
+        SelectFeedback(true);
     }
 
     // ----------------------------------------------------------------------------------------
@@ -193,5 +197,28 @@ public class Unit : MonoBehaviour, ISelectableEntity
     public void Unselect()
     {
         // TODO: Unselect behaviour
+        SelectFeedback(false);
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Selection feedback
+    /// </summary>
+    /// <param name="active"> Whether or not to activate the feedback </param>
+    public void SelectFeedback(bool active)
+    {
+        _activeFeedback.SetActive(active);
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Hurt feedback
+    /// </summary>
+    /// <param name="active"> Whether or not to activate the feedback </param>
+    public void HurtFeedback(bool active)
+    {
+        _hurtFeedback.SetActive(active);
     }
 }

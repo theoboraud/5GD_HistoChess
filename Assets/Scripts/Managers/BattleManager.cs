@@ -15,6 +15,8 @@ public class BattleManager : MonoBehaviour
     public static BattleManager instance;                       // BattleManager static instance
     private bool _movePhase = false;                            // Move phase boolean. True if units should move, false if units should attack
     private List<Unit> _deathList = new List<Unit>();           // List of units dead this round
+    private float _gameSpeed = 0.8f;
+    private float _speedMultiplier = 1f;
 
     [SerializeField] private TMP_Text _btnText;
 
@@ -54,6 +56,9 @@ public class BattleManager : MonoBehaviour
         List<Unit> orderedUnits = Board.instance.OrderUnitsByInitiative(Board.instance.GetAllUnits());
         foreach (Unit unit in orderedUnits)
         {
+            unit.SelectFeedback(true);
+            yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
+
             // For each movement point (unit's speed), the unit will move one tile towards an enemy
             for (int i = 0; i < unit.speed; i++)
             {
@@ -81,7 +86,8 @@ public class BattleManager : MonoBehaviour
                 }
             }
 
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
+            unit.SelectFeedback(false);
         }
     }
 
@@ -121,6 +127,9 @@ public class BattleManager : MonoBehaviour
             Unit closestHostileUnit = null;
             Unit targetUnit = null;
 
+            unit.SelectFeedback(true);
+            yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
+
             if (unit.tile != null)
             {
                 if (unit.faction == Faction.Friendly && Board.instance.enemyUnits.Count > 0)
@@ -144,9 +153,12 @@ public class BattleManager : MonoBehaviour
             if (targetUnit != null)
             {
                 UnitAttack(unit, targetUnit);
+                targetUnit.HurtFeedback(true);
+                yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
+                targetUnit.HurtFeedback(false);
             }
 
-            yield return new WaitForSeconds(1f);
+            unit.SelectFeedback(false);
         }
 
         KillDeathList();
@@ -211,5 +223,44 @@ public class BattleManager : MonoBehaviour
             _btnText.text = "Move Phase";
             _btnText.transform.parent.GetComponent<Image>().color = Color.green;
         }
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     TODO
+    /// </summary>
+    private IEnumerator AutoPhase()
+    {
+        while (Board.instance.playerUnits.Count > 0 && Board.instance.enemyUnits.Count > 0)
+        {
+            _btnText.text = "Move Phase";
+            _btnText.transform.parent.GetComponent<Image>().color = Color.green;
+            yield return StartCoroutine("MovePhase");
+
+            _btnText.text = "Attack Phase";
+            _btnText.transform.parent.GetComponent<Image>().color = Color.red;
+            yield return StartCoroutine("AttackPhase");
+        }
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     TODO
+    /// </summary>
+    public void StartAutoPhase()
+    {
+        StartCoroutine("AutoPhase");
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Update the game speed
+    /// </summary>
+    public void UpdateGameSpeed(float speedMultiplier)
+    {
+        _speedMultiplier = speedMultiplier;
     }
 }
