@@ -97,6 +97,22 @@ public class Reserve : MonoBehaviour
     // ----------------------------------------------------------------------------------------
 
     /// <summary>
+    ///     Remove all units in the reserve
+    /// </summary>
+    public void RemoveAllUnits()
+    {
+        for (int i = _reserveUnits.Count - 1; i >= 0; i--)
+        {
+            Unit unit = _reserveUnits[i];
+            _reserveUnits.Remove(unit);
+            Destroy(unit.gameObject);
+        }
+        ReorderReserveUnits();
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
     ///     Reorder all reserve units
     /// </summary>
     public void ReorderReserveUnits()
