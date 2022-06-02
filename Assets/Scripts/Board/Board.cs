@@ -161,15 +161,19 @@ public class Board : MonoBehaviour
     ///     Move a given Unit to a given Tile
     /// </summary>
     /// <param name="unit"> Unit to move </param>
-    /// <param name="tile"> Tile to which the unit will move </param>
-    public void MoveUnitTowards(Unit unit, Tile tile)
+    /// <param name="targetTile"> Tile to which the unit will move </param>
+    public void MoveUnitTowards(Unit unit, Tile targetTile)
     {
-        if (unit.tile != tile)
+        if (unit.tile != targetTile)
         {
-            if (GetPath(unit.tile, tile).Count > 0)
+            if (GetPath(unit.tile, targetTile).Count > 0)
             {
+                Tile newTile = GetPath(unit.tile, targetTile)[0];
                 //Debug.Log($"Unit should move from {unit.tile} to {GetPath(unit.tile, tile)[0]}");
-                MoveUnit(unit, GetPath(unit.tile, tile)[0]);
+                if (newTile != targetTile)
+                {
+                    MoveUnit(unit, newTile);
+                }
             }
         }
     }
@@ -372,10 +376,10 @@ public class Board : MonoBehaviour
             path.Add(tile);
         }
         // Remove end tile
-        if (path.Count > 0)
-        {
-            path.Remove(path[0]);
-        }
+        //if (path.Count > 0)
+        //{
+            //path.Remove(path[0]);
+        //}
 
         // Reverse the order, to start from the starting tile
         path.Reverse();

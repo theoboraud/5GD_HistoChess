@@ -68,22 +68,22 @@ public class BattleManager : MonoBehaviour
                 {
                     if (unit.faction == Faction.Friendly && Board.instance.enemyUnits.Count > 0)
                     {
-                        Debug.Log($"{unit.name} looking for move target");
+                        //Debug.Log($"{unit.name} looking for move target");
                         List<Unit> enemyOrderedUnits = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits);
                         if (enemyOrderedUnits.Count > 0)
                         {
                             targetUnit = enemyOrderedUnits[0];
-                            Debug.Log($"{unit.name} has found {targetUnit.name}");
+                            //Debug.Log($"{unit.name} has found {targetUnit.name}");
                         }
                     }
                     else if (unit.faction == Faction.Enemy && Board.instance.playerUnits.Count > 0)
                     {
-                        Debug.Log($"{unit.name} looking for move target");
+                        //Debug.Log($"{unit.name} looking for move target");
                         List<Unit> playerOrderedUnits = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.playerUnits);
                         if (playerOrderedUnits.Count > 0)
                         {
                             targetUnit = playerOrderedUnits[0];
-                            Debug.Log($"{unit.name} has found {targetUnit.name}");
+                            //Debug.Log($"{unit.name} has found {targetUnit.name}");
                         }
                     }
                 }
@@ -146,26 +146,30 @@ public class BattleManager : MonoBehaviour
             {
                 if (unit.faction == Faction.Friendly && Board.instance.enemyUnits.Count > 0)
                 {
-                    List<Unit> orderedUnits = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits);
-                    if (orderedUnits.Count > 0)
+                    Debug.Log($"{unit.name} looking for attack target");
+                    List<Unit> enemyOrderedUnits = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits);
+                    if (enemyOrderedUnits.Count > 0)
                     {
-                        closestHostileUnit = orderedUnits[0];
+                        closestHostileUnit = enemyOrderedUnits[0];
+                        Debug.Log($"{unit.name} has found {closestHostileUnit.name}");
                     }
                 }
 
                 else if (unit.faction == Faction.Enemy && Board.instance.playerUnits.Count > 0)
                 {
-                    List<Unit> orderedUnits = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.playerUnits);
-                    if (orderedUnits.Count > 0)
+                    Debug.Log($"{unit.name} looking for attack target");
+                    List<Unit> playerOrderedUnits = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.playerUnits);
+                    if (playerOrderedUnits.Count > 0)
                     {
-                        closestHostileUnit = orderedUnits[0];
+                        closestHostileUnit = playerOrderedUnits[0];
+                        Debug.Log($"{unit.name} has found {closestHostileUnit.name}");
                     }
                 }
 
                 // If closest enemy if too far, no attack target for this turn
                 if (Board.instance.CanAttack(unit, closestHostileUnit))
                 {
-                    //Debug.Log($"{unit} can attack {closestHostileUnit}");
+                    Debug.Log($"{unit} can attack {closestHostileUnit}");
                     targetUnit = closestHostileUnit;
                 }
             }
