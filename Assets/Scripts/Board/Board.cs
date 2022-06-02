@@ -168,7 +168,7 @@ public class Board : MonoBehaviour
         {
             if (GetPath(unit.tile, tile).Count > 0)
             {
-                Debug.Log($"Unit should move from {unit.tile} to {GetPath(unit.tile, tile)[0]}");
+                //Debug.Log($"Unit should move from {unit.tile} to {GetPath(unit.tile, tile)[0]}");
                 MoveUnit(unit, GetPath(unit.tile, tile)[0]);
             }
         }
@@ -224,11 +224,32 @@ public class Board : MonoBehaviour
     public List<Unit> OrderUnitsByDistanceAndInitiative(Tile tile, List<Unit> units)
     {
         List<Unit> orderedUnits = new List<Unit>();
-        // If there are units in the given unit list
-        if (units.Count > 0)
+        Dictionary<Unit, int> dictionaryUnits = new Dictionary<Unit, int>();
+
+        foreach (Unit unit in units)
         {
-            orderedUnits = units.OrderBy(unit => GetPath(unit.tile, tile).Count * 10 + (10 - unit.initiative)).ToList();
+            List<Tile> path = GetPath(unit.tile, tile);
+            if (path != null)
+            {
+                int pathCost = path.Count * 10;
+                int priorityCost = 10 - unit.initiative;
+                // If the unit can be accessed, add it to the dictionary
+                if (pathCost > 0)
+                {
+                    dictionaryUnits.Add(unit, pathCost + priorityCost);
+                }
+            }
         }
+        // If there are units in the given unit list
+        if (dictionaryUnits.Count > 0)
+        {
+            foreach (KeyValuePair<Unit, int> keyPair in dictionaryUnits)
+            {
+                orderedUnits.Add(keyPair.Key);
+            }
+            orderedUnits.OrderBy(unit => dictionaryUnits[unit]).ToList();
+        }
+        //Debug.Log($"{orderedUnits} has length {orderedUnits.Count}");
 
         return orderedUnits;
     }
@@ -286,6 +307,7 @@ public class Board : MonoBehaviour
             }
         }
         //Debug.Log("No end tile");
+        ResetTiles();
         return null;
     }
 
@@ -362,7 +384,6 @@ public class Board : MonoBehaviour
         {
             path.Remove(path[0]);
         }
-
         ResetTiles();
         return path;
     }
