@@ -136,6 +136,16 @@ public class Unit : MonoBehaviour, ISelectableEntity
     // ----------------------------------------------------------------------------------------
 
     /// <summary>
+    ///     Set tile reference to null
+    /// </summary>
+    public void ResetTile()
+    {
+        _tile = null;
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
     ///     Returns the damage dealt to a given target unit
     /// </summary>
     /// <param name="targetUnit"> Target unit which will be dealt damage </param>

@@ -528,4 +528,36 @@ public class Board : MonoBehaviour
         }
         _enemyCommandPointsValue.text = $"{_enemyCommandPoints}/{MAX_COMMAND_POINTS}";
     }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Select the given faction's reserve
+    /// </summary>
+    /// <param name="faction"> Faction to which the selected reserve belongs to </param>
+    public void SelectReserve(Faction _faction)
+    {
+        if (_selectedUnit != null)
+        {
+            if (_faction == Faction.Friendly && _selectedUnit.faction == Faction.Friendly)
+            {
+                _selectedUnit.tile.ResetUnit();
+                _selectedUnit.ResetTile();
+                Reserve.instance.AddUnit(_selectedUnit);
+                _playerUnits.Remove(_selectedUnit);
+            }
+
+            else if (_faction == Faction.Enemy && _selectedUnit.faction == Faction.Enemy)
+            {
+                _selectedUnit.tile.ResetUnit();
+                _selectedUnit.ResetTile();
+                EnemyReserve.instance.AddUnit(_selectedUnit);
+                _enemyUnits.Remove(_selectedUnit);
+            }
+
+            _selectedUnit.Unselect();
+            _selectedUnit = null;
+            UpdateCommandPoints();
+        }
+    }
 }

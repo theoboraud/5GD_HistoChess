@@ -123,4 +123,14 @@ public class EnemyReserve : MonoBehaviour
     {
         return _reserveUnits.Contains(unit);
     }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Called when the reserve is clicked on
+    /// </summary>
+    public void OnMouseDown()
+    {
+        Board.instance.SelectReserve(_faction);
+    }
 }
