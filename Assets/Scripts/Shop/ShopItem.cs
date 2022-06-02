@@ -33,6 +33,7 @@ public class ShopItem : MonoBehaviour, ISelectableEntity
     private void Init()
     {
         _spriteRenderer.sprite = _faction == Faction.Friendly ? _unitReference.friendlySprite : _unitReference.enemySprite;
+
         _powerValue.text = _unitReference.power.ToString();
         _hpValue.text = _unitReference.hp.ToString();
         // Range icon visible only if the unit has a range greater than 1
@@ -43,6 +44,12 @@ public class ShopItem : MonoBehaviour, ISelectableEntity
         }
         _commandPointsIcon.SetActive(true);
         _commandPointsValue.text = _unitReference.commandPoints.ToString();
+
+        if (_faction == Faction.Enemy)
+        {
+            float currentScale = _spriteRenderer.transform.localScale.x;
+            _spriteRenderer.transform.localScale = new Vector3(-currentScale, currentScale, currentScale);
+        }
     }
 
     // ----------------------------------------------------------------------------------------

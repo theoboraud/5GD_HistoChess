@@ -22,7 +22,7 @@ public class Unit : MonoBehaviour, ISelectableEntity
 
     [Header("References")]
     [SerializeField] private UnitReference _unitReference;      // Unit Reference scriptable object
-    [SerializeField] private SpriteRenderer _spriteRenderer;    // Sprite Renderer reference
+    [SerializeField] private List<SpriteRenderer> _spriteRenderers = new List<SpriteRenderer>();    // Sprite renderers references
     [SerializeField] private TMP_Text _powerValue;              // TextMeshPro component containing the power value string
     [SerializeField] private TMP_Text _hpValue;                 // TextMeshPro component containing the health point value string
     [SerializeField] private GameObject _rangeIcon;             // Range icon GameObject reference
@@ -30,7 +30,10 @@ public class Unit : MonoBehaviour, ISelectableEntity
     [SerializeField] private GameObject _commandPointsIcon;     // Command points icon GameObject reference
     [SerializeField] private TMP_Text _commandPointsValue;      // Command points value text reference
     [SerializeField] private GameObject _activeFeedback;        // Active feedback game object
-    [SerializeField] private GameObject _hurtFeedback;          // Active feedback game object
+    [SerializeField] private GameObject _hurtFeedback;          // Hurt feedback game object
+    [SerializeField] private GameObject _unitFactionFeedback;   // Unit faction feedback game object
+    [SerializeField] private Color _colorFriendly;              // Friendly color reference
+    [SerializeField] private Color _colorEnemy;                 // Enemy color reference
     private Tile _tile;                                         // Tile on which the unit is located, if any
 
 
@@ -63,11 +66,21 @@ public class Unit : MonoBehaviour, ISelectableEntity
 
             if (_faction == Faction.Friendly)
             {
-                _spriteRenderer.sprite = _unitReference.friendlySprite;
+                foreach(SpriteRenderer spriteRenderer in _spriteRenderers)
+                {
+                    spriteRenderer.sprite = _unitReference.friendlySprite;
+                }
+                _unitFactionFeedback.GetComponent<SpriteRenderer>().color = _colorFriendly;
             }
             else if (_faction == Faction.Enemy)
             {
-                _spriteRenderer.sprite = _unitReference.enemySprite;
+                foreach(SpriteRenderer spriteRenderer in _spriteRenderers)
+                {
+                    spriteRenderer.sprite = _unitReference.enemySprite;
+                    float currentScale = spriteRenderer.transform.localScale.x;
+                    spriteRenderer.transform.localScale = new Vector3(-currentScale, currentScale, currentScale);
+                }
+                _unitFactionFeedback.GetComponent<SpriteRenderer>().color = _colorEnemy;
             }
 
             // Range icon visible only if the unit has a range greater than 1

@@ -12,12 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1f8f60d9c16748e7b0d394fd50e53c9, type: 3}
   m_Name: Hunter
   m_EditorClassIdentifier: 
-  name: Hunter
   power: 1
   hp: 1
   speed: 1
   range: 2
   commandPoints: 3
   initiative: 1
-  friendlySprite: {fileID: 21300000, guid: be994c33735944772ab4ce3a8303d1a6, type: 3}
-  enemySprite: {fileID: 21300000, guid: 81817faa621ba489686fff3a0b3f8306, type: 3}
+  friendlySprite: {fileID: 21300000, guid: fc5e729245bdb4ff585c3e672075f0b9, type: 3}
+  enemySprite: {fileID: 21300000, guid: fc5e729245bdb4ff585c3e672075f0b9, type: 3}

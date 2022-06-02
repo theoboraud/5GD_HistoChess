@@ -55,18 +55,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 2caa4a7f9706d40fb8535e5cf37090d9, type: 2}
   - {fileID: 11400000, guid: 2886793703ea34cc191e7b055fa48a1e, type: 2}
   - {fileID: 11400000, guid: 5b8b8084a34f141a3bac5dbed1e382cf, type: 2}
+  - {fileID: 11400000, guid: 241edf05eaa264a0795c6038c733a7c5, type: 2}
   _shopZones:
   - {fileID: 6180475923868714767}
   - {fileID: 2335420173709677085}
   - {fileID: 2335420173557124623}
   - {fileID: 2335420173047567283}
   - {fileID: 2335420174269239410}
-  _spawnZones:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   _unitPrefab: {fileID: 2945082662981233029, guid: e02d4d018be4b4b0f84718a21e302294, type: 3}
   _shopItemPrefab: {fileID: 8104908147784776762, guid: 65513015ae8d54816b0cee4a118380f5, type: 3}
 --- !u!1001 &2335420174437643720

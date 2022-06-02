@@ -12,12 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1f8f60d9c16748e7b0d394fd50e53c9, type: 3}
   m_Name: Infantry
   m_EditorClassIdentifier: 
-  name: Infantry
   power: 1
   hp: 1
   speed: 1
   range: 1
   commandPoints: 2
   initiative: 2
-  friendlySprite: {fileID: 21300000, guid: f6223de61b7bc4a75965b27698f0b10f, type: 3}
-  enemySprite: {fileID: 21300000, guid: 488af2ce81b6f464896ed2ae93b0510d, type: 3}
+  friendlySprite: {fileID: -1182478657, guid: 04ed549f0a8c44a9bbb1c46bce0c3ad9, type: 3}
+  enemySprite: {fileID: -1182478657, guid: 04ed549f0a8c44a9bbb1c46bce0c3ad9, type: 3}
