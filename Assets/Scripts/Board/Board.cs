@@ -232,7 +232,7 @@ public class Board : MonoBehaviour
 
         foreach (Unit unit in units)
         {
-            List<Tile> path = GetPath(unit.tile, tile);
+            List<Tile> path = GetPath(tile, unit.tile);
             if (path != null)
             {
                 int pathCost = path.Count * 10;

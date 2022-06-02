@@ -54,13 +54,14 @@ public class BattleManager : MonoBehaviour
     private IEnumerator MovePhase()
     {
         List<Unit> orderedUnits = Board.instance.OrderUnitsByInitiative(Board.instance.GetAllUnits());
-        foreach (Unit unit in orderedUnits)
+        for (int i = 0; i < orderedUnits.Count; i++)
         {
+            Unit unit = orderedUnits[i];
             unit.SelectFeedback(true);
             yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
 
             // For each movement point (unit's speed), the unit will move one tile towards an enemy
-            for (int i = 0; i < unit.speed; i++)
+            for (int j = 0; j < unit.speed; j++)
             {
                 Unit targetUnit = null;
 
