@@ -423,7 +423,7 @@ public class Board : MonoBehaviour
         if (_selectedUnit != null)
         {
             // If the corresponding player's command points are sufficient to place down the unit
-            if ((_selectedUnit.faction == Faction.Friendly && _playerCommandPoints >= _selectedUnit.commandPoints) || (_selectedUnit.faction == Faction.Enemy && _enemyCommandPoints >= _selectedUnit.commandPoints))
+            if ((_selectedUnit.faction == Faction.Friendly && !_playerUnits.Contains(_selectedUnit) && _playerCommandPoints >= _selectedUnit.commandPoints) || (_selectedUnit.faction == Faction.Enemy && !_enemyUnits.Contains(_selectedUnit) && _enemyCommandPoints >= _selectedUnit.commandPoints) || _playerUnits.Contains(_selectedUnit) || _enemyUnits.Contains(_selectedUnit))
             {
                 // If the unit was in the reserve, remove it
                 if (Reserve.instance.IsInReserve(_selectedUnit))
@@ -448,11 +448,12 @@ public class Board : MonoBehaviour
                         _selectedUnit.transform.parent = _enemyUnitsParent;
                     }
                 }
-                UpdateCommandPoints();
                 MoveUnit(_selectedUnit, tile);
-                _selectedUnit.Unselect();
-                _selectedUnit = null;
+
             }
+            UpdateCommandPoints();
+            _selectedUnit.Unselect();
+            _selectedUnit = null;
         }
     }
 
