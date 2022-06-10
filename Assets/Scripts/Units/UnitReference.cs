@@ -21,6 +21,9 @@ public class UnitReference : ScriptableObject
     public int commandPoints = 1;               // Cost to place the unit on the board
     public int initiative = 1;                  // Low initiatives will move last but be attacked first
 
+    [Header("Unit traits")]
+    public List<Trait> traits = new List<Trait>();  // Unit traits
+
     [Header("Unit sprites")]
     public Sprite friendlySprite;               // Unit friendly sprite reference
     public Sprite enemySprite;                  // Unit enemy sprite reference

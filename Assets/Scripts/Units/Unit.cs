@@ -20,6 +20,9 @@ public class Unit : MonoBehaviour, ISelectableEntity
     [SerializeField] private int _commandPoints = 1;            // Cost to place the unit on the board
     [SerializeField] private Faction _faction;                  // Faction to which this unit belongs to
 
+    [Header("Unit traits")]
+    [SerializeField] private List<Trait> _traits = new List<Trait>();   // All unit traits
+
     [Header("References")]
     [SerializeField] private UnitReference _unitReference;      // Unit Reference scriptable object
     [SerializeField] private List<SpriteRenderer> _spriteRenderers = new List<SpriteRenderer>();    // Sprite renderers references
@@ -35,7 +38,6 @@ public class Unit : MonoBehaviour, ISelectableEntity
     [SerializeField] private Color _colorFriendly;              // Friendly color reference
     [SerializeField] private Color _colorEnemy;                 // Enemy color reference
     private Tile _tile;                                         // Tile on which the unit is located, if any
-
 
     // Public get/set
     public int power { get => _power; }
@@ -92,6 +94,11 @@ public class Unit : MonoBehaviour, ISelectableEntity
 
             _commandPointsIcon.SetActive(true);
             _commandPointsValue.text = _commandPoints.ToString();
+
+            foreach (Trait trait in _unitReference.traits)
+            {
+                _traits.Add(trait);
+            }
         }
 
         UpdateStats();
@@ -243,5 +250,27 @@ public class Unit : MonoBehaviour, ISelectableEntity
     public void HurtFeedback(bool active)
     {
         _hurtFeedback.SetActive(active);
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Whether or not the unit has the given trait
+    /// </summary>
+    /// <param name="checkTrait"> Trait to look for in the unit traits </param>
+    /// <returns> True if the unit has checkTrait in _traits, false otherwise </param>
+    public bool HasTrait(Trait checkTrait)
+    {
+        bool hasTrait = false;
+
+        foreach(Trait trait in _traits)
+        {
+            if (checkTrait == trait)
+            {
+                hasTrait = true;
+            }
+        }
+
+        return hasTrait
     }
 }

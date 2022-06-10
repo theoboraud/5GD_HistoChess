@@ -69,16 +69,6 @@ public class ShopItem : MonoBehaviour, ISelectableEntity
     // ----------------------------------------------------------------------------------------
 
     /// <summary>
-    ///     Randomly changes the shop items available
-    /// </summary>
-    public void RollShop()
-    {
-        // TODO: Change all shop items randomly from a given list
-    }
-
-    // ----------------------------------------------------------------------------------------
-
-    /// <summary>
     ///     Called when the shop item has been clicked on
     /// </summary>
     public void OnMouseDown()
