@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Enums;
 
 /// <summary>
 ///     An Unit Reference contains all data related to a specific unit in the game

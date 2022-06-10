@@ -166,9 +166,11 @@ public class Board : MonoBehaviour
     {
         if (unit.tile != targetTile)
         {
-            if (GetPath(unit.tile, targetTile).Count > 0)
+            List<Tile> path = GetPath(unit.tile, targetTile);
+            // If both tiles are separated by at least one tile (path[0] is unit.tile)
+            if (path.Count > 1)
             {
-                Tile newTile = GetPath(unit.tile, targetTile)[0];
+                Tile newTile = path[1];
                 //Debug.Log($"Unit should move from {unit.tile} to {GetPath(unit.tile, tile)[0]}");
                 if (newTile != targetTile)
                 {
@@ -224,24 +226,22 @@ public class Board : MonoBehaviour
     /// </summary>
     /// <param name="tile"> Tile from which the distance is calculated </param>
     /// <param name="units"> Units to sort by distance and initiative </param>
+    /// <param name="flyDistance"> Whether or not blocked tiles are considered </param>
     /// <returns> Units ordered by distance and initiative </returns>
-    public List<Unit> OrderUnitsByDistanceAndInitiative(Tile tile, List<Unit> units)
+    public List<Unit> OrderUnitsByDistanceAndInitiative(Tile tile, List<Unit> units, bool flyDistance = false)
     {
         List<Unit> orderedUnits = new List<Unit>();
         Dictionary<Unit, int> dictionaryUnits = new Dictionary<Unit, int>();
 
         foreach (Unit unit in units)
         {
-            List<Tile> path = GetPath(tile, unit.tile);
-            if (path != null)
+            List<Tile> path = GetPath(tile, unit.tile, flyDistance);
+            // Add the unit and its path cost IF a path can be made
+            if (path.Count > 0)
             {
                 int pathCost = path.Count * 10;
                 int priorityCost = 10 - unit.initiative;
-                // If the unit can be accessed, add it to the dictionary
-                if (pathCost > 0)
-                {
-                    dictionaryUnits.Add(unit, pathCost + priorityCost);
-                }
+                dictionaryUnits.Add(unit, pathCost + priorityCost);
             }
         }
         // If there are units in the given unit list
@@ -265,8 +265,9 @@ public class Board : MonoBehaviour
     /// </summary>
     /// <param name="startTile"> First tile to calculate the path from </param>
     /// <param name="endTile"> Second tile to calculate the path from </param>
+    /// <param name="flyDistance"> Whether or not blocked tiles are considered </param>
     /// <returns> Return tile path between the two given tiles </returns>
-    public List<Tile> GetPath(Tile startTile, Tile endTile)
+    public List<Tile> GetPath(Tile startTile, Tile endTile, bool flyDistance = false)
     {
         List<Tile> openList = new List<Tile>();
         List<Tile> closedList = new List<Tile>();
@@ -277,8 +278,9 @@ public class Board : MonoBehaviour
         Tile currentTile;
         while (openList.Count > 0)
         {
-            currentTile = LowestCostTile(openList);
-
+            // Get lowest cost tile
+            currentTile = openList.OrderBy(tile => tile.tileCost).ToList()[0];
+            // If the current tile is the target end tile
             if (currentTile == endTile)
             {
                 //Debug.Log("Found end tile");
@@ -290,7 +292,7 @@ public class Board : MonoBehaviour
 
             foreach (Tile neighbourTile in GetNeighbourTiles(currentTile))
             {
-                if (closedList.Contains(neighbourTile) || (!neighbourTile.FreeForMovement() && neighbourTile != endTile))
+                if (closedList.Contains(neighbourTile) || (!neighbourTile.FreeForMovement() && neighbourTile != endTile && !flyDistance))
                 {
                     continue;
                 }
@@ -312,7 +314,7 @@ public class Board : MonoBehaviour
         }
         //Debug.Log("No end tile");
         ResetTiles();
-        return null;
+        return new List<Tile>();
     }
 
     // ----------------------------------------------------------------------------------------
@@ -349,18 +351,6 @@ public class Board : MonoBehaviour
     // ----------------------------------------------------------------------------------------
 
     /// <summary>
-    ///     Return lowest cost tile from a list of tiles
-    /// </summary>
-    /// <param name="tiles"> Tiles to select the lowest cost tile from </param>
-    /// <returns> Return lowest cost tile </returns>
-    public Tile LowestCostTile(List<Tile> tiles)
-    {
-        return tiles.OrderBy(tile => tile.tileCost).ToList()[0];
-    }
-
-    // ----------------------------------------------------------------------------------------
-
-    /// <summary>
     ///     Return the path given the cameFromTile in each tile
     /// </summary>
     /// <param name="tile"> Tiles to return the path from </param>
@@ -369,25 +359,19 @@ public class Board : MonoBehaviour
     {
         //Debug.Log("Path made");
         List<Tile> path = new List<Tile>();
-        path.Add(tile);
         while (tile.cameFromTile != null)
         {
             tile = tile.cameFromTile;
             path.Add(tile);
         }
-        // Remove end tile
-        //if (path.Count > 0)
-        //{
-            //path.Remove(path[0]);
-        //}
-
         // Reverse the order, to start from the starting tile
         path.Reverse();
         // Remove starting tile
-        if (path.Count > 0)
+        /*if (path.Count > 0)
         {
             path.Remove(path[0]);
-        }
+        }*/
+
         ResetTiles();
         return path;
     }

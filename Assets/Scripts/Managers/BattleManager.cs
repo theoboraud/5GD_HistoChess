@@ -70,31 +70,44 @@ public class BattleManager : MonoBehaviour
                     if (unit.faction == Faction.Friendly && Board.instance.enemyUnits.Count > 0)
                     {
                         //Debug.Log($"{unit.name} looking for move target");
-                        List<Unit> enemyOrderedUnits = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits);
+                        List<Unit> enemyOrderedUnits = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits, true);
                         if (enemyOrderedUnits.Count > 0)
                         {
                             targetUnit = enemyOrderedUnits[0];
                             //Debug.Log($"{unit.name} has found {targetUnit.name}");
                         }
+                        // If unit can't attack the closest enemy unit by flight, it will move towards the closest by foot
+                        if (!Board.instance.CanAttack(unit, targetUnit))
+                        {
+                            enemyOrderedUnits = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits);
+
+                            if (enemyOrderedUnits.Count > 0)
+                            {
+                                Board.instance.MoveUnitTowards(unit, enemyOrderedUnits[0].tile);
+                                //Debug.Log($"{unit.name} has found {targetUnit.name}");
+                            }
+                        }
                     }
                     else if (unit.faction == Faction.Enemy && Board.instance.playerUnits.Count > 0)
                     {
                         //Debug.Log($"{unit.name} looking for move target");
-                        List<Unit> playerOrderedUnits = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.playerUnits);
+                        List<Unit> playerOrderedUnits = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.playerUnits, true);
                         if (playerOrderedUnits.Count > 0)
                         {
                             targetUnit = playerOrderedUnits[0];
                             //Debug.Log($"{unit.name} has found {targetUnit.name}");
                         }
-                    }
-                }
+                        // If unit can't attack the closest enemy unit by flight, it will move towards the closest by foot
+                        if (!Board.instance.CanAttack(unit, targetUnit))
+                        {
+                            playerOrderedUnits = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.playerUnits);
 
-                if (targetUnit != null)
-                {
-                    // If unit can't attack this closest target unit, it will move towards it
-                    if (!Board.instance.CanAttack(unit, targetUnit))
-                    {
-                        Board.instance.MoveUnitTowards(unit, targetUnit.tile);
+                            if (playerOrderedUnits.Count > 0)
+                            {
+                                Board.instance.MoveUnitTowards(unit, playerOrderedUnits[0].tile);
+                                //Debug.Log($"{unit.name} has found {targetUnit.name}");
+                            }
+                        }
                     }
                 }
             }
@@ -148,7 +161,7 @@ public class BattleManager : MonoBehaviour
                 if (unit.faction == Faction.Friendly && Board.instance.enemyUnits.Count > 0)
                 {
                     Debug.Log($"{unit.name} looking for attack target");
-                    List<Unit> enemyOrderedUnits = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits);
+                    List<Unit> enemyOrderedUnits = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits, true);
                     if (enemyOrderedUnits.Count > 0)
                     {
                         closestHostileUnit = enemyOrderedUnits[0];
@@ -159,7 +172,7 @@ public class BattleManager : MonoBehaviour
                 else if (unit.faction == Faction.Enemy && Board.instance.playerUnits.Count > 0)
                 {
                     Debug.Log($"{unit.name} looking for attack target");
-                    List<Unit> playerOrderedUnits = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.playerUnits);
+                    List<Unit> playerOrderedUnits = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.playerUnits, true);
                     if (playerOrderedUnits.Count > 0)
                     {
                         closestHostileUnit = playerOrderedUnits[0];

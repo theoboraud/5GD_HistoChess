@@ -271,6 +271,6 @@ public class Unit : MonoBehaviour, ISelectableEntity
             }
         }
 
-        return hasTrait
+        return hasTrait;
     }
 }
