@@ -319,9 +319,13 @@ public class BattleManager : MonoBehaviour
             yield return StartCoroutine("AttackPhase");
         }
 
-        if (Board.instance.playerUnits.Count == 0)
+        if (Board.instance.playerUnits.Count == 0 && Board.instance.enemyUnits.Count > 0)
         {
             Player.instance.LoseHealthPoints(1);
+        }
+        else if (Board.instance.enemyUnits.Count == 0 && Board.instance.playerUnits.Count > 0)
+        {
+            Player.instance.WinBattle();
         }
 
         GameManager.instance.PlanificationMode();

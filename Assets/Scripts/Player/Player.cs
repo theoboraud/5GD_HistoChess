@@ -18,10 +18,12 @@ public class Player : MonoBehaviour
     public static Player instance;                              // Player static instance
     [SerializeField] private TMP_Text _healthPointsText;        // Health point Text Mesh Pro component reference
     [SerializeField] private TMP_Text _goldsText;               // Golds Text Mesh Pro component reference
+    [SerializeField] private TMP_Text _victoriesText;           // Victories Text Mesh Pro component reference
 
     // Variables
     private int _healthPoints;
     private int _golds;
+    private int _victories;
 
     // Public get/set
     public int golds { get => _golds; }
@@ -64,6 +66,7 @@ public class Player : MonoBehaviour
     {
         _healthPointsText.text = _healthPoints.ToString();
         _goldsText.text = _golds.ToString();
+        _victoriesText.text = _victories.ToString();
     }
 
     // ----------------------------------------------------------------------------------------
@@ -102,6 +105,17 @@ public class Player : MonoBehaviour
     {
         _healthPoints -= hpToLose;
         _healthPoints = Mathf.Clamp(_healthPoints, 0, 99);
+        UpdateUI();
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Increases the number of victories by one when the player wins a battle
+    /// </summary>
+    public void WinBattle()
+    {
+        _victories++;
         UpdateUI();
     }
 }
