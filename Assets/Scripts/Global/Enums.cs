@@ -8,9 +8,7 @@ namespace Enums
 
     public enum Trait
     {
-        HeavyFoot,
-        Targeting,
-        Charge
+        Unarmed
     }
 
     public enum GameMode

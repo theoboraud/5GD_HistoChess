@@ -84,7 +84,7 @@ public class BattleManager : MonoBehaviour
                         UnitAttack(unit, targetUnit);
                         targetUnit.HurtFeedback(true);
                         // If the target unit can attack back
-                        if (Board.instance.CanAttack(targetUnit, unit))
+                        if (Board.instance.CanAttack(targetUnit, unit) && !targetUnit.HasTrait(Trait.Unarmed))
                         {
                             UnitAttack(targetUnit, unit);
                             unit.HurtFeedback(true);
@@ -156,8 +156,9 @@ public class BattleManager : MonoBehaviour
                     {
                         UnitAttack(unit, targetUnit);
                         targetUnit.HurtFeedback(true);
+
                         // If the target unit can attack back
-                        if (Board.instance.CanAttack(targetUnit, unit))
+                        if (Board.instance.CanAttack(targetUnit, unit) && !targetUnit.HasTrait(Trait.Unarmed))
                         {
                             UnitAttack(targetUnit, unit);
                             unit.HurtFeedback(true);

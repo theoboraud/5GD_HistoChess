@@ -116,6 +116,19 @@ public class Player : MonoBehaviour
     public void WinBattle()
     {
         _victories++;
+
+        // The player gains 10 golds, plus eventual unit bonuses
+        int goldsToAdd = 10;
+
+        /*foreach (Unit unit in Board.instance.GetPlayerUnits)
+        {
+            if (unit.HasTrait(Econome))
+            {
+                goldsToAdd++;
+            }
+        }*/
+        GainGolds(goldsToAdd);
+
         UpdateUI();
     }
 }
