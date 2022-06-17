@@ -51,7 +51,7 @@ MonoBehaviour:
   _y: 0
   _defaultColor: {r: 1, g: 1, b: 1, a: 1}
   _searchingColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-  _searchedColor: {r: 0.54901963, g: 0.54901963, b: 0.54901963, a: 1}
+  _darkColor: {r: 0.5283019, g: 0.5283019, b: 0.5283019, a: 1}
 --- !u!212 &3686565871966305684
 SpriteRenderer:
   m_ObjectHideFlags: 0

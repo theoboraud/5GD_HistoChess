@@ -13,8 +13,8 @@ public class Board : MonoBehaviour
 {
     // Variables
     private const int MAX_COMMAND_POINTS = 14;
-    [SerializeField] private int _xSize = 6;
-    [SerializeField] private int _ySize = 6;
+    [SerializeField] private int _xSize = 8;
+    [SerializeField] private int _ySize = 8;
     private int _playerCommandPoints;
     private int _enemyCommandPoints;
 
@@ -438,7 +438,22 @@ public class Board : MonoBehaviour
     /// <param name="unit"> Unit to select </param>
     public void SelectUnit(Unit unit)
     {
+        if (_selectedUnit != null)
+        {
+            _selectedUnit.Unselect();
+        }
         _selectedUnit = unit;
+
+        if (unit.faction == Faction.Friendly)
+        {
+            DarkPlayerTiles(false);
+            DarkEnemyTiles(true);
+        }
+        else if (unit.faction == Faction.Enemy)
+        {
+            DarkPlayerTiles(true);
+            DarkEnemyTiles(false);
+        }
     }
 
     // ----------------------------------------------------------------------------------------
@@ -455,35 +470,39 @@ public class Board : MonoBehaviour
             // If the corresponding player's command points are sufficient to place down the unit
             if ((_selectedUnit.faction == Faction.Friendly && !_playerUnits.Contains(_selectedUnit) && _playerCommandPoints >= _selectedUnit.commandPoints) || (_selectedUnit.faction == Faction.Enemy && !_enemyUnits.Contains(_selectedUnit) && _enemyCommandPoints >= _selectedUnit.commandPoints) || _playerUnits.Contains(_selectedUnit) || _enemyUnits.Contains(_selectedUnit))
             {
-                // If the unit was in the reserve, remove it
-                if (Reserve.instance.IsInReserve(_selectedUnit))
+                if ((_selectedUnit.faction == Faction.Friendly && GetPlayerTiles().Contains(tile)) || (_selectedUnit.faction == Faction.Enemy && GetEnemyTiles().Contains(tile)))
                 {
-                    Reserve.instance.RemoveUnit(_selectedUnit);
-                }
-                if (EnemyReserve.instance.IsInReserve(_selectedUnit))
-                {
-                    EnemyReserve.instance.RemoveUnit(_selectedUnit);
-                }
-                // If the unit is not yet on the board, add it to the corresponding list
-                if (!GetAllUnits().Contains(_selectedUnit))
-                {
-                    if (_selectedUnit.faction == Faction.Friendly)
+                    // If the unit was in the reserve, remove it
+                    if (Reserve.instance.IsInReserve(_selectedUnit))
                     {
-                        _playerUnits.Add(_selectedUnit);
-                        _selectedUnit.transform.parent = _playerUnitsParent;
+                        Reserve.instance.RemoveUnit(_selectedUnit);
                     }
-                    else if (_selectedUnit.faction == Faction.Enemy)
+                    if (EnemyReserve.instance.IsInReserve(_selectedUnit))
                     {
-                        _enemyUnits.Add(_selectedUnit);
-                        _selectedUnit.transform.parent = _enemyUnitsParent;
+                        EnemyReserve.instance.RemoveUnit(_selectedUnit);
                     }
+                    // If the unit is not yet on the board, add it to the corresponding list
+                    if (!GetAllUnits().Contains(_selectedUnit))
+                    {
+                        if (_selectedUnit.faction == Faction.Friendly)
+                        {
+                            _playerUnits.Add(_selectedUnit);
+                            _selectedUnit.transform.parent = _playerUnitsParent;
+                        }
+                        else if (_selectedUnit.faction == Faction.Enemy)
+                        {
+                            _enemyUnits.Add(_selectedUnit);
+                            _selectedUnit.transform.parent = _enemyUnitsParent;
+                        }
+                    }
+                    MoveUnit(_selectedUnit, tile);
                 }
-                MoveUnit(_selectedUnit, tile);
-
             }
             UpdateCommandPoints();
             _selectedUnit.Unselect();
             _selectedUnit = null;
+            DarkPlayerTiles(false);
+            DarkEnemyTiles(false);
         }
     }
 
@@ -589,6 +608,90 @@ public class Board : MonoBehaviour
             _selectedUnit.Unselect();
             _selectedUnit = null;
             UpdateCommandPoints();
+        }
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Get all tiles on player's side
+    /// </summary>
+    /// <returns> Returns list of player tiles </returns>
+    public List<Tile> GetPlayerTiles()
+    {
+        List<Tile> playerTiles = new List<Tile>();
+
+        for (int i = 0; i < _xSize/2; i++)
+        {
+            for (int j = 0; j < _ySize; j++)
+            {
+                playerTiles.Add(GetTile(i, j));
+            }
+        }
+
+        return playerTiles;
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Get all tiles on enemy's side
+    /// </summary>
+    /// <returns> Returns list of enemy tiles </returns>
+    public List<Tile> GetEnemyTiles()
+    {
+        List<Tile> enemyTiles = new List<Tile>();
+
+        for (int i = _xSize/2; i < _xSize; i++)
+        {
+            for (int j = 0; j < _ySize; j++)
+            {
+                enemyTiles.Add(GetTile(i, j));
+            }
+        }
+
+        return enemyTiles;
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Enables or disables the dark feedback on player tiles
+    /// </summary>
+    /// <param name="enable"> Whether or not the feedback must be enabled </param>
+    public void DarkPlayerTiles(bool enable)
+    {
+        foreach (Tile tile in GetPlayerTiles())
+        {
+            if (enable)
+            {
+                tile.FeedbackDark();
+            }
+            else
+            {
+                tile.FeedbackDefault();
+            }
+        }
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Enables or disables the dark feedback on enemy tiles
+    /// </summary>
+    /// <param name="enable"> Whether or not the feedback must be enabled </param>
+    public void DarkEnemyTiles(bool enable)
+    {
+        foreach (Tile tile in GetEnemyTiles())
+        {
+            if (enable)
+            {
+                tile.FeedbackDark();
+            }
+            else
+            {
+                tile.FeedbackDefault();
+            }
         }
     }
 }

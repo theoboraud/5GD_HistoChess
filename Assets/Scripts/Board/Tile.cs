@@ -18,7 +18,7 @@ public class Tile : MonoBehaviour, ISelectableEntity
     // Color variables
     [SerializeField] private Color _defaultColor;
     [SerializeField] private Color _searchingColor;
-    [SerializeField] private Color _searchedColor;
+    [SerializeField] private Color _darkColor;
 
     // Public get/set
     public int x { get => _x; set => _x = value; }
@@ -111,8 +111,8 @@ public class Tile : MonoBehaviour, ISelectableEntity
     /// <summary>
     ///     Change tile color to the searched color
     /// </summary>
-    public void FeedbackSearched()
+    public void FeedbackDark()
     {
-        gameObject.GetComponent<SpriteRenderer>().color = _searchedColor;
+        gameObject.GetComponent<SpriteRenderer>().color = _darkColor;
     }
 }
