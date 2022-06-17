@@ -8,7 +8,9 @@ namespace Enums
 
     public enum Trait
     {
-        Unarmed
+        Unarmed,
+        Barrage,
+        HitAndRun
     }
 
     public enum GameMode

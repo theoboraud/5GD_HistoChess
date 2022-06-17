@@ -71,7 +71,6 @@ public class BattleManager : MonoBehaviour
                 // For each unit speed point
                 for (int j = 0; j < unit.speed; j++)
                 {
-                    Debug.Log($"{unit.name} looking for attack target");
                     targetUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits, true);
 
                     // TESTING ONLY
@@ -102,7 +101,7 @@ public class BattleManager : MonoBehaviour
                     {
                         targetUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits);
 
-                        if (targetUnit != null)
+                        if (targetUnit != null && !unit.stunned)
                         {
                             Board.instance.MoveUnitTowards(unit, targetUnit.tile);
 
@@ -110,6 +109,9 @@ public class BattleManager : MonoBehaviour
                             //Board.instance.ResetTilesFeedbacks();
                         }
                     }
+
+                    // Reset stunned variable
+                    unit.stunned = false;
                 }
             }
 
@@ -144,7 +146,6 @@ public class BattleManager : MonoBehaviour
                 // For each unit speed point
                 for (int j = 0; j < unit.speed; j++)
                 {
-                    Debug.Log($"{unit.name} looking for attack target");
                     targetUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.playerUnits, true);
 
                     // TESTING ONLY
@@ -176,7 +177,7 @@ public class BattleManager : MonoBehaviour
                     {
                         targetUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.playerUnits);
 
-                        if (targetUnit != null)
+                        if (targetUnit != null && !unit.stunned)
                         {
                             Board.instance.MoveUnitTowards(unit, targetUnit.tile);
 
@@ -184,6 +185,9 @@ public class BattleManager : MonoBehaviour
                             //Board.instance.ResetTilesFeedbacks();
                         }
                     }
+
+                    // Reset stunned variable
+                    unit.stunned = false;
                 }
             }
 
@@ -207,6 +211,12 @@ public class BattleManager : MonoBehaviour
             int damage = attackingUnit.GetDamage(targetUnit);
             targetUnit.TakeDamage(damage);
             Debug.Log($"BattlePhase.UnitAttack: {attackingUnit} deals {damage} damage to {targetUnit}");
+
+            // If the attackingUnit has the Barrage trait, targetUnit becomes stunned
+            if (attackingUnit.HasTrait(Trait.Barrage))
+            {
+                targetUnit.stunned = true;
+            }
 
             // If the target unit has 0 hp, it will die at the end of the round
             if (targetUnit.CheckDeath())

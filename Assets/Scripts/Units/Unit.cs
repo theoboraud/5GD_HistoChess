@@ -20,6 +20,9 @@ public class Unit : MonoBehaviour, ISelectableEntity
     [SerializeField] private int _commandPoints = 1;            // Cost to place the unit on the board
     [SerializeField] private Faction _faction;                  // Faction to which this unit belongs to
 
+    // Variables
+    private bool _stunned;
+
     [Header("Unit traits")]
     [SerializeField] private List<Trait> _traits = new List<Trait>();   // All unit traits
 
@@ -48,6 +51,7 @@ public class Unit : MonoBehaviour, ISelectableEntity
     public int commandPoints { get => _commandPoints; }
     public Faction faction { get => _faction; }
     public Tile tile { get => _tile; }
+    public bool stunned { get => _stunned; set => _stunned = value; }
 
     // ----------------------------------------------------------------------------------------
 
@@ -99,6 +103,8 @@ public class Unit : MonoBehaviour, ISelectableEntity
             {
                 _traits.Add(trait);
             }
+
+            _stunned = false;
         }
 
         UpdateStats();
