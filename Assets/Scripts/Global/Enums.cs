@@ -12,4 +12,11 @@ namespace Enums
         Targeting,
         Charge
     }
+
+    public enum GameMode
+    {
+        Menu,
+        Planification,
+        Battle
+    }
 }

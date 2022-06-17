@@ -303,6 +303,11 @@ public class BattleManager : MonoBehaviour
     /// </summary>
     private IEnumerator AutoPhase()
     {
+        // Unselect currently selected unit
+        Board.instance.ResetSelectedUnit();
+
+        GameManager.instance.BattleMode();
+
         while (Board.instance.playerUnits.Count > 0 && Board.instance.enemyUnits.Count > 0)
         {
             _btnText.text = "Move Phase";
@@ -318,6 +323,8 @@ public class BattleManager : MonoBehaviour
         {
             Player.instance.LoseHealthPoints(1);
         }
+
+        GameManager.instance.PlanificationMode();
     }
 
     // ----------------------------------------------------------------------------------------

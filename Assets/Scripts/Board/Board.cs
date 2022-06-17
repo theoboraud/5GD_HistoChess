@@ -438,21 +438,21 @@ public class Board : MonoBehaviour
     /// <param name="unit"> Unit to select </param>
     public void SelectUnit(Unit unit)
     {
-        if (_selectedUnit != null)
+        if (GameManager.instance.GetPlanificationMode())
         {
-            _selectedUnit.Unselect();
-        }
-        _selectedUnit = unit;
+            ResetSelectedUnit();
+            _selectedUnit = unit;
 
-        if (unit.faction == Faction.Friendly)
-        {
-            DarkPlayerTiles(false);
-            DarkEnemyTiles(true);
-        }
-        else if (unit.faction == Faction.Enemy)
-        {
-            DarkPlayerTiles(true);
-            DarkEnemyTiles(false);
+            if (unit.faction == Faction.Friendly)
+            {
+                DarkPlayerTiles(false);
+                DarkEnemyTiles(true);
+            }
+            else if (unit.faction == Faction.Enemy)
+            {
+                DarkPlayerTiles(true);
+                DarkEnemyTiles(false);
+            }
         }
     }
 
@@ -465,7 +465,7 @@ public class Board : MonoBehaviour
     /// <param name="tile"> Tile to move the selected unit to </param>
     public void SelectTile(Tile tile)
     {
-        if (_selectedUnit != null)
+        if (_selectedUnit != null && GameManager.instance.GetPlanificationMode())
         {
             // If the corresponding player's command points are sufficient to place down the unit
             if ((_selectedUnit.faction == Faction.Friendly && !_playerUnits.Contains(_selectedUnit) && _playerCommandPoints >= _selectedUnit.commandPoints) || (_selectedUnit.faction == Faction.Enemy && !_enemyUnits.Contains(_selectedUnit) && _enemyCommandPoints >= _selectedUnit.commandPoints) || _playerUnits.Contains(_selectedUnit) || _enemyUnits.Contains(_selectedUnit))
@@ -499,8 +499,7 @@ public class Board : MonoBehaviour
                 }
             }
             UpdateCommandPoints();
-            _selectedUnit.Unselect();
-            _selectedUnit = null;
+            ResetSelectedUnit();
             DarkPlayerTiles(false);
             DarkEnemyTiles(false);
         }
@@ -605,8 +604,7 @@ public class Board : MonoBehaviour
                 _enemyUnits.Remove(_selectedUnit);
             }
 
-            _selectedUnit.Unselect();
-            _selectedUnit = null;
+            ResetSelectedUnit();
             UpdateCommandPoints();
         }
     }
@@ -692,6 +690,20 @@ public class Board : MonoBehaviour
             {
                 tile.FeedbackDefault();
             }
+        }
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Unselect selected unit, if any
+    /// </summary>
+    public void ResetSelectedUnit()
+    {
+        if (_selectedUnit != null)
+        {
+            _selectedUnit.Unselect();
+            _selectedUnit = null;
         }
     }
 }

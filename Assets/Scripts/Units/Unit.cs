@@ -216,7 +216,11 @@ public class Unit : MonoBehaviour, ISelectableEntity
     public void Select()
     {
         Board.instance.SelectUnit(this);
-        SelectFeedback(true);
+        // Only if in planification mode
+        if (GameManager.instance.GetPlanificationMode())
+        {
+            SelectFeedback(true);
+        }
     }
 
     // ----------------------------------------------------------------------------------------
