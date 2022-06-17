@@ -313,6 +313,11 @@ public class BattleManager : MonoBehaviour
             _btnText.transform.parent.GetComponent<Image>().color = Color.red;
             yield return StartCoroutine("AttackPhase");
         }
+
+        if (Board.instance.playerUnits.Count == 0)
+        {
+            Player.instance.LoseHealthPoints(1);
+        }
     }
 
     // ----------------------------------------------------------------------------------------

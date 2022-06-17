@@ -91,4 +91,17 @@ public class Player : MonoBehaviour
         _golds = Mathf.Clamp(_golds, 0, 99);
         UpdateUI();
     }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Decrease the amount of health points by a given amount
+    /// </summary>
+    /// <param name="hpToLose"> Amount of health points to lose </param>
+    public void LoseHealthPoints(int hpToLose)
+    {
+        _healthPoints -= hpToLose;
+        _healthPoints = Mathf.Clamp(_healthPoints, 0, 99);
+        UpdateUI();
+    }
 }
