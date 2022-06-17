@@ -44,7 +44,8 @@ public class Shop : MonoBehaviour
     private void Init()
     {
         // TODO: Add all variable to init and their init value
-        RollShop();
+        UpdateShop();
+
     }
 
     // ----------------------------------------------------------------------------------------
@@ -93,9 +94,24 @@ public class Shop : MonoBehaviour
     // ----------------------------------------------------------------------------------------
 
     /// <summary>
-    ///     Randomly changes the shop items available
+    ///     Roll the shop if the player can pay for it
     /// </summary>
     public void RollShop()
+    {
+        if (Player.instance.golds >= 1)
+        {
+            Player.instance.PayGolds(1);
+
+            UpdateShop();
+        }
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Randomly changes the shop items available
+    /// </summary>
+    public void UpdateShop()
     {
         // Delete current shop items, if any
         for (int i = _shopItems.Count - 1; i >= 0; i--)
