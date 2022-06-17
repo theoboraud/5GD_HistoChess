@@ -222,15 +222,14 @@ public class Board : MonoBehaviour
     // ----------------------------------------------------------------------------------------
 
     /// <summary>
-    ///     Return units ordered by closest distance from a given tile and highest initiative
+    ///     Return first unit from units ordered by closest distance from a given tile and highest initiative
     /// </summary>
     /// <param name="tile"> Tile from which the distance is calculated </param>
     /// <param name="units"> Units to sort by distance and initiative </param>
     /// <param name="flyDistance"> Whether or not blocked tiles are considered </param>
     /// <returns> Units ordered by distance and initiative </returns>
-    public List<Unit> OrderUnitsByDistanceAndInitiative(Tile tile, List<Unit> units, bool flyDistance = false)
+    public Unit FirstUnitByDistanceAndInitiative(Tile tile, List<Unit> units, bool flyDistance = false)
     {
-        List<Unit> orderedUnits = new List<Unit>();
         Dictionary<Unit, int> dictionaryUnits = new Dictionary<Unit, int>();
 
         foreach (Unit unit in units)
@@ -244,18 +243,27 @@ public class Board : MonoBehaviour
                 dictionaryUnits.Add(unit, pathCost + priorityCost);
             }
         }
+        //Debug.Log($"Found {dictionaryUnits.Count} units");
         // If there are units in the given unit list
         if (dictionaryUnits.Count > 0)
         {
+            int cost = 9999;
+            Unit firstUnit = null;
             foreach (KeyValuePair<Unit, int> keyPair in dictionaryUnits)
             {
-                orderedUnits.Add(keyPair.Key);
+                if (keyPair.Value < cost)
+                {
+                    cost = keyPair.Value;
+                    firstUnit = keyPair.Key;
+                }
+                //Debug.Log($"{tile.unit}: {keyPair.Key} has priority cost {keyPair.Value}");
             }
-            orderedUnits.OrderBy(unit => dictionaryUnits[unit]).ToList();
+
+            return firstUnit;
         }
         //Debug.Log($"{orderedUnits} has length {orderedUnits.Count}");
 
-        return orderedUnits;
+        return null;
     }
 
     // ----------------------------------------------------------------------------------------
@@ -289,7 +297,7 @@ public class Board : MonoBehaviour
 
             openList.Remove(currentTile);
             closedList.Add(currentTile);
-            currentTile.FeedbackSearched();
+            //currentTile.FeedbackSearched();
 
             foreach (Tile neighbourTile in GetNeighbourTiles(currentTile))
             {
@@ -362,7 +370,7 @@ public class Board : MonoBehaviour
         List<Tile> path = new List<Tile>();
         while (tile.cameFromTile != null)
         {
-            tile.FeedbackSearching();
+            //tile.FeedbackSearching();
             tile = tile.cameFromTile;
             path.Add(tile);
         }

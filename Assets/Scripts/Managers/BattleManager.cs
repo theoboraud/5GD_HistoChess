@@ -70,64 +70,64 @@ public class BattleManager : MonoBehaviour
                     if (unit.faction == Faction.Friendly && Board.instance.enemyUnits.Count > 0)
                     {
                         //Debug.Log($"{unit.name} looking for move target");
-                        List<Unit> enemyOrderedUnits = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits, true);
+                        Unit enemyOrderedUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits, true);
 
                         // TESTING ONLY
-                        yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
-                        Board.instance.ResetTilesFeedbacks();
+                        //yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
+                        //Board.instance.ResetTilesFeedbacks();
 
-                        if (enemyOrderedUnits.Count > 0)
+                        if (enemyOrderedUnit != null)
                         {
-                            targetUnit = enemyOrderedUnits[0];
-                            //Debug.Log($"{unit.name} has found {targetUnit.name}");
+                            targetUnit = enemyOrderedUnit;
                         }
+
                         // If unit can't attack the closest enemy unit by flight, it will move towards the closest by foot
                         if (!Board.instance.CanAttack(unit, targetUnit))
                         {
-                            enemyOrderedUnits = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits);
+                            enemyOrderedUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits);
 
                             // TESTING ONLY
-                            yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
-                            Board.instance.ResetTilesFeedbacks();
+                            //yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
+                            //Board.instance.ResetTilesFeedbacks();
 
-                            if (enemyOrderedUnits.Count > 0)
+                            if (enemyOrderedUnit != null)
                             {
-                                Board.instance.MoveUnitTowards(unit, enemyOrderedUnits[0].tile);
-                                //Debug.Log($"{unit.name} has found {targetUnit.name}");
+                                Board.instance.MoveUnitTowards(unit, enemyOrderedUnit.tile);
+
+                                // TESTING ONLY
+                                Board.instance.ResetTilesFeedbacks();
                             }
                         }
                     }
                     else if (unit.faction == Faction.Enemy && Board.instance.playerUnits.Count > 0)
                     {
                         //Debug.Log($"{unit.name} looking for move target");
-                        List<Unit> playerOrderedUnits = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.playerUnits, true);
+                        Unit playerOrderedUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.playerUnits, true);
 
                         // TESTING ONLY
-                        yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
-                        Board.instance.ResetTilesFeedbacks();
+                        //yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
+                        //Board.instance.ResetTilesFeedbacks();
 
-                        if (playerOrderedUnits.Count > 0)
+                        if (playerOrderedUnit != null)
                         {
-                            targetUnit = playerOrderedUnits[0];
-                            //Debug.Log($"{unit.name} has found {targetUnit.name}");
+                            targetUnit = playerOrderedUnit;
                         }
+
                         // If unit can't attack the closest enemy unit by flight, it will move towards the closest by foot
                         if (!Board.instance.CanAttack(unit, targetUnit))
                         {
-                            playerOrderedUnits = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.playerUnits);
+                            playerOrderedUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.playerUnits);
 
                             // TESTING ONLY
-                            yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
-                            Board.instance.ResetTilesFeedbacks();
+                            //yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
+                            //Board.instance.ResetTilesFeedbacks();
 
-                            if (playerOrderedUnits.Count > 0)
+                            if (playerOrderedUnit != null)
                             {
-                                Board.instance.MoveUnitTowards(unit, playerOrderedUnits[0].tile);
+                                Board.instance.MoveUnitTowards(unit, playerOrderedUnit.tile);
 
                                 // TESTING ONLY
                                 Board.instance.ResetTilesFeedbacks();
-
-                                //Debug.Log($"{unit.name} has found {targetUnit.name}");
                             }
                         }
                     }
@@ -183,31 +183,32 @@ public class BattleManager : MonoBehaviour
                 if (unit.faction == Faction.Friendly && Board.instance.enemyUnits.Count > 0)
                 {
                     Debug.Log($"{unit.name} looking for attack target");
-                    List<Unit> enemyOrderedUnits = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits, true);
+                    Unit enemyOrderedUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits, true);
 
                     // TESTING ONLY
-                    yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
-                    Board.instance.ResetTilesFeedbacks();
+                    //yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
+                    //Board.instance.ResetTilesFeedbacks();
 
-                    if (enemyOrderedUnits.Count > 0)
+                    if (enemyOrderedUnit != null)
                     {
-                        closestHostileUnit = enemyOrderedUnits[0];
+                        closestHostileUnit = enemyOrderedUnit;
                         Debug.Log($"{unit.name} has found {closestHostileUnit.name}");
                     }
+
                 }
 
                 else if (unit.faction == Faction.Enemy && Board.instance.playerUnits.Count > 0)
                 {
                     Debug.Log($"{unit.name} looking for attack target");
-                    List<Unit> playerOrderedUnits = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.playerUnits, true);
+                    Unit playerOrderedUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.playerUnits, true);
 
                     // TESTING ONLY
-                    yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
-                    Board.instance.ResetTilesFeedbacks();
+                    //yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
+                    //Board.instance.ResetTilesFeedbacks();
 
-                    if (playerOrderedUnits.Count > 0)
+                    if (playerOrderedUnit != null)
                     {
-                        closestHostileUnit = playerOrderedUnits[0];
+                        closestHostileUnit = playerOrderedUnit;
                         Debug.Log($"{unit.name} has found {closestHostileUnit.name}");
                     }
                 }
