@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Enums;
 
 /// <summary>
 ///     An Unit Reference contains all data related to a specific unit in the game
@@ -20,6 +21,9 @@ public class UnitReference : ScriptableObject
     public int range = 1;                       // How far the unit attack can reach
     public int commandPoints = 1;               // Cost to place the unit on the board
     public int initiative = 1;                  // Low initiatives will move last but be attacked first
+
+    [Header("Unit traits")]
+    public List<Trait> traits = new List<Trait>();  // Unit traits
 
     [Header("Unit sprites")]
     public Sprite friendlySprite;               // Unit friendly sprite reference

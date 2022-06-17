@@ -15,6 +15,11 @@ public class Tile : MonoBehaviour, ISelectableEntity
     [System.NonSerialized] public Tile cameFromTile = null;
     [System.NonSerialized] public int tileCost = 9999;
 
+    // Color variables
+    [SerializeField] private Color _defaultColor;
+    [SerializeField] private Color _searchingColor;
+    [SerializeField] private Color _searchedColor;
+
     // Public get/set
     public int x { get => _x; set => _x = value; }
     public int y { get => _y; set => _y = value; }
@@ -79,5 +84,35 @@ public class Tile : MonoBehaviour, ISelectableEntity
     public void Unselect()
     {
         // TODO: Unselect behaviour
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Change tile color to the default color
+    /// </summary>
+    public void FeedbackDefault()
+    {
+        gameObject.GetComponent<SpriteRenderer>().color = _defaultColor;
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Change tile color to the searching color
+    /// </summary>
+    public void FeedbackSearching()
+    {
+        gameObject.GetComponent<SpriteRenderer>().color = _searchingColor;
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Change tile color to the searched color
+    /// </summary>
+    public void FeedbackSearched()
+    {
+        gameObject.GetComponent<SpriteRenderer>().color = _searchedColor;
     }
 }

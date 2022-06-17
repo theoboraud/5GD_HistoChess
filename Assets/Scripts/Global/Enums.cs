@@ -5,4 +5,11 @@ namespace Enums
         Friendly,
         Enemy
     }
+
+    public enum Trait
+    {
+        HeavyFoot,
+        Targeting,
+        Charge
+    }
 }
