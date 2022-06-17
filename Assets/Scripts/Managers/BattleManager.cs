@@ -49,184 +49,141 @@ public class BattleManager : MonoBehaviour
     // ----------------------------------------------------------------------------------------
 
     /// <summary>
-    ///     All units move during the Move Phase if possible
+    ///     Player units attack or move if they can't attack
     /// </summary>
-    private IEnumerator MovePhase()
+    private IEnumerator PlayerPhase()
     {
-        List<Unit> orderedUnits = Board.instance.OrderUnitsByInitiative(Board.instance.GetAllUnits());
-        for (int i = 0; i < orderedUnits.Count; i++)
+        List<Unit> orderedPlayerUnits = Board.instance.OrderUnitsByInitiative(Board.instance.playerUnits);
+
+        for (int i = 0; i < orderedPlayerUnits.Count; i++)
         {
-            Unit unit = orderedUnits[i];
-            unit.SelectFeedback(true);
-            yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
-
-            // For each movement point (unit's speed), the unit will move one tile towards an enemy
-            for (int j = 0; j < unit.speed; j++)
-            {
-                Unit targetUnit = null;
-
-                if (unit.tile != null)
-                {
-                    if (unit.faction == Faction.Friendly && Board.instance.enemyUnits.Count > 0)
-                    {
-                        //Debug.Log($"{unit.name} looking for move target");
-                        Unit enemyOrderedUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits, true);
-
-                        // TESTING ONLY
-                        //yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
-                        //Board.instance.ResetTilesFeedbacks();
-
-                        if (enemyOrderedUnit != null)
-                        {
-                            targetUnit = enemyOrderedUnit;
-                        }
-
-                        // If unit can't attack the closest enemy unit by flight, it will move towards the closest by foot
-                        if (!Board.instance.CanAttack(unit, targetUnit))
-                        {
-                            enemyOrderedUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits);
-
-                            // TESTING ONLY
-                            //yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
-                            //Board.instance.ResetTilesFeedbacks();
-
-                            if (enemyOrderedUnit != null)
-                            {
-                                Board.instance.MoveUnitTowards(unit, enemyOrderedUnit.tile);
-
-                                // TESTING ONLY
-                                Board.instance.ResetTilesFeedbacks();
-                            }
-                        }
-                    }
-                    else if (unit.faction == Faction.Enemy && Board.instance.playerUnits.Count > 0)
-                    {
-                        //Debug.Log($"{unit.name} looking for move target");
-                        Unit playerOrderedUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.playerUnits, true);
-
-                        // TESTING ONLY
-                        //yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
-                        //Board.instance.ResetTilesFeedbacks();
-
-                        if (playerOrderedUnit != null)
-                        {
-                            targetUnit = playerOrderedUnit;
-                        }
-
-                        // If unit can't attack the closest enemy unit by flight, it will move towards the closest by foot
-                        if (!Board.instance.CanAttack(unit, targetUnit))
-                        {
-                            playerOrderedUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.playerUnits);
-
-                            // TESTING ONLY
-                            //yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
-                            //Board.instance.ResetTilesFeedbacks();
-
-                            if (playerOrderedUnit != null)
-                            {
-                                Board.instance.MoveUnitTowards(unit, playerOrderedUnit.tile);
-
-                                // TESTING ONLY
-                                Board.instance.ResetTilesFeedbacks();
-                            }
-                        }
-                    }
-                }
-            }
-
-            yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
-            unit.SelectFeedback(false);
-        }
-    }
-
-    // ----------------------------------------------------------------------------------------
-
-    /// <summary>
-    ///     Wait for a given key
-    /// </summary>
-    /// <param name="key"> Key to wait for </param>
-    private IEnumerator WaitForKeyPress(KeyCode key)
-    {
-        bool done = false;
-        while(!done) // essentially a "while true", but with a bool to break out naturally
-        {
-            if(Input.GetKeyDown(key))
-            {
-                done = true; // breaks the loop
-            }
-            yield return null; // wait until next frame, then continue execution from here (loop continues)
-        }
-
-        // now this function returns
-    }
-
-    // ----------------------------------------------------------------------------------------
-
-    /// <summary>
-    ///     All units attack during the Attack Phase if possible
-    /// </summary>
-    private IEnumerator AttackPhase()
-    {
-        List<Unit> allUnits = Board.instance.GetAllUnits();
-
-        for (int i = 0; i < allUnits.Count; i++)
-        {
-            Unit unit = allUnits[i];
-            Unit closestHostileUnit = null;
+            Unit unit = orderedPlayerUnits[i];
             Unit targetUnit = null;
 
             unit.SelectFeedback(true);
             yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
 
-            if (unit.tile != null)
+            if (Board.instance.enemyUnits.Count > 0)
             {
-                if (unit.faction == Faction.Friendly && Board.instance.enemyUnits.Count > 0)
+                // Defines if the unit has already attacked this turn
+                bool hasAttacked = false;
+
+                // For each unit speed point
+                for (int j = 0; j < unit.speed; j++)
                 {
                     Debug.Log($"{unit.name} looking for attack target");
-                    Unit enemyOrderedUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits, true);
+                    targetUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits, true);
 
                     // TESTING ONLY
                     //yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
                     //Board.instance.ResetTilesFeedbacks();
 
-                    if (enemyOrderedUnit != null)
+                    // If the unit can attack the target unit, a fight occurs
+                    if (Board.instance.CanAttack(unit, targetUnit) && !hasAttacked)
                     {
-                        closestHostileUnit = enemyOrderedUnit;
-                        Debug.Log($"{unit.name} has found {closestHostileUnit.name}");
+                        UnitAttack(unit, targetUnit);
+                        targetUnit.HurtFeedback(true);
+                        // If the target unit can attack back
+                        if (Board.instance.CanAttack(targetUnit, unit))
+                        {
+                            UnitAttack(targetUnit, unit);
+                            unit.HurtFeedback(true);
+                        }
+                        yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
+                        // Reset hurt feedbacks
+                        targetUnit.HurtFeedback(false);
+                        unit.HurtFeedback(false);
+
+                        // Unit can't attack twice if it has remaining speed points
+                        hasAttacked = true;
                     }
-
-                }
-
-                else if (unit.faction == Faction.Enemy && Board.instance.playerUnits.Count > 0)
-                {
-                    Debug.Log($"{unit.name} looking for attack target");
-                    Unit playerOrderedUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.playerUnits, true);
-
-                    // TESTING ONLY
-                    //yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
-                    //Board.instance.ResetTilesFeedbacks();
-
-                    if (playerOrderedUnit != null)
+                    // Else, move the unit towars closest enemy unit
+                    else
                     {
-                        closestHostileUnit = playerOrderedUnit;
-                        Debug.Log($"{unit.name} has found {closestHostileUnit.name}");
-                    }
-                }
+                        targetUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits);
 
-                // If closest enemy if too far, no attack target for this turn
-                if (Board.instance.CanAttack(unit, closestHostileUnit))
-                {
-                    Debug.Log($"{unit} can attack {closestHostileUnit}");
-                    targetUnit = closestHostileUnit;
+                        if (targetUnit != null)
+                        {
+                            Board.instance.MoveUnitTowards(unit, targetUnit.tile);
+
+                            // TESTING ONLY
+                            //Board.instance.ResetTilesFeedbacks();
+                        }
+                    }
                 }
             }
 
-            if (targetUnit != null)
+            unit.SelectFeedback(false);
+        }
+
+        KillDeathList();
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Enemy units attack or move if they can't attack
+    /// </summary>
+    private IEnumerator EnemyPhase()
+    {
+        List<Unit> orderedEnemyUnits = Board.instance.OrderUnitsByInitiative(Board.instance.enemyUnits);
+
+        for (int i = 0; i < orderedEnemyUnits.Count; i++)
+        {
+            Unit unit = orderedEnemyUnits[i];
+            Unit targetUnit = null;
+
+            unit.SelectFeedback(true);
+            yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
+
+            if (Board.instance.playerUnits.Count > 0)
             {
-                UnitAttack(unit, targetUnit);
-                targetUnit.HurtFeedback(true);
-                yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
-                targetUnit.HurtFeedback(false);
+                // Defines if the unit has already attacked this turn
+                bool hasAttacked = false;
+
+                // For each unit speed point
+                for (int j = 0; j < unit.speed; j++)
+                {
+                    Debug.Log($"{unit.name} looking for attack target");
+                    targetUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.playerUnits, true);
+
+                    // TESTING ONLY
+                    //yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
+                    //Board.instance.ResetTilesFeedbacks();
+
+                    // If the unit can attack the target unit, a fight occurs
+                    if (Board.instance.CanAttack(unit, targetUnit) && !hasAttacked)
+                    {
+                        UnitAttack(unit, targetUnit);
+                        targetUnit.HurtFeedback(true);
+                        // If the target unit can attack back
+                        if (Board.instance.CanAttack(targetUnit, unit))
+                        {
+                            UnitAttack(targetUnit, unit);
+                            unit.HurtFeedback(true);
+                        }
+                        yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
+                        // Reset hurt feedbacks
+                        targetUnit.HurtFeedback(false);
+                        unit.HurtFeedback(false);
+
+                        // Unit can't attack twice if it has remaining speed points
+                        hasAttacked = true;
+                    }
+                    // Else, move the unit towars closest enemy unit
+                    else
+                    {
+                        targetUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.playerUnits);
+
+                        if (targetUnit != null)
+                        {
+                            Board.instance.MoveUnitTowards(unit, targetUnit.tile);
+
+                            // TESTING ONLY
+                            //Board.instance.ResetTilesFeedbacks();
+                        }
+                    }
+                }
             }
 
             unit.SelectFeedback(false);
@@ -278,21 +235,21 @@ public class BattleManager : MonoBehaviour
     /// <summary>
     ///     Calls the next phase in Battle Phase : Move => Attack => Move => Attack => Move...
     /// </summary>
-    public void NextPhase()
+    public IEnumerator NextPhase()
     {
         _movePhase = !_movePhase;
 
         if (_movePhase)
         {
-            StartCoroutine("MovePhase");
-            _btnText.text = "Attack Phase";
+            _btnText.text = "Player Phase";
             _btnText.transform.parent.GetComponent<Image>().color = Color.red;
+            yield return StartCoroutine("PlayerPhase");
         }
         else
         {
-            StartCoroutine("AttackPhase");
-            _btnText.text = "Move Phase";
+            _btnText.text = "Enemy Phase";
             _btnText.transform.parent.GetComponent<Image>().color = Color.green;
+            yield return StartCoroutine("EnemyPhase");
         }
     }
 
@@ -304,19 +261,13 @@ public class BattleManager : MonoBehaviour
     private IEnumerator AutoPhase()
     {
         // Unselect currently selected unit
-        Board.instance.ResetSelectedUnit();
+        Board.instance.ResetSelection();
 
         GameManager.instance.BattleMode();
 
         while (Board.instance.playerUnits.Count > 0 && Board.instance.enemyUnits.Count > 0)
         {
-            _btnText.text = "Move Phase";
-            _btnText.transform.parent.GetComponent<Image>().color = Color.green;
-            yield return StartCoroutine("MovePhase");
-
-            _btnText.text = "Attack Phase";
-            _btnText.transform.parent.GetComponent<Image>().color = Color.red;
-            yield return StartCoroutine("AttackPhase");
+            yield return StartCoroutine("NextPhase");
         }
 
         if (Board.instance.playerUnits.Count == 0 && Board.instance.enemyUnits.Count > 0)

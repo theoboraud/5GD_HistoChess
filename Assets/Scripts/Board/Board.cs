@@ -440,7 +440,7 @@ public class Board : MonoBehaviour
     {
         if (GameManager.instance.GetPlanificationMode())
         {
-            ResetSelectedUnit();
+            ResetSelection();
             _selectedUnit = unit;
 
             if (unit.faction == Faction.Friendly)
@@ -499,7 +499,7 @@ public class Board : MonoBehaviour
                 }
             }
             UpdateCommandPoints();
-            ResetSelectedUnit();
+            ResetSelection();
             DarkPlayerTiles(false);
             DarkEnemyTiles(false);
         }
@@ -604,9 +604,10 @@ public class Board : MonoBehaviour
                 _enemyUnits.Remove(_selectedUnit);
             }
 
-            ResetSelectedUnit();
             UpdateCommandPoints();
         }
+        
+        ResetSelection();
     }
 
     // ----------------------------------------------------------------------------------------
@@ -698,12 +699,14 @@ public class Board : MonoBehaviour
     /// <summary>
     ///     Unselect selected unit, if any
     /// </summary>
-    public void ResetSelectedUnit()
+    public void ResetSelection()
     {
         if (_selectedUnit != null)
         {
             _selectedUnit.Unselect();
             _selectedUnit = null;
         }
+        DarkPlayerTiles(false);
+        DarkEnemyTiles(false);
     }
 }

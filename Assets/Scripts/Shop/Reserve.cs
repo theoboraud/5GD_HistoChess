@@ -107,7 +107,10 @@ public class Reserve : MonoBehaviour
             _reserveUnits.Remove(unit);
             Destroy(unit.gameObject);
         }
+        
         ReorderReserveUnits();
+
+        Board.instance.ResetSelection();
     }
 
     // ----------------------------------------------------------------------------------------
