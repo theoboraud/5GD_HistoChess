@@ -71,6 +71,11 @@ public class BattleManager : MonoBehaviour
                     {
                         //Debug.Log($"{unit.name} looking for move target");
                         List<Unit> enemyOrderedUnits = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits, true);
+
+                        // TESTING ONLY
+                        yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
+                        Board.instance.ResetTilesFeedbacks();
+
                         if (enemyOrderedUnits.Count > 0)
                         {
                             targetUnit = enemyOrderedUnits[0];
@@ -80,6 +85,10 @@ public class BattleManager : MonoBehaviour
                         if (!Board.instance.CanAttack(unit, targetUnit))
                         {
                             enemyOrderedUnits = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits);
+
+                            // TESTING ONLY
+                            yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
+                            Board.instance.ResetTilesFeedbacks();
 
                             if (enemyOrderedUnits.Count > 0)
                             {
@@ -92,6 +101,11 @@ public class BattleManager : MonoBehaviour
                     {
                         //Debug.Log($"{unit.name} looking for move target");
                         List<Unit> playerOrderedUnits = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.playerUnits, true);
+
+                        // TESTING ONLY
+                        yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
+                        Board.instance.ResetTilesFeedbacks();
+
                         if (playerOrderedUnits.Count > 0)
                         {
                             targetUnit = playerOrderedUnits[0];
@@ -102,9 +116,17 @@ public class BattleManager : MonoBehaviour
                         {
                             playerOrderedUnits = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.playerUnits);
 
+                            // TESTING ONLY
+                            yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
+                            Board.instance.ResetTilesFeedbacks();
+
                             if (playerOrderedUnits.Count > 0)
                             {
                                 Board.instance.MoveUnitTowards(unit, playerOrderedUnits[0].tile);
+
+                                // TESTING ONLY
+                                Board.instance.ResetTilesFeedbacks();
+
                                 //Debug.Log($"{unit.name} has found {targetUnit.name}");
                             }
                         }
@@ -162,6 +184,11 @@ public class BattleManager : MonoBehaviour
                 {
                     Debug.Log($"{unit.name} looking for attack target");
                     List<Unit> enemyOrderedUnits = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits, true);
+
+                    // TESTING ONLY
+                    yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
+                    Board.instance.ResetTilesFeedbacks();
+
                     if (enemyOrderedUnits.Count > 0)
                     {
                         closestHostileUnit = enemyOrderedUnits[0];
@@ -173,6 +200,11 @@ public class BattleManager : MonoBehaviour
                 {
                     Debug.Log($"{unit.name} looking for attack target");
                     List<Unit> playerOrderedUnits = Board.instance.OrderUnitsByDistanceAndInitiative(unit.tile, Board.instance.playerUnits, true);
+
+                    // TESTING ONLY
+                    yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
+                    Board.instance.ResetTilesFeedbacks();
+
                     if (playerOrderedUnits.Count > 0)
                     {
                         closestHostileUnit = playerOrderedUnits[0];

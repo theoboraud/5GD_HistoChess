@@ -289,6 +289,7 @@ public class Board : MonoBehaviour
 
             openList.Remove(currentTile);
             closedList.Add(currentTile);
+            currentTile.FeedbackSearched();
 
             foreach (Tile neighbourTile in GetNeighbourTiles(currentTile))
             {
@@ -361,6 +362,7 @@ public class Board : MonoBehaviour
         List<Tile> path = new List<Tile>();
         while (tile.cameFromTile != null)
         {
+            tile.FeedbackSearching();
             tile = tile.cameFromTile;
             path.Add(tile);
         }
@@ -379,16 +381,27 @@ public class Board : MonoBehaviour
     // ----------------------------------------------------------------------------------------
 
     /// <summary>
-    ///     Return the path given the cameFromTile in each tile
+    ///     Reset pathfinding data in each tile
     /// </summary>
-    /// <param name="tile"> Tiles to return the path from </param>
-    /// <returns> Return optimal path </returns>
     public void ResetTiles()
     {
         foreach (Tile tile in _tiles.Values)
         {
             tile.cameFromTile = null;
             tile.tileCost = 9999;
+        }
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Reset tiles feedbacks
+    /// </summary>
+    public void ResetTilesFeedbacks()
+    {
+        foreach (Tile tile in _tiles.Values)
+        {
+            tile.FeedbackDefault();
         }
     }
 
