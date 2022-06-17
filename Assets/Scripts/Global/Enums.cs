@@ -8,6 +8,9 @@ namespace Enums
 
     public enum Trait
     {
+        Percing,
+        Undermine,
+        Loot,
         HeavyFoot,
         Targeting,
         Charge

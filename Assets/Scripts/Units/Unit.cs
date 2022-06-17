@@ -169,7 +169,7 @@ public class Unit : MonoBehaviour, ISelectableEntity
     ///     Called when this unit receives damage
     /// </summary>
     /// <param name="damage"> How much damage this unit is dealt </param>
-    public void TakeDamage(int damage)
+    public void Takedamage(int damage)
     {
         // Minimum 0hp
         _hp = Mathf.Clamp(_hp - damage, 0, _hp);
