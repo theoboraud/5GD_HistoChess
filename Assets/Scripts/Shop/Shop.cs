@@ -8,8 +8,12 @@ using Enums;
 /// </summary>
 public class Shop : MonoBehaviour
 {
-    // Variables
+    // Constants
     private const int NB_SHOP_ITEMS = 5;
+    private const int ROLL_COST = 1;
+    private const int BUY_COST = 3;
+
+    // Variables
     [SerializeField] private Faction _faction;
 
     // References
@@ -74,9 +78,14 @@ public class Shop : MonoBehaviour
     /// <param name="shopItem"> shopItem to buy </param>
     public void BuyShopItem(ShopItem shopItem)
     {
-        Reserve.instance.SpawnUnit(shopItem.unitReference);
+        if (Player.instance.golds >= BUY_COST)
+        {
+            Player.instance.PayGolds(BUY_COST);
 
-        DeleteShopItem(shopItem);
+            Reserve.instance.SpawnUnit(shopItem.unitReference);
+
+            DeleteShopItem(shopItem);
+        }
     }
 
     // ----------------------------------------------------------------------------------------
@@ -98,9 +107,9 @@ public class Shop : MonoBehaviour
     /// </summary>
     public void RollShop()
     {
-        if (Player.instance.golds >= 1)
+        if (Player.instance.golds >= ROLL_COST)
         {
-            Player.instance.PayGolds(1);
+            Player.instance.PayGolds(ROLL_COST);
 
             UpdateShop();
         }
