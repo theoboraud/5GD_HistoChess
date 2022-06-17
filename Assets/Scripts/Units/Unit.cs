@@ -39,6 +39,12 @@ public class Unit : MonoBehaviour, ISelectableEntity
     [SerializeField] private Color _colorEnemy;                 // Enemy color reference
     private Tile _tile;                                         // Tile on which the unit is located, if any
 
+
+    [Header("MetaData")]
+    [SerializeField] private bool _attackLastTurn;
+    [SerializeField] private bool _moveLastTurn;
+    [SerializeField] private bool _trapped;
+
     // Public get/set
     public int power { get => _power; }
     public int hp { get => _hp; }
@@ -48,6 +54,10 @@ public class Unit : MonoBehaviour, ISelectableEntity
     public int commandPoints { get => _commandPoints; }
     public Faction faction { get => _faction; }
     public Tile tile { get => _tile; }
+
+    public bool attackLastTurn { get => _attackLastTurn; set => _attackLastTurn = value; }
+    public bool moveLastTurn { get => _moveLastTurn; set => _moveLastTurn = value; }
+    public bool trapped { get => _trapped; set => _trapped = value; }
 
     // ----------------------------------------------------------------------------------------
 
@@ -169,7 +179,7 @@ public class Unit : MonoBehaviour, ISelectableEntity
     ///     Called when this unit receives damage
     /// </summary>
     /// <param name="damage"> How much damage this unit is dealt </param>
-    public void Takedamage(int damage)
+    public void TakeDamage(int damage)
     {
         // Minimum 0hp
         _hp = Mathf.Clamp(_hp - damage, 0, _hp);
