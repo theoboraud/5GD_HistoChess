@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Enums;
 
 /// <summary>
 ///     Manages player variables and player gameplay
@@ -120,13 +121,18 @@ public class Player : MonoBehaviour
         // The player gains 10 golds, plus eventual unit bonuses
         int goldsToAdd = 10;
 
-        /*foreach (Unit unit in Board.instance.GetPlayerUnits)
+        foreach (Unit unit in Board.instance.playerUnits)
         {
-            if (unit.HasTrait(Econome))
+            if (unit.HasTrait(Trait.Eco))
             {
-                goldsToAdd++;
+                goldsToAdd += 1;
             }
-        }*/
+
+            if (unit.HasTrait(Trait.EcoPlus))
+            {
+                goldsToAdd += 2;
+            }
+        }
         GainGolds(goldsToAdd);
 
         UpdateUI();

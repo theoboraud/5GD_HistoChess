@@ -10,7 +10,9 @@ namespace Enums
     {
         Unarmed,
         Barrage,
-        HitAndRun
+        HitAndRun,
+        Eco,
+        EcoPlus
     }
 
     public enum GameMode
