@@ -33,6 +33,7 @@ public class Board : MonoBehaviour
     // Public get/set
     public List<Unit> playerUnits { get => _playerUnits; set => _playerUnits = value; }
     public List<Unit> enemyUnits { get => _enemyUnits; set => _enemyUnits = value; }
+    public Unit selectedUnit { get => _selectedUnit; set => _selectedUnit = value; }
 
     // ----------------------------------------------------------------------------------------
 
@@ -606,7 +607,7 @@ public class Board : MonoBehaviour
 
             UpdateCommandPoints();
         }
-        
+
         ResetSelection();
     }
 

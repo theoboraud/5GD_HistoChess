@@ -97,20 +97,27 @@ public class Reserve : MonoBehaviour
     // ----------------------------------------------------------------------------------------
 
     /// <summary>
-    ///     Remove all units in the reserve
+    ///     Sell the selected unit in the reserve
     /// </summary>
-    public void RemoveAllUnits()
+    public void SellSelectedUnit()
     {
-        for (int i = _reserveUnits.Count - 1; i >= 0; i--)
+        // If there is a PLayer selected unit
+        if (Board.instance.selectedUnit != null)
         {
-            Unit unit = _reserveUnits[i];
-            _reserveUnits.Remove(unit);
-            Destroy(unit.gameObject);
-        }
-        
-        ReorderReserveUnits();
+            if (Board.instance.selectedUnit.faction == Faction.Friendly)
+            {
+                // Unselect the selected unit
+                Unit unit = Board.instance.selectedUnit;
+                Board.instance.ResetSelection();
+                // The player gain golds when selling the unit
+                Player.instance.SoldUnit(unit);
 
-        Board.instance.ResetSelection();
+                _reserveUnits.Remove(unit);
+                Destroy(unit.gameObject);
+
+                ReorderReserveUnits();
+            }
+        }
     }
 
     // ----------------------------------------------------------------------------------------

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641275, b: 0.5748172, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657874, g: 0.49641258, b: 0.5748172, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2717,7 +2717,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2915248970931057862}
         m_TargetAssemblyTypeName: EnemyReserve, Assembly-CSharp
-        m_MethodName: RemoveAllUnits
+        m_MethodName: SellSelectedUnit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4335,7 +4335,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 868409258}
         m_TargetAssemblyTypeName: Reserve, Assembly-CSharp
-        m_MethodName: RemoveAllUnits
+        m_MethodName: SellSelectedUnit
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5082,6 +5082,30 @@ PrefabInstance:
     - target: {fileID: 2804492613183173078, guid: b5d1464dd4052402d8036ab7d1f10c43, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2804492613257491462, guid: b5d1464dd4052402d8036ab7d1f10c43, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2804492613257491462, guid: b5d1464dd4052402d8036ab7d1f10c43, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2804492613257491462, guid: b5d1464dd4052402d8036ab7d1f10c43, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.625
+      objectReference: {fileID: 0}
+    - target: {fileID: 2804492613257491462, guid: b5d1464dd4052402d8036ab7d1f10c43, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -930
+      objectReference: {fileID: 0}
+    - target: {fileID: 2804492613257491462, guid: b5d1464dd4052402d8036ab7d1f10c43, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 510
+      objectReference: {fileID: 0}
+    - target: {fileID: 2804492613257491462, guid: b5d1464dd4052402d8036ab7d1f10c43, type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2804492613257491463, guid: b5d1464dd4052402d8036ab7d1f10c43, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target

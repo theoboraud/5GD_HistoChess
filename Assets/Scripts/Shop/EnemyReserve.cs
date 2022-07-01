@@ -98,17 +98,25 @@ public class EnemyReserve : MonoBehaviour
     // ----------------------------------------------------------------------------------------
 
     /// <summary>
-    ///     Remove all units in the reserve
+    ///     Sell the selected unit in the reserve
     /// </summary>
-    public void RemoveAllUnits()
+    public void SellSelectedUnit()
     {
-        for (int i = _reserveUnits.Count - 1; i >= 0; i--)
+        // If there is a PLayer selected unit
+        if (Board.instance.selectedUnit != null)
         {
-            Unit unit = _reserveUnits[i];
-            _reserveUnits.Remove(unit);
-            Destroy(unit.gameObject);
+            if (Board.instance.selectedUnit.faction == Faction.Enemy)
+            {
+                // Unselect the selected unit
+                Unit unit = Board.instance.selectedUnit;
+                Board.instance.ResetSelection();
+
+                _reserveUnits.Remove(unit);
+                Destroy(unit.gameObject);
+
+                ReorderReserveUnits();
+            }
         }
-        ReorderReserveUnits();
     }
 
     // ----------------------------------------------------------------------------------------

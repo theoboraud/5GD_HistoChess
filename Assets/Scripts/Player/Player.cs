@@ -99,6 +99,17 @@ public class Player : MonoBehaviour
     // ----------------------------------------------------------------------------------------
 
     /// <summary>
+    ///     Called when an unit is sold
+    /// </summary>
+    /// <param name="unit"> Unit sold </param>
+    public void SoldUnit(Unit unit)
+    {
+        GainGolds(1);
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
     ///     Decrease the amount of health points by a given amount
     /// </summary>
     /// <param name="hpToLose"> Amount of health points to lose </param>
