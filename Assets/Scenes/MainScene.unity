@@ -4622,6 +4622,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1390883236}
     - target: {fileID: 4483338590699586280, guid: 71c20eb7682d34b84881ae38670ae059, type: 3}
+      propertyPath: _unitPrefab
+      value: 
+      objectReference: {fileID: 2945082662981233029, guid: e02d4d018be4b4b0f84718a21e302294, type: 3}
+    - target: {fileID: 4483338590699586280, guid: 71c20eb7682d34b84881ae38670ae059, type: 3}
       propertyPath: _victoriesText
       value: 
       objectReference: {fileID: 1252038318}

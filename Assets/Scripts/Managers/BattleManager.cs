@@ -273,6 +273,7 @@ public class BattleManager : MonoBehaviour
     {
         // Unselect currently selected unit
         Board.instance.ResetSelection();
+        Board.instance.SavePlayerUnits();
 
         GameManager.instance.BattleMode();
 
@@ -284,10 +285,18 @@ public class BattleManager : MonoBehaviour
         if (Board.instance.playerUnits.Count == 0 && Board.instance.enemyUnits.Count > 0)
         {
             Player.instance.LoseHealthPoints(1);
+            Board.instance.RemoveEnemyUnits();
+            Board.instance.ResetPlayerUnits();
         }
         else if (Board.instance.enemyUnits.Count == 0 && Board.instance.playerUnits.Count > 0)
         {
             Player.instance.WinBattle();
+            Board.instance.ResetPlayerUnits();
+        }
+        else if (Board.instance.enemyUnits.Count == 0 && Board.instance.playerUnits.Count == 0)
+        {
+            // TODO: Draw results?
+            Board.instance.ResetPlayerUnits();
         }
 
         GameManager.instance.PlanificationMode();

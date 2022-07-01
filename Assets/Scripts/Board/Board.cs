@@ -710,4 +710,59 @@ public class Board : MonoBehaviour
         DarkPlayerTiles(false);
         DarkEnemyTiles(false);
     }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Save player units in memory to load them back at the end of the battle phase
+    /// </summary>
+    public void SavePlayerUnits()
+    {
+        Player.instance.SavePlayerUnits(_playerUnits);
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Reset the player units by loading them from memory
+    /// </summary>
+    public void ResetPlayerUnits()
+    {
+        RemovePlayerUnits();
+        _playerUnits = Player.instance.LoadPlayerUnits();
+        foreach (Unit unit in _playerUnits)
+        {
+            unit.gameObject.SetActive(true);
+        }
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Remove all player units from the board
+    /// </summary>
+    public void RemovePlayerUnits()
+    {
+        for (int i = _playerUnits.Count - 1; i >= 0; i--)
+        {
+            Unit unit = _playerUnits[i];
+            _playerUnits.Remove(unit);
+            Destroy(unit.gameObject);
+        }
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Remove all enemy units from the board
+    /// </summary>
+    public void RemoveEnemyUnits()
+    {
+        for (int i = _enemyUnits.Count - 1; i >= 0; i--)
+        {
+            Unit unit = _enemyUnits[i];
+            _enemyUnits.Remove(unit);
+            Destroy(unit.gameObject);
+        }
+    }
 }

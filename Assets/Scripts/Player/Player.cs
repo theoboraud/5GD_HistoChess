@@ -20,6 +20,8 @@ public class Player : MonoBehaviour
     [SerializeField] private TMP_Text _healthPointsText;        // Health point Text Mesh Pro component reference
     [SerializeField] private TMP_Text _goldsText;               // Golds Text Mesh Pro component reference
     [SerializeField] private TMP_Text _victoriesText;           // Victories Text Mesh Pro component reference
+    private List<Unit> _savedPlayerUnits = new List<Unit>();    // Player units saved in memory to respawn them at the end of the round
+    [SerializeField] private GameObject _unitPrefab;            // Unit prefab
 
     // Variables
     private int _healthPoints;
@@ -147,5 +149,65 @@ public class Player : MonoBehaviour
         GainGolds(goldsToAdd);
 
         UpdateUI();
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Save player units to load them at the end of battle
+    /// </summary>
+    /// <param name="units"> List of units to save in memory </param>
+    public void SavePlayerUnits(List<Unit> units)
+    {
+        foreach (Unit unit in units)
+        {
+            SpawnPlayerUnit(unit);
+        }
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Spawn a clone unit from a given unit
+    /// </summary>
+    /// <param name="unit"> Unit to clone for spawning </param>
+    public void SpawnPlayerUnit(Unit unit)
+    {
+        GameObject spawnedUnitGO = Instantiate(_unitPrefab);
+        spawnedUnitGO.name = unit.gameObject.name;
+        spawnedUnitGO.transform.parent = unit.transform.parent;
+        spawnedUnitGO.transform.localScale = unit.transform.localScale;
+        spawnedUnitGO.transform.position = unit.transform.position;
+        Unit spawnedUnit = spawnedUnitGO.GetComponent<Unit>();
+        _savedPlayerUnits.Add(spawnedUnit);
+        LoadPlayerUnit(spawnedUnit, unit);
+        spawnedUnitGO.SetActive(false);
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Load data from a given unit to a new one
+    /// </summary>
+    /// <param name="loadingUnit"> Unit to load the data to </param>
+    /// <param name="loadedUnit"> Unit from which the data is loaded </param>
+    public void LoadPlayerUnit(Unit loadingUnit, Unit loadedUnit)
+    {
+        loadingUnit.LoadUnitReference(loadedUnit.unitReference, Faction.Friendly);
+        loadingUnit.tile = loadedUnit.tile;
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Return the saved player units stocked in memory to load them, and reset the saved list
+    /// </summary>
+    /// <returns> List of saved player units </returns>
+    public List<Unit> LoadPlayerUnits()
+    {
+        List<Unit> units = _savedPlayerUnits;
+        // Reset the saved list
+        _savedPlayerUnits = new List<Unit>();
+        return units;
     }
 }

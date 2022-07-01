@@ -57,12 +57,12 @@ public class Reserve : MonoBehaviour
         // If there is still some place for new units in the reserve
         if (_reserveUnits.Count < _reserveZones.Count)
         {
-            GameObject _spawnedUnitGO = Instantiate(_unitPrefab);
-            _spawnedUnitGO.name = $"{_faction}Soldier_{_unitsCount}";
+            GameObject spawnedUnitGO = Instantiate(_unitPrefab);
+            spawnedUnitGO.name = $"{_faction}Soldier_{_unitsCount}";
             _unitsCount++;
-            Unit _spawnedUnit = _spawnedUnitGO.GetComponent<Unit>();
-            AddUnit(_spawnedUnit);
-            _spawnedUnit.LoadUnitReference(unitReference, _faction);
+            Unit spawnedUnit = spawnedUnitGO.GetComponent<Unit>();
+            AddUnit(spawnedUnit);
+            spawnedUnit.LoadUnitReference(unitReference, _faction);
         }
     }
 

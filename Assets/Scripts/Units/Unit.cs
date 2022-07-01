@@ -50,8 +50,9 @@ public class Unit : MonoBehaviour, ISelectableEntity
     public int initiative { get => _initiative; }
     public int commandPoints { get => _commandPoints; }
     public Faction faction { get => _faction; }
-    public Tile tile { get => _tile; }
+    public Tile tile { get => _tile; set => _tile = value; }
     public bool stunned { get => _stunned; set => _stunned = value; }
+    public UnitReference unitReference { get => _unitReference; }
 
     // ----------------------------------------------------------------------------------------
 
