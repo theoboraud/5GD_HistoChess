@@ -101,7 +101,7 @@ public class Reserve : MonoBehaviour
     /// </summary>
     public void SellSelectedUnit()
     {
-        // If there is a PLayer selected unit
+        // If there is a Player selected unit
         if (Board.instance.selectedUnit != null)
         {
             if (Board.instance.selectedUnit.faction == Faction.Friendly)
@@ -112,12 +112,21 @@ public class Reserve : MonoBehaviour
                 // The player gain golds when selling the unit
                 Player.instance.SoldUnit(unit);
 
-                _reserveUnits.Remove(unit);
+                if (_reserveUnits.Contains(unit))
+                {
+                    _reserveUnits.Remove(unit);
+                }
+                if (Board.instance.playerUnits.Contains(unit))
+                {
+                    Board.instance.playerUnits.Remove(unit);
+                }
                 Destroy(unit.gameObject);
 
                 ReorderReserveUnits();
+
             }
         }
+        Board.instance.UpdateCommandPoints();
     }
 
     // ----------------------------------------------------------------------------------------

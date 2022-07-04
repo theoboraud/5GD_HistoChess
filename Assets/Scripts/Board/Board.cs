@@ -58,8 +58,8 @@ public class Board : MonoBehaviour
     /// </summary>
     public void Init()
     {
-        _playerCommandPoints = MAX_COMMAND_POINTS;
-        _enemyCommandPoints = MAX_COMMAND_POINTS;
+        _playerCommandPoints = 0;
+        _enemyCommandPoints = 0;
         int x = 0;
         int y = 0;
 
@@ -469,7 +469,7 @@ public class Board : MonoBehaviour
         if (_selectedUnit != null && GameManager.instance.GetPlanificationMode())
         {
             // If the corresponding player's command points are sufficient to place down the unit
-            if ((_selectedUnit.faction == Faction.Friendly && !_playerUnits.Contains(_selectedUnit) && _playerCommandPoints >= _selectedUnit.commandPoints) || (_selectedUnit.faction == Faction.Enemy && !_enemyUnits.Contains(_selectedUnit) && _enemyCommandPoints >= _selectedUnit.commandPoints) || _playerUnits.Contains(_selectedUnit) || _enemyUnits.Contains(_selectedUnit))
+            if ((_selectedUnit.faction == Faction.Friendly && !_playerUnits.Contains(_selectedUnit) && _playerCommandPoints + _selectedUnit.commandPoints <= MAX_COMMAND_POINTS) || (_selectedUnit.faction == Faction.Enemy && !_enemyUnits.Contains(_selectedUnit) && _enemyCommandPoints + _selectedUnit.commandPoints <= MAX_COMMAND_POINTS) || _playerUnits.Contains(_selectedUnit) || _enemyUnits.Contains(_selectedUnit))
             {
                 if ((_selectedUnit.faction == Faction.Friendly && GetPlayerTiles().Contains(tile)) || (_selectedUnit.faction == Faction.Enemy && GetEnemyTiles().Contains(tile)))
                 {
@@ -563,18 +563,18 @@ public class Board : MonoBehaviour
     public void UpdateCommandPoints()
     {
         // Update player command points
-        _playerCommandPoints = MAX_COMMAND_POINTS;
+        _playerCommandPoints = 0;
         for (int i = 0; i < _playerUnits.Count; i++)
         {
-            _playerCommandPoints -= _playerUnits[i].commandPoints;
+            _playerCommandPoints += _playerUnits[i].commandPoints;
         }
         _playerCommandPointsValue.text = $"{_playerCommandPoints}/{MAX_COMMAND_POINTS}";
 
         // Update enemy command points
-        _enemyCommandPoints = MAX_COMMAND_POINTS;
+        _enemyCommandPoints = 0;
         for (int i = 0; i < _enemyUnits.Count; i++)
         {
-            _enemyCommandPoints -= _enemyUnits[i].commandPoints;
+            _enemyCommandPoints += _enemyUnits[i].commandPoints;
         }
         _enemyCommandPointsValue.text = $"{_enemyCommandPoints}/{MAX_COMMAND_POINTS}";
     }
@@ -734,6 +734,7 @@ public class Board : MonoBehaviour
         {
             unit.gameObject.SetActive(true);
         }
+        UpdateCommandPoints();
     }
 
     // ----------------------------------------------------------------------------------------
@@ -749,6 +750,7 @@ public class Board : MonoBehaviour
             _playerUnits.Remove(unit);
             Destroy(unit.gameObject);
         }
+        UpdateCommandPoints();
     }
 
     // ----------------------------------------------------------------------------------------
@@ -764,5 +766,6 @@ public class Board : MonoBehaviour
             _enemyUnits.Remove(unit);
             Destroy(unit.gameObject);
         }
+        UpdateCommandPoints();
     }
 }

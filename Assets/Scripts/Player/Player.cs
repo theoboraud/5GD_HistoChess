@@ -178,6 +178,7 @@ public class Player : MonoBehaviour
         spawnedUnitGO.transform.parent = unit.transform.parent;
         spawnedUnitGO.transform.localScale = unit.transform.localScale;
         spawnedUnitGO.transform.position = unit.transform.position;
+
         Unit spawnedUnit = spawnedUnitGO.GetComponent<Unit>();
         _savedPlayerUnits.Add(spawnedUnit);
         LoadPlayerUnit(spawnedUnit, unit);

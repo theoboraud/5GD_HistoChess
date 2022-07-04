@@ -102,7 +102,7 @@ public class EnemyReserve : MonoBehaviour
     /// </summary>
     public void SellSelectedUnit()
     {
-        // If there is a PLayer selected unit
+        // If there is a Player selected unit
         if (Board.instance.selectedUnit != null)
         {
             if (Board.instance.selectedUnit.faction == Faction.Enemy)
@@ -111,12 +111,21 @@ public class EnemyReserve : MonoBehaviour
                 Unit unit = Board.instance.selectedUnit;
                 Board.instance.ResetSelection();
 
-                _reserveUnits.Remove(unit);
+                if (_reserveUnits.Contains(unit))
+                {
+                    _reserveUnits.Remove(unit);
+                }
+                if (Board.instance.enemyUnits.Contains(unit))
+                {
+                    Board.instance.enemyUnits.Remove(unit);
+                }
                 Destroy(unit.gameObject);
 
                 ReorderReserveUnits();
+
             }
         }
+        Board.instance.UpdateCommandPoints();
     }
 
     // ----------------------------------------------------------------------------------------
