@@ -12,7 +12,9 @@ namespace Enums
         Barrage,
         HitAndRun,
         Eco,
-        EcoPlus
+        EcoPlus,
+        Charge,
+        Harass
     }
 
     public enum GameMode

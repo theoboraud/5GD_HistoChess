@@ -99,8 +99,14 @@ public class GameManager : MonoBehaviour
     public void PlanificationMode()
     {
         _gameMode = GameMode.Planification;
-        Shop.instance.UpdateShop();
-        EnemyShop.instance.UpdateShop();
+        if (Shop.instance != null)
+        {
+            Shop.instance.UpdateShop();
+        }
+        if (EnemyShop.instance != null)
+        {
+            EnemyShop.instance.UpdateShop();
+        }
     }
 
     // ----------------------------------------------------------------------------------------
