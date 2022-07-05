@@ -19,6 +19,11 @@ public class Shop : MonoBehaviour
     // References
     public static Shop instance;                                                                            // Static reference
     [SerializeField] private List<UnitReference> _shopItemReferences = new List<UnitReference>();           // Possible shop items
+    [SerializeField] private List<UnitReference> _tierOneUnitReferences = new List<UnitReference>();        // Tier 1 units references
+    [SerializeField] private List<UnitReference> _tierTwoUnitReferences = new List<UnitReference>();        // Tier 2 units references
+    [SerializeField] private List<UnitReference> _tierThreeUnitReferences = new List<UnitReference>();      // Tier 3 units references
+    [SerializeField] private List<UnitReference> _tierFourUnitReferences = new List<UnitReference>();       // Tier 4 units references
+    [SerializeField] private List<UnitReference> _tierFiveUnitReferences = new List<UnitReference>();       // Tier 5 units references
     private List<ShopItem> _shopItems = new List<ShopItem>();                                               // All shop items shown in the shop
     [SerializeField] private List<Transform> _shopZones = new List<Transform>();                            // Shop spawning zone where shop items spawn
     [SerializeField] private GameObject _unitPrefab;                                                        // Unit prefab
@@ -127,10 +132,67 @@ public class Shop : MonoBehaviour
         {
             DeleteShopItem(_shopItems[i]);
         }
+
+        // Create the list that will contain every possible items depending on shop Tier
+        List<UnitReference> availableUnits = GetAvailableUnits();
+
         // Spawn NB_SHOP_ITEMS randomly seleted from the _shopItemReferences list in the shop
         for (int i = 0; i < NB_SHOP_ITEMS; i++)
         {
-            SpawnShopItem(_shopItemReferences[Random.Range(0, _shopItemReferences.Count)]);
+            SpawnShopItem(availableUnits[Random.Range(0, availableUnits.Count)]);
         }
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Create a list of all available units depending on shop Tier
+    /// </summary>
+    /// <returns> List of available Unit References </returns>
+    private List<UnitReference> GetAvailableUnits()
+    {
+        List<UnitReference> availableUnits = new List<UnitReference>();
+
+        if (GameManager.instance.TierUnlocked(1))
+        {
+            foreach (UnitReference unitReference in _tierOneUnitReferences)
+            {
+                availableUnits.Add(unitReference);
+            }
+        }
+
+        if (GameManager.instance.TierUnlocked(2))
+        {
+            foreach (UnitReference unitReference in _tierTwoUnitReferences)
+            {
+                availableUnits.Add(unitReference);
+            }
+        }
+
+        if (GameManager.instance.TierUnlocked(3))
+        {
+            foreach (UnitReference unitReference in _tierThreeUnitReferences)
+            {
+                availableUnits.Add(unitReference);
+            }
+        }
+
+        if (GameManager.instance.TierUnlocked(4))
+        {
+            foreach (UnitReference unitReference in _tierFourUnitReferences)
+            {
+                availableUnits.Add(unitReference);
+            }
+        }
+
+        if (GameManager.instance.TierUnlocked(5))
+        {
+            foreach (UnitReference unitReference in _tierFiveUnitReferences)
+            {
+                availableUnits.Add(unitReference);
+            }
+        }
+
+        return availableUnits;
     }
 }

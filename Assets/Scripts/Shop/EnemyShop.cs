@@ -45,7 +45,7 @@ public class EnemyShop : MonoBehaviour
     private void Init()
     {
         // TODO: Add all variable to init and their init value
-        RollShop();
+        UpdateShop();
     }
 
     // ----------------------------------------------------------------------------------------
@@ -96,7 +96,7 @@ public class EnemyShop : MonoBehaviour
     /// <summary>
     ///     Randomly changes the shop items available
     /// </summary>
-    public void RollShop()
+    public void UpdateShop()
     {
         // Delete current shop items, if any
         for (int i = _shopItems.Count - 1; i >= 0; i--)

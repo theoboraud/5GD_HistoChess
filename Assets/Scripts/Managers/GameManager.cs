@@ -8,11 +8,15 @@ using Enums;
 /// </summary>
 public class GameManager : MonoBehaviour
 {
+    // Constants
+    private const int TIERS_ROUND_INCREMENT = 2;                // Number of rounds needed to increment the shop Tier
+
     // GameManager static instance
     public static GameManager instance;
 
     // Variables
     private GameMode _gameMode;
+    private int _round;                                         // Round number
 
     // Public get/set
     public GameMode gameMode { get => _gameMode; }
@@ -40,6 +44,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     private void Init()
     {
+        _round = 1;
         PlanificationMode();
     }
 
@@ -94,6 +99,8 @@ public class GameManager : MonoBehaviour
     public void PlanificationMode()
     {
         _gameMode = GameMode.Planification;
+        Shop.instance.UpdateShop();
+        EnemyShop.instance.UpdateShop();
     }
 
     // ----------------------------------------------------------------------------------------
@@ -104,5 +111,46 @@ public class GameManager : MonoBehaviour
     public void BattleMode()
     {
         _gameMode = GameMode.Battle;
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Called at the end of the round to start off the new round
+    /// </summary>
+    public void EndOfRound()
+    {
+        // Check what happens to the player depending on whether or not he won the battle
+        if (Board.instance.playerUnits.Count == 0 && Board.instance.enemyUnits.Count > 0)
+        {
+            Player.instance.LoseHealthPoints(1);
+            Board.instance.RemoveEnemyUnits();
+            Board.instance.ResetPlayerUnits();
+        }
+        else if (Board.instance.enemyUnits.Count == 0 && Board.instance.playerUnits.Count > 0)
+        {
+            Player.instance.WinBattle();
+            Board.instance.ResetPlayerUnits();
+        }
+        else if (Board.instance.enemyUnits.Count == 0 && Board.instance.playerUnits.Count == 0)
+        {
+            // TODO: Draw results?
+            Board.instance.ResetPlayerUnits();
+        }
+
+        _round++;
+        PlanificationMode();
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Returns whether or not the given tier is unlocked in the shop, depending on the number of rounds
+    /// </summary>
+    /// <param name="tier"> Tier to check </param>
+    /// <returns> True if the tier is unlocked, false otherwise </returns>
+    public bool TierUnlocked(int tier)
+    {
+        return _round >= (tier - 1) * TIERS_ROUND_INCREMENT + 1;
     }
 }

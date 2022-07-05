@@ -12,13 +12,16 @@ using Enums;
 /// </summary>
 public class BattleManager : MonoBehaviour
 {
+    // References
     public static BattleManager instance;                       // BattleManager static instance
-    private bool _movePhase = false;                            // Move phase boolean. True if units should move, false if units should attack
     private List<Unit> _deathList = new List<Unit>();           // List of units dead this round
     private float _gameSpeed = 0.8f;
-    private float _speedMultiplier = 1f;
 
     [SerializeField] private TMP_Text _btnText;
+
+    // Variables
+    private bool _movePhase = false;                            // Move phase boolean. True if units should move, false if units should attack
+    private float _speedMultiplier = 1f;
 
     // ----------------------------------------------------------------------------------------
 
@@ -282,24 +285,7 @@ public class BattleManager : MonoBehaviour
             yield return StartCoroutine("NextPhase");
         }
 
-        if (Board.instance.playerUnits.Count == 0 && Board.instance.enemyUnits.Count > 0)
-        {
-            Player.instance.LoseHealthPoints(1);
-            Board.instance.RemoveEnemyUnits();
-            Board.instance.ResetPlayerUnits();
-        }
-        else if (Board.instance.enemyUnits.Count == 0 && Board.instance.playerUnits.Count > 0)
-        {
-            Player.instance.WinBattle();
-            Board.instance.ResetPlayerUnits();
-        }
-        else if (Board.instance.enemyUnits.Count == 0 && Board.instance.playerUnits.Count == 0)
-        {
-            // TODO: Draw results?
-            Board.instance.ResetPlayerUnits();
-        }
-
-        GameManager.instance.PlanificationMode();
+        GameManager.instance.EndOfRound();
     }
 
     // ----------------------------------------------------------------------------------------

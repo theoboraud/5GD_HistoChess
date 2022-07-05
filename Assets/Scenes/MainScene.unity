@@ -5805,6 +5805,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6180475923977963476, guid: fdf72637950ee42178790c595c3d2c43, type: 3}
+      propertyPath: _tierOneUnitReferences.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6180475923977963476, guid: fdf72637950ee42178790c595c3d2c43, type: 3}
+      propertyPath: _tierTwoUnitReferences.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6180475923977963476, guid: fdf72637950ee42178790c595c3d2c43, type: 3}
+      propertyPath: _tierOneUnitReferences.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 2caa4a7f9706d40fb8535e5cf37090d9, type: 2}
+    - target: {fileID: 6180475923977963476, guid: fdf72637950ee42178790c595c3d2c43, type: 3}
+      propertyPath: _tierTwoUnitReferences.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 734dc57b4e3894996a58c328b0576dfb, type: 2}
     - target: {fileID: 6180475923977963477, guid: fdf72637950ee42178790c595c3d2c43, type: 3}
       propertyPath: m_Name
       value: PlayerShop
