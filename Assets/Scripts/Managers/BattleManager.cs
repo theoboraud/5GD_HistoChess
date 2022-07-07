@@ -143,60 +143,68 @@ public class BattleManager : MonoBehaviour
 
             if (Board.instance.enemyUnits.Count > 0)
             {
+                int speed = unit.speed;
                 // For each unit speed point
-                for (int j = 0; j < unit.speed; j++)
+                for (int j = 0; j < speed; j++)
                 {
-                    targetUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits, true);
-
-                    // TESTING ONLY
-                    //yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
-                    //Board.instance.ResetTilesFeedbacks();
-
-                    // Move the unit if not target available
-                    if (!Board.instance.CanAttack(unit, targetUnit))
+                    if (unit != null)
                     {
-                        targetUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits);
+                        targetUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits, true);
 
-                        if (targetUnit != null && !unit.stunned)
+                        // TESTING ONLY
+                        //yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
+                        //Board.instance.ResetTilesFeedbacks();
+
+                        // Move the unit if not target available
+                        if (!Board.instance.CanAttack(unit, targetUnit) && !unit.hasAttacked)
                         {
-                            Board.instance.MoveUnitTowards(unit, targetUnit.tile);
-                            unit.hasMoved = true;
+                            targetUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits);
 
-                            // TESTING ONLY
-                            //Board.instance.ResetTilesFeedbacks();
-                        }
-                    }
-                    yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
+                            if (targetUnit != null && !unit.stunned)
+                            {
+                                Board.instance.MoveUnitTowards(unit, targetUnit.tile);
 
-                    targetUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits, true);
-
-                    // If the unit can attack the target unit, a fight occurs
-                    if (Board.instance.CanAttack(unit, targetUnit))
-                    {
-                        UnitAttack(unit, targetUnit);
-                        targetUnit.HurtFeedback(true);
-                        // If the target unit can attack back
-                        if (Board.instance.CanAttack(targetUnit, unit) && !targetUnit.HasTrait(Trait.Unarmed))
-                        {
-                            UnitAttack(targetUnit, unit);
-                            unit.HurtFeedback(true);
+                                // TESTING ONLY
+                                //Board.instance.ResetTilesFeedbacks();
+                            }
                         }
                         yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
-                        // Reset hurt feedbacks
-                        targetUnit.HurtFeedback(false);
-                        unit.HurtFeedback(false);
-                    }
 
+                        targetUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits, true);
+
+                        // If the unit can attack the target unit, a fight occurs
+                        if (Board.instance.CanAttack(unit, targetUnit) && !unit.hasAttacked)
+                        {
+                            UnitAttack(unit, targetUnit);
+                            targetUnit.HurtFeedback(true);
+                            // If the target unit can attack back
+                            if (Board.instance.CanAttack(targetUnit, unit) && !targetUnit.HasTrait(Trait.Unarmed))
+                            {
+                                UnitAttack(targetUnit, unit);
+                                unit.HurtFeedback(true);
+                            }
+                            yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
+                            // Reset hurt feedbacks
+                            targetUnit.HurtFeedback(false);
+                            unit.HurtFeedback(false);
+
+                            unit.hasAttacked = true;
+
+                            KillDeathList();
+                        }
+                    }
+                }
+
+                if (unit != null)
+                {
                     // Reset stunned variable
                     unit.stunned = false;
-                    unit.hasMoved = false;
+                    unit.movePointsUsed = 0;
+                    unit.hasAttacked = false;
+                    unit.SelectFeedback(false);
                 }
             }
-
-            unit.SelectFeedback(false);
         }
-
-        KillDeathList();
     }
 
     // ----------------------------------------------------------------------------------------
@@ -235,7 +243,7 @@ public class BattleManager : MonoBehaviour
                         if (targetUnit != null && !unit.stunned)
                         {
                             Board.instance.MoveUnitTowards(unit, targetUnit.tile);
-                            unit.hasMoved = true;
+                            unit.movePointsUsed++;
 
                             // TESTING ONLY
                             //Board.instance.ResetTilesFeedbacks();
@@ -264,7 +272,7 @@ public class BattleManager : MonoBehaviour
 
                     // Reset stunned variable
                     unit.stunned = false;
-                    unit.hasMoved = false;
+                    unit.movePointsUsed = 0;
                 }
             }
 

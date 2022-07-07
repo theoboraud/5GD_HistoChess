@@ -22,7 +22,8 @@ public class Unit : MonoBehaviour, ISelectableEntity
 
     // Variables
     private bool _stunned;
-    private bool _hasMoved;
+    private int _movePointsUsed;
+    private bool _hasAttacked;
 
     [Header("Unit traits")]
     [SerializeField] private List<Trait> _traits = new List<Trait>();   // All unit traits
@@ -54,7 +55,8 @@ public class Unit : MonoBehaviour, ISelectableEntity
     public Tile tile { get => _tile; set => _tile = value; }
     public bool stunned { get => _stunned; set => _stunned = value; }
     public UnitReference unitReference { get => _unitReference; }
-    public bool hasMoved { get => _hasMoved; set => _hasMoved = value; }
+    public int movePointsUsed { get => _movePointsUsed; set => _movePointsUsed = value; }
+    public bool hasAttacked { get => _hasAttacked; set => _hasAttacked = value; }
 
     // ----------------------------------------------------------------------------------------
 
@@ -108,7 +110,7 @@ public class Unit : MonoBehaviour, ISelectableEntity
             }
 
             _stunned = false;
-            _hasMoved = false;
+            _movePointsUsed = 0;
         }
 
         UpdateStats();
@@ -146,8 +148,12 @@ public class Unit : MonoBehaviour, ISelectableEntity
     /// <param name="tile"> Tile to which this unit will move </param>
     public void Move(Tile tile)
     {
-        transform.position = tile.transform.position;
-        _tile = tile;
+        if (_tile != tile)
+        {
+            transform.position = tile.transform.position;
+            _tile = tile;
+            _movePointsUsed++;
+        }
     }
 
     // ----------------------------------------------------------------------------------------
@@ -171,7 +177,7 @@ public class Unit : MonoBehaviour, ISelectableEntity
     {
         int damage = _power;
         // If the unit has charge and has moved this turn, it gains more power for this attack
-        if (HasTrait(Trait.Charge) && _hasMoved)
+        if (HasTrait(Trait.Charge) && _movePointsUsed > 0)
         {
             damage += 1;
         }

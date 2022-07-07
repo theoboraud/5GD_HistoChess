@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   power: 2
   hp: 2
-  speed: 1
+  speed: 2
   range: 1
   commandPoints: 4
   initiative: 3
-  traits: 05000000
+  traits: 0500000006000000
   friendlySprite: {fileID: -1427316640, guid: 525d80636a3544b7cbb92c288c2e3aaf, type: 3}
   enemySprite: {fileID: -1427316640, guid: 525d80636a3544b7cbb92c288c2e3aaf, type: 3}

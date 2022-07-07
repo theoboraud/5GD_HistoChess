@@ -159,7 +159,7 @@ public class Board : MonoBehaviour
     // ----------------------------------------------------------------------------------------
 
     /// <summary>
-    ///     Move a given Unit to a given Tile
+    ///     Move a given unit towards a given target unit
     /// </summary>
     /// <param name="unit"> Unit to move </param>
     /// <param name="targetTile"> Tile to which the unit will move </param>

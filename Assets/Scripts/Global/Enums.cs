@@ -14,7 +14,8 @@ namespace Enums
         Eco,
         EcoPlus,
         Charge,
-        Harass
+        Harass,
+        Sabotage
     }
 
     public enum GameMode
