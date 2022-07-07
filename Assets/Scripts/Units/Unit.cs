@@ -22,6 +22,7 @@ public class Unit : MonoBehaviour, ISelectableEntity
 
     // Variables
     private bool _stunned;
+    private bool _hasMoved;
 
     [Header("Unit traits")]
     [SerializeField] private List<Trait> _traits = new List<Trait>();   // All unit traits
@@ -53,6 +54,7 @@ public class Unit : MonoBehaviour, ISelectableEntity
     public Tile tile { get => _tile; set => _tile = value; }
     public bool stunned { get => _stunned; set => _stunned = value; }
     public UnitReference unitReference { get => _unitReference; }
+    public bool hasMoved { get => _hasMoved; set => _hasMoved = value; }
 
     // ----------------------------------------------------------------------------------------
 
@@ -106,6 +108,7 @@ public class Unit : MonoBehaviour, ISelectableEntity
             }
 
             _stunned = false;
+            _hasMoved = false;
         }
 
         UpdateStats();
@@ -166,8 +169,14 @@ public class Unit : MonoBehaviour, ISelectableEntity
     /// <returns> Damage dealt to targetUnit </param>
     public int GetDamage(Unit targetUnit)
     {
-        // TODO: Change power depending on unit modificators, targetUnit type, etc...
-        return _power;
+        int damage = _power;
+        // If the unit has charge and has moved this turn, it gains more power for this attack
+        if (HasTrait(Trait.Charge) && _hasMoved)
+        {
+            damage += 1;
+        }
+
+        return damage;
     }
 
     // ----------------------------------------------------------------------------------------

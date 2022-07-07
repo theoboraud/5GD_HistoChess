@@ -54,7 +54,7 @@ public class BattleManager : MonoBehaviour
     /// <summary>
     ///     Player units attack or move if they can't attack
     /// </summary>
-    private IEnumerator PlayerPhase()
+    private IEnumerator OldPlayerPhase()
     {
         List<Unit> orderedPlayerUnits = Board.instance.OrderUnitsByInitiative(Board.instance.playerUnits);
 
@@ -127,6 +127,81 @@ public class BattleManager : MonoBehaviour
     // ----------------------------------------------------------------------------------------
 
     /// <summary>
+    ///     Player units attack or move if they can't attack
+    /// </summary>
+    private IEnumerator PlayerPhase()
+    {
+        List<Unit> orderedPlayerUnits = Board.instance.OrderUnitsByInitiative(Board.instance.playerUnits);
+
+        for (int i = 0; i < orderedPlayerUnits.Count; i++)
+        {
+            Unit unit = orderedPlayerUnits[i];
+            Unit targetUnit = null;
+
+            unit.SelectFeedback(true);
+            yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
+
+            if (Board.instance.enemyUnits.Count > 0)
+            {
+                // For each unit speed point
+                for (int j = 0; j < unit.speed; j++)
+                {
+                    targetUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits, true);
+
+                    // TESTING ONLY
+                    //yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
+                    //Board.instance.ResetTilesFeedbacks();
+
+                    // Move the unit if not target available
+                    if (!Board.instance.CanAttack(unit, targetUnit))
+                    {
+                        targetUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits);
+
+                        if (targetUnit != null && !unit.stunned)
+                        {
+                            Board.instance.MoveUnitTowards(unit, targetUnit.tile);
+                            unit.hasMoved = true;
+
+                            // TESTING ONLY
+                            //Board.instance.ResetTilesFeedbacks();
+                        }
+                    }
+                    yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
+
+                    targetUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits, true);
+
+                    // If the unit can attack the target unit, a fight occurs
+                    if (Board.instance.CanAttack(unit, targetUnit))
+                    {
+                        UnitAttack(unit, targetUnit);
+                        targetUnit.HurtFeedback(true);
+                        // If the target unit can attack back
+                        if (Board.instance.CanAttack(targetUnit, unit) && !targetUnit.HasTrait(Trait.Unarmed))
+                        {
+                            UnitAttack(targetUnit, unit);
+                            unit.HurtFeedback(true);
+                        }
+                        yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
+                        // Reset hurt feedbacks
+                        targetUnit.HurtFeedback(false);
+                        unit.HurtFeedback(false);
+                    }
+
+                    // Reset stunned variable
+                    unit.stunned = false;
+                    unit.hasMoved = false;
+                }
+            }
+
+            unit.SelectFeedback(false);
+        }
+
+        KillDeathList();
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
     ///     Enemy units attack or move if they can't attack
     /// </summary>
     private IEnumerator EnemyPhase()
@@ -143,9 +218,6 @@ public class BattleManager : MonoBehaviour
 
             if (Board.instance.playerUnits.Count > 0)
             {
-                // Defines if the unit has already attacked this turn
-                bool hasAttacked = false;
-
                 // For each unit speed point
                 for (int j = 0; j < unit.speed; j++)
                 {
@@ -155,12 +227,29 @@ public class BattleManager : MonoBehaviour
                     //yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
                     //Board.instance.ResetTilesFeedbacks();
 
+                    // Move the unit if not target available
+                    if (!Board.instance.CanAttack(unit, targetUnit))
+                    {
+                        targetUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.playerUnits);
+
+                        if (targetUnit != null && !unit.stunned)
+                        {
+                            Board.instance.MoveUnitTowards(unit, targetUnit.tile);
+                            unit.hasMoved = true;
+
+                            // TESTING ONLY
+                            //Board.instance.ResetTilesFeedbacks();
+                        }
+                    }
+                    yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
+
+                    targetUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.playerUnits, true);
+
                     // If the unit can attack the target unit, a fight occurs
-                    if (Board.instance.CanAttack(unit, targetUnit) && !hasAttacked)
+                    if (Board.instance.CanAttack(unit, targetUnit))
                     {
                         UnitAttack(unit, targetUnit);
                         targetUnit.HurtFeedback(true);
-
                         // If the target unit can attack back
                         if (Board.instance.CanAttack(targetUnit, unit) && !targetUnit.HasTrait(Trait.Unarmed))
                         {
@@ -171,26 +260,11 @@ public class BattleManager : MonoBehaviour
                         // Reset hurt feedbacks
                         targetUnit.HurtFeedback(false);
                         unit.HurtFeedback(false);
-
-                        // Unit can't attack twice if it has remaining speed points
-                        hasAttacked = true;
-                    }
-                    // Else, move the unit towars closest enemy unit
-                    else
-                    {
-                        targetUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.playerUnits);
-
-                        if (targetUnit != null && !unit.stunned)
-                        {
-                            Board.instance.MoveUnitTowards(unit, targetUnit.tile);
-
-                            // TESTING ONLY
-                            //Board.instance.ResetTilesFeedbacks();
-                        }
                     }
 
                     // Reset stunned variable
                     unit.stunned = false;
+                    unit.hasMoved = false;
                 }
             }
 
