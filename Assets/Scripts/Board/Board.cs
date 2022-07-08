@@ -217,7 +217,17 @@ public class Board : MonoBehaviour
     /// <returns> Units ordered by distance and initiative </returns>
     public List<Unit> OrderUnitsByInitiative(List<Unit> units)
     {
-        List<Unit> orderedUnits = units.OrderByDescending(unit => unit.initiative).ToList();
+        List<Unit> orderedUnits;
+
+        if (units[0].faction == Faction.Friendly)
+        {
+            orderedUnits = units.OrderByDescending(unit => unit.tile.x * 10 + unit.initiative).ToList();
+        }
+        else
+        {
+            orderedUnits = units.OrderBy(unit => unit.tile.x * 10 + unit.initiative).ToList();
+        }
+
         return orderedUnits;
     }
 
