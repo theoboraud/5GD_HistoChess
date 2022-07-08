@@ -4404,7 +4404,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2868496856913873, guid: a2469138511334c009e6d7c0c236e1d2, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.7
+      value: 0.4
       objectReference: {fileID: 0}
     - target: {fileID: 2868496856913873, guid: a2469138511334c009e6d7c0c236e1d2, type: 3}
       propertyPath: m_LocalPosition.z
@@ -4437,6 +4437,22 @@ PrefabInstance:
     - target: {fileID: 2868496856913873, guid: a2469138511334c009e6d7c0c236e1d2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7320578654404736670, guid: a2469138511334c009e6d7c0c236e1d2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7320578655225473118, guid: a2469138511334c009e6d7c0c236e1d2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 2.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7320578655361380741, guid: a2469138511334c009e6d7c0c236e1d2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7320578655485778577, guid: a2469138511334c009e6d7c0c236e1d2, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2469138511334c009e6d7c0c236e1d2, type: 3}
@@ -4986,6 +5002,18 @@ PrefabInstance:
       propertyPath: _btnText
       value: 
       objectReference: {fileID: 1636545991}
+    - target: {fileID: 1764000332885833288, guid: b042b8948198e4f3eab50f280b52a2b9, type: 3}
+      propertyPath: _unitPrefab
+      value: 
+      objectReference: {fileID: 2945082662981233029, guid: e02d4d018be4b4b0f84718a21e302294, type: 3}
+    - target: {fileID: 1764000332885833288, guid: b042b8948198e4f3eab50f280b52a2b9, type: 3}
+      propertyPath: tierOneArmyCompositions.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1764000332885833288, guid: b042b8948198e4f3eab50f280b52a2b9, type: 3}
+      propertyPath: tierOneArmyCompositions.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 0dd78f2eaf35049748156df947612739, type: 2}
     - target: {fileID: 5070060522826614174, guid: b042b8948198e4f3eab50f280b52a2b9, type: 3}
       propertyPath: m_RootOrder
       value: 5

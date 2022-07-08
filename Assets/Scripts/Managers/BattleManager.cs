@@ -17,7 +17,13 @@ public class BattleManager : MonoBehaviour
     private List<Unit> _deathList = new List<Unit>();           // List of units dead this round
     private float _gameSpeed = 0.8f;
 
+    [SerializeField] private List<ArmyComposition> tierOneArmyCompositions = new List<ArmyComposition>();       // List of army composition in tier 1
+    [SerializeField] private List<ArmyComposition> tierTwoArmyCompositions = new List<ArmyComposition>();       // List of army composition in tier 2
+    [SerializeField] private List<ArmyComposition> tierThreeArmyCompositions = new List<ArmyComposition>();     // List of army composition in tier 3
+    [SerializeField] private List<ArmyComposition> tierFourArmyCompositions = new List<ArmyComposition>();      // List of army composition in tier 4
+
     [SerializeField] private TMP_Text _btnText;
+    [SerializeField] private GameObject _unitPrefab;
 
     // Variables
     private bool _movePhase = false;                            // Move phase boolean. True if units should move, false if units should attack
@@ -47,81 +53,6 @@ public class BattleManager : MonoBehaviour
     private void Init()
     {
         // TODO: Add all variable to init and their init value
-    }
-
-    // ----------------------------------------------------------------------------------------
-
-    /// <summary>
-    ///     Player units attack or move if they can't attack
-    /// </summary>
-    private IEnumerator OldPlayerPhase()
-    {
-        List<Unit> orderedPlayerUnits = Board.instance.OrderUnitsByInitiative(Board.instance.playerUnits);
-
-        for (int i = 0; i < orderedPlayerUnits.Count; i++)
-        {
-            Unit unit = orderedPlayerUnits[i];
-            Unit targetUnit = null;
-
-            unit.SelectFeedback(true);
-            yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
-
-            if (Board.instance.enemyUnits.Count > 0)
-            {
-                // Defines if the unit has already attacked this turn
-                bool hasAttacked = false;
-
-                // For each unit speed point
-                for (int j = 0; j < unit.speed; j++)
-                {
-                    targetUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits, true);
-
-                    // TESTING ONLY
-                    //yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
-                    //Board.instance.ResetTilesFeedbacks();
-
-                    // If the unit can attack the target unit, a fight occurs
-                    if (Board.instance.CanAttack(unit, targetUnit) && !hasAttacked)
-                    {
-                        UnitAttack(unit, targetUnit);
-                        targetUnit.HurtFeedback(true);
-                        // If the target unit can attack back
-                        if (Board.instance.CanAttack(targetUnit, unit) && !targetUnit.HasTrait(Trait.Unarmed))
-                        {
-                            UnitAttack(targetUnit, unit);
-                            unit.HurtFeedback(true);
-                        }
-                        yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
-                        // Reset hurt feedbacks
-                        targetUnit.HurtFeedback(false);
-                        unit.HurtFeedback(false);
-
-                        // Unit can't attack twice if it has remaining speed points
-                        hasAttacked = true;
-                    }
-                    // Else, move the unit towars closest enemy unit
-                    else
-                    {
-                        targetUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits);
-
-                        if (targetUnit != null && !unit.stunned)
-                        {
-                            Board.instance.MoveUnitTowards(unit, targetUnit.tile);
-
-                            // TESTING ONLY
-                            //Board.instance.ResetTilesFeedbacks();
-                        }
-                    }
-
-                    // Reset stunned variable
-                    unit.stunned = false;
-                }
-            }
-
-            unit.SelectFeedback(false);
-        }
-
-        KillDeathList();
     }
 
     // ----------------------------------------------------------------------------------------
@@ -362,6 +293,8 @@ public class BattleManager : MonoBehaviour
 
         GameManager.instance.BattleMode();
 
+        LoadArmyCompositionDependingOnTier();
+
         while (Board.instance.playerUnits.Count > 0 && Board.instance.enemyUnits.Count > 0)
         {
             yield return StartCoroutine("NextPhase");
@@ -388,5 +321,66 @@ public class BattleManager : MonoBehaviour
     public void UpdateGameSpeed(float speedMultiplier)
     {
         _speedMultiplier = speedMultiplier;
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     TODO
+    /// </summary>
+    public void LoadArmyCompositionDependingOnTier()
+    {
+        if (GameManager.instance.TierUnlocked(4))
+        {
+            ArmyComposition armyComposition = tierFourArmyCompositions[Random.Range(0, tierFourArmyCompositions.Count - 1)];
+            LoadArmyComposition(armyComposition);
+        }
+        else if (GameManager.instance.TierUnlocked(3))
+        {
+            ArmyComposition armyComposition = tierThreeArmyCompositions[Random.Range(0, tierThreeArmyCompositions.Count - 1)];
+            LoadArmyComposition(armyComposition);
+        }
+        else if (GameManager.instance.TierUnlocked(2))
+        {
+            ArmyComposition armyComposition = tierTwoArmyCompositions[Random.Range(0, tierTwoArmyCompositions.Count - 1)];
+            LoadArmyComposition(armyComposition);
+        }
+        else
+        {
+            ArmyComposition armyComposition = tierOneArmyCompositions[Random.Range(0, tierOneArmyCompositions.Count - 1)];
+            LoadArmyComposition(armyComposition);
+        }
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     TODO
+    /// </summary>
+    public void LoadArmyComposition(ArmyComposition armyComposition)
+    {
+        foreach(ArmyUnit armyUnit in armyComposition.armyUnits)
+        {
+            SpawnUnit(armyUnit.unitReference, armyUnit.position);
+        }
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Spawns a given unit on the board
+    /// </summary>
+    /// <param name="unitReference"> Unit Reference of the unit to spawn in the reserve </param>
+    public void SpawnUnit(UnitReference unitReference, Vector2 position)
+    {
+        GameObject spawnedUnitGO = Instantiate(_unitPrefab);
+        //spawnedUnitGO.name = $"{_faction}Soldier_{_unitsCount}";
+        spawnedUnitGO.transform.parent = Board.instance.enemyUnitsParent;
+        spawnedUnitGO.transform.localScale = Vector3.one * 1.3f;
+
+        Unit spawnedUnit = spawnedUnitGO.GetComponent<Unit>();
+        spawnedUnit.Move(Board.instance.GetTile((int) position.x, (int) position.y));
+        spawnedUnit.LoadUnitReference(unitReference, Faction.Enemy);
+        Board.instance.enemyUnits.Add(spawnedUnit);
     }
 }

@@ -34,6 +34,7 @@ public class Board : MonoBehaviour
     public List<Unit> playerUnits { get => _playerUnits; set => _playerUnits = value; }
     public List<Unit> enemyUnits { get => _enemyUnits; set => _enemyUnits = value; }
     public Unit selectedUnit { get => _selectedUnit; set => _selectedUnit = value; }
+    public Transform enemyUnitsParent { get => _enemyUnitsParent; set => _enemyUnitsParent = value; }
 
     // ----------------------------------------------------------------------------------------
 
