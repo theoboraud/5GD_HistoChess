@@ -19,6 +19,9 @@ public class Reserve : MonoBehaviour
     [SerializeField] private GameObject _unitPrefab;                                    // Unit prefab
     private int _unitsCount = 0;
 
+    public int reserveZonesCount { get => _reserveZones.Count; }
+    public int unitsCount { get => _unitsCount; }
+
     // ----------------------------------------------------------------------------------------
 
     /// <summary>
