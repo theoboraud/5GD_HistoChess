@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1af539f53b384ce4adc2fa7d6978d5f, type: 3}
+  m_Name: ArmyComposition_4-1
+  m_EditorClassIdentifier: 
+  armyUnits:
+  - unitReference: {fileID: 11400000, guid: 5b8b8084a34f141a3bac5dbed1e382cf, type: 2}
+    position: {x: 6, y: 0}
+  - unitReference: {fileID: 11400000, guid: 5b8b8084a34f141a3bac5dbed1e382cf, type: 2}
+    position: {x: 6, y: 1}
+  - unitReference: {fileID: 11400000, guid: 5b8b8084a34f141a3bac5dbed1e382cf, type: 2}
+    position: {x: 6, y: 2}
+  - unitReference: {fileID: 11400000, guid: 5b8b8084a34f141a3bac5dbed1e382cf, type: 2}
+    position: {x: 6, y: 3}
+  - unitReference: {fileID: 11400000, guid: 5b8b8084a34f141a3bac5dbed1e382cf, type: 2}
+    position: {x: 6, y: 4}
+  - unitReference: {fileID: 11400000, guid: 5b8b8084a34f141a3bac5dbed1e382cf, type: 2}
+    position: {x: 6, y: 5}
+  - unitReference: {fileID: 11400000, guid: 5b8b8084a34f141a3bac5dbed1e382cf, type: 2}
+    position: {x: 7, y: 0}
+  - unitReference: {fileID: 11400000, guid: 5b8b8084a34f141a3bac5dbed1e382cf, type: 2}
+    position: {x: 7, y: 1}
+  - unitReference: {fileID: 11400000, guid: 5b8b8084a34f141a3bac5dbed1e382cf, type: 2}
+    position: {x: 7, y: 2}
+  - unitReference: {fileID: 11400000, guid: 5b8b8084a34f141a3bac5dbed1e382cf, type: 2}
+    position: {x: 7, y: 3}
+  - unitReference: {fileID: 11400000, guid: 5b8b8084a34f141a3bac5dbed1e382cf, type: 2}
+    position: {x: 7, y: 4}
+  - unitReference: {fileID: 11400000, guid: 5b8b8084a34f141a3bac5dbed1e382cf, type: 2}
+    position: {x: 7, y: 5}

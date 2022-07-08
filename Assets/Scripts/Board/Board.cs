@@ -744,6 +744,7 @@ public class Board : MonoBehaviour
         foreach (Unit unit in _playerUnits)
         {
             unit.gameObject.SetActive(true);
+            MoveUnit(unit, unit.tile);
         }
         UpdateCommandPoints();
     }
