@@ -78,6 +78,8 @@ public class Unit : MonoBehaviour, ISelectableEntity
             _hp = _unitReference.hp;
             _initiative = _unitReference.initiative;
             _commandPoints = _unitReference.commandPoints;
+            _speed = 1;
+            _range = 1;
 
             if (_faction == Faction.Friendly)
             {
@@ -114,6 +116,11 @@ public class Unit : MonoBehaviour, ISelectableEntity
             }
 
             if (HasTrait(Trait.Distance))
+            {
+                _range = 2;
+            }
+
+            if (HasTrait(Trait.Run))
             {
                 _range = 2;
             }

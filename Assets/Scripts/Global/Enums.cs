@@ -21,7 +21,8 @@ namespace Enums
         Swarm,
         Reload,
         Spear,
-        Support
+        Support,
+        Run
     }
 
     public enum GameMode
