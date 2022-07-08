@@ -186,7 +186,11 @@ public class Unit : MonoBehaviour, ISelectableEntity
         // If the unit has charge and has moved this turn, it gains more power for this attack
         if (HasTrait(Trait.Charge) && _movePointsUsed > 0)
         {
-            damage += 1;
+            damage++;
+        }
+        if (HasTrait(Trait.Spear) && targetUnit.movePointsUsed > 0)
+        {
+            damage++;
         }
 
         return damage;

@@ -19,7 +19,8 @@ namespace Enums
         Enrage,
         Cheap,
         Swarm,
-        Reload
+        Reload,
+        Spear
     }
 
     public enum GameMode
