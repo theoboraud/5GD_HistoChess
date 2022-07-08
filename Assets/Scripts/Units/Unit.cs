@@ -26,6 +26,7 @@ public class Unit : MonoBehaviour, ISelectableEntity
     private bool _hasAttacked;
     private bool _hasEnraged;
     private bool _hasToReload;
+    private int _formationLevel;
 
     [Header("Unit traits")]
     [SerializeField] private List<Trait> _traits = new List<Trait>();   // All unit traits
@@ -61,6 +62,7 @@ public class Unit : MonoBehaviour, ISelectableEntity
     public bool hasAttacked { get => _hasAttacked; set => _hasAttacked = value; }
     public bool hasEnraged { get => _hasEnraged; set => _hasEnraged = value; }
     public bool hasToReload { get => _hasToReload; set => _hasToReload = value; }
+    public int formationLevel { get => _formationLevel; set => _formationLevel = value; }
 
     // ----------------------------------------------------------------------------------------
 
@@ -118,6 +120,7 @@ public class Unit : MonoBehaviour, ISelectableEntity
             _hasAttacked = false;
             _hasEnraged = false;
             _hasToReload = false;
+            _formationLevel = 1;
         }
 
         UpdateStats();

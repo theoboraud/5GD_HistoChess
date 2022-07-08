@@ -567,7 +567,12 @@ public class Board : MonoBehaviour
         _playerCommandPoints = 0;
         for (int i = 0; i < _playerUnits.Count; i++)
         {
-            _playerCommandPoints += _playerUnits[i].commandPoints;
+            int formationLevel = GetFormationLevel(_playerUnits[i]);
+
+            _playerUnits[i].formationLevel = formationLevel;
+            // TODO: CHANGE COMMAND POINTS DEPENDING ON FORMATION LEVEL FOR UNITS
+
+            _playerCommandPoints += _playerUnits[i].commandPoints - (formationLevel - 1);
         }
         _playerCommandPointsValue.text = $"{_playerCommandPoints}/{MAX_COMMAND_POINTS}";
 
@@ -768,5 +773,30 @@ public class Board : MonoBehaviour
             Destroy(unit.gameObject);
         }
         UpdateCommandPoints();
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Determines the formation level of a given unit from its neighbour similar units
+    /// </summary>
+    /// <param name="unit"> Unit to look neighbour similar units to determine formation level </param>
+    /// <returns> Formation level of the given unit </returns>
+    public int GetFormationLevel(Unit unit)
+    {
+        int formationLevel = 1;
+
+        foreach(Tile tile in GetNeighbourTiles(unit.tile))
+        {
+            if (tile.unit != null)
+            {
+                if (tile.unit.unitReference == unit.unitReference && tile.unit.faction == unit.faction)
+                {
+                    formationLevel = Mathf.Clamp(formationLevel + 1, 1, 3);
+                }
+            }
+        }
+
+        return formationLevel;
     }
 }
