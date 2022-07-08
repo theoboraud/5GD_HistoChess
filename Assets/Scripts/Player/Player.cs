@@ -127,10 +127,8 @@ public class Player : MonoBehaviour
     /// <summary>
     ///     Increases the number of victories by one when the player wins a battle
     /// </summary>
-    public void WinBattle()
+    public void EndOfBattle()
     {
-        _victories++;
-
         // The player gains 10 golds, plus eventual unit bonuses
         int goldsToAdd = 10;
 
@@ -169,6 +167,7 @@ public class Player : MonoBehaviour
 
         Unit spawnedUnit = spawnedUnitGO.GetComponent<Unit>();
         _savedPlayerUnits.Add(spawnedUnit);
+        spawnedUnit.tile = unit.tile;
         LoadPlayerUnit(spawnedUnit, unit);
         spawnedUnitGO.SetActive(false);
     }

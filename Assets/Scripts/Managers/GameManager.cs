@@ -130,12 +130,13 @@ public class GameManager : MonoBehaviour
         if (Board.instance.playerUnits.Count == 0 && Board.instance.enemyUnits.Count > 0)
         {
             Player.instance.LoseHealthPoints(1);
+            Player.instance.EndOfBattle();
             Board.instance.RemoveEnemyUnits();
             Board.instance.ResetPlayerUnits();
         }
         else if (Board.instance.enemyUnits.Count == 0 && Board.instance.playerUnits.Count > 0)
         {
-            Player.instance.WinBattle();
+            Player.instance.EndOfBattle();
             Board.instance.ResetPlayerUnits();
         }
         else if (Board.instance.enemyUnits.Count == 0 && Board.instance.playerUnits.Count == 0)
