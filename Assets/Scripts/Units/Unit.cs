@@ -122,7 +122,7 @@ public class Unit : MonoBehaviour, ISelectableEntity
 
             if (HasTrait(Trait.Run))
             {
-                _range = 2;
+                _speed = 2;
             }
 
             _stunned = false;

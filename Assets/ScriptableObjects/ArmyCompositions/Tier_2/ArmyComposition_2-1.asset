@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   armyUnits:
   - unitReference: {fileID: 11400000, guid: 241edf05eaa264a0795c6038c733a7c5, type: 2}
-    position: {x: 6, y: 2}
+    position: {x: 6, y: 1}
   - unitReference: {fileID: 11400000, guid: 241edf05eaa264a0795c6038c733a7c5, type: 2}
+    position: {x: 6, y: 2}
+  - unitReference: {fileID: 11400000, guid: 52337d4ca9263fe4daa3268a05d35629, type: 2}
     position: {x: 6, y: 3}
   - unitReference: {fileID: 11400000, guid: 52337d4ca9263fe4daa3268a05d35629, type: 2}
     position: {x: 6, y: 4}
-  - unitReference: {fileID: 11400000, guid: 52337d4ca9263fe4daa3268a05d35629, type: 2}
-    position: {x: 6, y: 5}

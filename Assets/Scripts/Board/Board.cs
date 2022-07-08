@@ -479,37 +479,25 @@ public class Board : MonoBehaviour
     {
         if (_selectedUnit != null && GameManager.instance.GetPlanificationMode())
         {
-            // If the corresponding player's command points are sufficient to place down the unit
-            if ((_selectedUnit.faction == Faction.Friendly && !_playerUnits.Contains(_selectedUnit) && _playerCommandPoints + _selectedUnit.commandPoints <= MAX_COMMAND_POINTS) || (_selectedUnit.faction == Faction.Enemy && !_enemyUnits.Contains(_selectedUnit) && _enemyCommandPoints + _selectedUnit.commandPoints <= MAX_COMMAND_POINTS) || _playerUnits.Contains(_selectedUnit) || _enemyUnits.Contains(_selectedUnit))
+            if (_selectedUnit.faction == Faction.Friendly && GetPlayerTiles().Contains(tile))
             {
-                if ((_selectedUnit.faction == Faction.Friendly && GetPlayerTiles().Contains(tile)) || (_selectedUnit.faction == Faction.Enemy && GetEnemyTiles().Contains(tile)))
+                // If the unit was in the reserve, remove it
+                if (Reserve.instance.IsInReserve(_selectedUnit))
                 {
-                    // If the unit was in the reserve, remove it
-                    if (Reserve.instance.IsInReserve(_selectedUnit))
-                    {
-                        Reserve.instance.RemoveUnit(_selectedUnit);
-                    }
-                    if (EnemyReserve.instance.IsInReserve(_selectedUnit))
-                    {
-                        EnemyReserve.instance.RemoveUnit(_selectedUnit);
-                    }
-                    // If the unit is not yet on the board, add it to the corresponding list
-                    if (!GetAllUnits().Contains(_selectedUnit))
-                    {
-                        if (_selectedUnit.faction == Faction.Friendly)
-                        {
-                            _playerUnits.Add(_selectedUnit);
-                            _selectedUnit.transform.parent = _playerUnitsParent;
-                        }
-                        else if (_selectedUnit.faction == Faction.Enemy)
-                        {
-                            _enemyUnits.Add(_selectedUnit);
-                            _selectedUnit.transform.parent = _enemyUnitsParent;
-                        }
-                    }
-                    MoveUnit(_selectedUnit, tile);
+                    Reserve.instance.RemoveUnit(_selectedUnit);
                 }
+                // If the unit is not yet on the board, add it to the corresponding list
+                if (!GetAllUnits().Contains(_selectedUnit))
+                {
+                    if (_selectedUnit.faction == Faction.Friendly)
+                    {
+                        _playerUnits.Add(_selectedUnit);
+                        _selectedUnit.transform.parent = _playerUnitsParent;
+                    }
+                }
+                MoveUnit(_selectedUnit, tile);
             }
+
             UpdateCommandPoints();
             ResetSelection();
             DarkPlayerTiles(false);
@@ -814,5 +802,16 @@ public class Board : MonoBehaviour
         }
 
         return formationLevel;
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Determines if the battle phase can be launched, depending on player command points
+    /// </summary>
+    /// <returns> True if player command points is lesser or equal than the maximum allowed </returns>
+    public bool CanLaunchBattle()
+    {
+        return _playerCommandPoints <= MAX_COMMAND_POINTS;
     }
 }

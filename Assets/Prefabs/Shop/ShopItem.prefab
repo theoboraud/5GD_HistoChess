@@ -824,7 +824,6 @@ MonoBehaviour:
   _powerValue: {fileID: 7497066066453191939}
   _hpValue: {fileID: 6578797193085010896}
   _rangeIcon: {fileID: 7433066755409738546}
-  _rangeValue: {fileID: 359563290468594941}
   _commandPointsIcon: {fileID: 2485047702491648791}
   _commandPointsValue: {fileID: 5401031248854344980}
 --- !u!61 &993489483617947681
@@ -1125,7 +1124,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: X
+  m_text: 
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

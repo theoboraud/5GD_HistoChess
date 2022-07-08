@@ -131,15 +131,15 @@ public class BattleManager : MonoBehaviour
                         }
                     }
                 }
+            }
 
-                if (unit != null)
-                {
-                    // Reset stunned variable
-                    unit.stunned = false;
-                    unit.movePointsUsed = 0;
-                    unit.hasAttacked = false;
-                    unit.SelectFeedback(false);
-                }
+            if (unit != null)
+            {
+                // Reset stunned variable
+                unit.stunned = false;
+                unit.movePointsUsed = 0;
+                unit.hasAttacked = false;
+                unit.SelectFeedback(false);
             }
         }
     }
@@ -220,15 +220,15 @@ public class BattleManager : MonoBehaviour
                         }
                     }
                 }
+            }
 
-                if (unit != null)
-                {
-                    // Reset stunned variable
-                    unit.stunned = false;
-                    unit.movePointsUsed = 0;
-                    unit.hasAttacked = false;
-                    unit.SelectFeedback(false);
-                }
+            if (unit != null)
+            {
+                // Reset stunned variable
+                unit.stunned = false;
+                unit.movePointsUsed = 0;
+                unit.hasAttacked = false;
+                unit.SelectFeedback(false);
             }
         }
     }
@@ -346,7 +346,10 @@ public class BattleManager : MonoBehaviour
     /// </summary>
     public void StartAutoPhase()
     {
-        StartCoroutine("AutoPhase");
+        if (Board.instance.CanLaunchBattle())
+        {
+            StartCoroutine("AutoPhase");
+        }
     }
 
     // ----------------------------------------------------------------------------------------
