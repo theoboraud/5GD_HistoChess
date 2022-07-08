@@ -16,7 +16,9 @@ namespace Enums
         Barrage,
         Charge,
         Distance,
-        Enrage
+        Enrage,
+        Cheap,
+        Swarm
     }
 
     public enum GameMode

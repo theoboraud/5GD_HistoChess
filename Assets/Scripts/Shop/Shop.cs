@@ -83,9 +83,16 @@ public class Shop : MonoBehaviour
     /// <param name="shopItem"> shopItem to buy </param>
     public void BuyShopItem(ShopItem shopItem)
     {
-        if (Player.instance.golds >= BUY_COST)
+        int buyCost = BUY_COST;
+
+        if (shopItem.unitReference.traits.Contains(Trait.Cheap))
         {
-            Player.instance.PayGolds(BUY_COST);
+            buyCost--;
+        }
+
+        if (Player.instance.golds >= buyCost)
+        {
+            Player.instance.PayGolds(buyCost);
 
             Reserve.instance.SpawnUnit(shopItem.unitReference);
 

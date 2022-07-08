@@ -225,7 +225,7 @@ public class BattleManager : MonoBehaviour
         if (attackingUnit.faction != targetUnit.faction)
         {
             int damage = attackingUnit.GetDamage(targetUnit);
-            
+
             if (targetUnit.HasTrait(Trait.Enrage) && !targetUnit.hasEnraged)
             {
                 targetUnit.hasEnraged = true;
