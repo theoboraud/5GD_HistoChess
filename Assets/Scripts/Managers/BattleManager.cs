@@ -225,8 +225,17 @@ public class BattleManager : MonoBehaviour
         if (attackingUnit.faction != targetUnit.faction)
         {
             int damage = attackingUnit.GetDamage(targetUnit);
-            targetUnit.TakeDamage(damage);
-            Debug.Log($"BattlePhase.UnitAttack: {attackingUnit} deals {damage} damage to {targetUnit}");
+            
+            if (targetUnit.HasTrait(Trait.Enrage) && !targetUnit.hasEnraged)
+            {
+                targetUnit.hasEnraged = true;
+            }
+            else
+            {
+                targetUnit.TakeDamage(damage);
+            }
+
+            //Debug.Log($"BattlePhase.UnitAttack: {attackingUnit} deals {damage} damage to {targetUnit}");
 
             // If the attackingUnit has the Barrage trait, targetUnit becomes stunned
             if (attackingUnit.HasTrait(Trait.Barrage))

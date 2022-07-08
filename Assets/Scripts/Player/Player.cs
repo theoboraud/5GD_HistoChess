@@ -134,18 +134,6 @@ public class Player : MonoBehaviour
         // The player gains 10 golds, plus eventual unit bonuses
         int goldsToAdd = 10;
 
-        foreach (Unit unit in Board.instance.playerUnits)
-        {
-            if (unit.HasTrait(Trait.Eco))
-            {
-                goldsToAdd += 1;
-            }
-
-            if (unit.HasTrait(Trait.EcoPlus))
-            {
-                goldsToAdd += 2;
-            }
-        }
         GainGolds(goldsToAdd);
 
         UpdateUI();

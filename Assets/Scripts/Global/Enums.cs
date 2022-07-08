@@ -14,12 +14,9 @@ namespace Enums
     {
         Unarmed,
         Barrage,
-        HitAndRun,
-        Eco,
-        EcoPlus,
         Charge,
-        Harass,
-        Sabotage
+        Distance,
+        Enrage
     }
 
     public enum GameMode
