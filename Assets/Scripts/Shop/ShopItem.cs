@@ -16,7 +16,6 @@ public class ShopItem : MonoBehaviour, ISelectableEntity
     [SerializeField] private TMP_Text _powerValue;                  // Power value text reference
     [SerializeField] private TMP_Text _hpValue;                     // Health point value text reference
     [SerializeField] private GameObject _rangeIcon;                 // Range icon GameObject reference
-    [SerializeField] private TMP_Text _rangeValue;                  // Range value text reference
     [SerializeField] private GameObject _commandPointsIcon;         // Command points icon GameObject reference
     [SerializeField] private TMP_Text _commandPointsValue;          // Command points value text reference
 
@@ -37,10 +36,9 @@ public class ShopItem : MonoBehaviour, ISelectableEntity
         _powerValue.text = _unitReference.power.ToString();
         _hpValue.text = _unitReference.hp.ToString();
         // Range icon visible only if the unit has a range greater than 1
-        if (_unitReference.range > 1)
+        if (_unitReference.traits.Contains(Trait.Distance))
         {
             _rangeIcon.SetActive(true);
-            _rangeValue.text = _unitReference.range.ToString();
         }
         _commandPointsIcon.SetActive(true);
         _commandPointsValue.text = _unitReference.commandPoints.ToString();

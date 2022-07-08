@@ -76,8 +76,6 @@ public class Unit : MonoBehaviour, ISelectableEntity
         {
             _power = _unitReference.power;
             _hp = _unitReference.hp;
-            _speed = _unitReference.speed;
-            _range = _unitReference.range;
             _initiative = _unitReference.initiative;
             _commandPoints = _unitReference.commandPoints;
 
@@ -113,6 +111,11 @@ public class Unit : MonoBehaviour, ISelectableEntity
             foreach (Trait trait in _unitReference.traits)
             {
                 _traits.Add(trait);
+            }
+
+            if (HasTrait(Trait.Distance))
+            {
+                _range = 2;
             }
 
             _stunned = false;
