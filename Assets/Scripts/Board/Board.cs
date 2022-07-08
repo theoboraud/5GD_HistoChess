@@ -569,7 +569,7 @@ public class Board : MonoBehaviour
         {
             int formationLevel = GetFormationLevel(_playerUnits[i]);
 
-            _playerUnits[i].formationLevel = formationLevel;
+            _playerUnits[i].SetFormationLevel(formationLevel);
             // TODO: CHANGE COMMAND POINTS DEPENDING ON FORMATION LEVEL FOR UNITS
 
             _playerCommandPoints += _playerUnits[i].commandPoints - (formationLevel - 1);
@@ -580,7 +580,12 @@ public class Board : MonoBehaviour
         _enemyCommandPoints = 0;
         for (int i = 0; i < _enemyUnits.Count; i++)
         {
-            _enemyCommandPoints += _enemyUnits[i].commandPoints;
+            int formationLevel = GetFormationLevel(_enemyUnits[i]);
+
+            _enemyUnits[i].SetFormationLevel(formationLevel);
+            // TODO: CHANGE COMMAND POINTS DEPENDING ON FORMATION LEVEL FOR UNITS
+
+            _enemyCommandPoints += _enemyUnits[i].commandPoints - (formationLevel - 1);
         }
         _enemyCommandPointsValue.text = $"{_enemyCommandPoints}/{MAX_COMMAND_POINTS}";
     }

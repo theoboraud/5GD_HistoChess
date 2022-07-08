@@ -386,6 +386,8 @@ public class BattleManager : MonoBehaviour
             ArmyComposition armyComposition = tierOneArmyCompositions[Random.Range(0, tierOneArmyCompositions.Count - 1)];
             LoadArmyComposition(armyComposition);
         }
+
+        Board.instance.UpdateCommandPoints();
     }
 
     // ----------------------------------------------------------------------------------------
@@ -415,7 +417,7 @@ public class BattleManager : MonoBehaviour
         spawnedUnitGO.transform.localScale = Vector3.one * 1.3f;
 
         Unit spawnedUnit = spawnedUnitGO.GetComponent<Unit>();
-        spawnedUnit.Move(Board.instance.GetTile((int) position.x, (int) position.y));
+        Board.instance.MoveUnit(spawnedUnit, Board.instance.GetTile((int) position.x, (int) position.y));
         spawnedUnit.LoadUnitReference(unitReference, Faction.Enemy);
         Board.instance.enemyUnits.Add(spawnedUnit);
     }

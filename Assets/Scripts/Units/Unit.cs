@@ -62,7 +62,7 @@ public class Unit : MonoBehaviour, ISelectableEntity
     public bool hasAttacked { get => _hasAttacked; set => _hasAttacked = value; }
     public bool hasEnraged { get => _hasEnraged; set => _hasEnraged = value; }
     public bool hasToReload { get => _hasToReload; set => _hasToReload = value; }
-    public int formationLevel { get => _formationLevel; set => _formationLevel = value; }
+    public int formationLevel { get => _formationLevel; }
 
     // ----------------------------------------------------------------------------------------
 
@@ -312,5 +312,37 @@ public class Unit : MonoBehaviour, ISelectableEntity
         }
 
         return hasTrait;
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Changes the formation level of the unit
+    /// </summary>
+    /// <param name="formationLevel"> New formation level </param>
+    public void SetFormationLevel(int formationLevel)
+    {
+        _formationLevel = formationLevel;
+
+        if (HasTrait(Trait.Support))
+        {
+            if (formationLevel == 3)
+            {
+                _power = unitReference.power + 2;
+                _hp = unitReference.hp + 2;
+            }
+            else if (formationLevel == 2)
+            {
+                _power = unitReference.power + 1;
+                _hp = unitReference.hp + 1;
+            }
+            else
+            {
+                _power = unitReference.power;
+                _hp = unitReference.hp;
+            }
+
+            UpdateStats();
+        }
     }
 }

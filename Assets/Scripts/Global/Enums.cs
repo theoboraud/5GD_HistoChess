@@ -20,7 +20,8 @@ namespace Enums
         Cheap,
         Swarm,
         Reload,
-        Spear
+        Spear,
+        Support
     }
 
     public enum GameMode

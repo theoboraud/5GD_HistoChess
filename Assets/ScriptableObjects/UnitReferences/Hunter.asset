@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1f8f60d9c16748e7b0d394fd50e53c9, type: 3}
   m_Name: Hunter
   m_EditorClassIdentifier: 
-  power: 4
-  hp: 4
+  power: 1
+  hp: 1
   speed: 1
   range: 2
   commandPoints: 3
