@@ -25,6 +25,7 @@ public class Unit : MonoBehaviour, ISelectableEntity
     private int _movePointsUsed;
     private bool _hasAttacked;
     private bool _hasEnraged;
+    private bool _hasToReload;
 
     [Header("Unit traits")]
     [SerializeField] private List<Trait> _traits = new List<Trait>();   // All unit traits
@@ -59,6 +60,7 @@ public class Unit : MonoBehaviour, ISelectableEntity
     public int movePointsUsed { get => _movePointsUsed; set => _movePointsUsed = value; }
     public bool hasAttacked { get => _hasAttacked; set => _hasAttacked = value; }
     public bool hasEnraged { get => _hasEnraged; set => _hasEnraged = value; }
+    public bool hasToReload { get => _hasToReload; set => _hasToReload = value; }
 
     // ----------------------------------------------------------------------------------------
 
@@ -115,6 +117,7 @@ public class Unit : MonoBehaviour, ISelectableEntity
             _movePointsUsed = 0;
             _hasAttacked = false;
             _hasEnraged = false;
+            _hasToReload = false;
         }
 
         UpdateStats();

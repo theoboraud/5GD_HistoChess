@@ -18,7 +18,8 @@ namespace Enums
         Distance,
         Enrage,
         Cheap,
-        Swarm
+        Swarm,
+        Reload
     }
 
     public enum GameMode
