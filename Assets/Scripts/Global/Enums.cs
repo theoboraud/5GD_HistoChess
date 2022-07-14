@@ -23,7 +23,8 @@ namespace Enums
         Spear,
         Support,
         Run,
-        Savage
+        Savage,
+        Raid
     }
 
     public enum GameMode

@@ -141,6 +141,9 @@ public class Board : MonoBehaviour
     /// <param name="tile"> Tile to which the unit will move </param>
     public void MoveUnit(Unit unit, Tile tile)
     {
+        // Set new tile's unit reference
+        tile.unit = unit;
+
         if (unit.tile != tile)
         {
             // Reset previous tile's unit reference
@@ -151,9 +154,6 @@ public class Board : MonoBehaviour
 
             // Move unit to tile
             unit.Move(tile);
-
-            // Set new tile's unit reference
-            tile.unit = unit;
         }
     }
 
@@ -517,7 +517,7 @@ public class Board : MonoBehaviour
         _playerUnits.Remove(unit);
         _enemyUnits.Remove(unit);
         Destroy(unit.gameObject);
-        UpdateCommandPoints();
+        //UpdateCommandPoints();
     }
 
     // ----------------------------------------------------------------------------------------
@@ -745,6 +745,8 @@ public class Board : MonoBehaviour
             MoveUnit(unit, unit.tile);
         }
         UpdateCommandPoints();
+
+        Debug.Log(_playerUnits.Count);
     }
 
     // ----------------------------------------------------------------------------------------
@@ -757,9 +759,11 @@ public class Board : MonoBehaviour
         for (int i = _playerUnits.Count - 1; i >= 0; i--)
         {
             Unit unit = _playerUnits[i];
-            _playerUnits.Remove(unit);
+            unit.tile.ResetUnit();
             Destroy(unit.gameObject);
         }
+
+        _playerUnits = new List<Unit>();
         UpdateCommandPoints();
     }
 
@@ -773,6 +777,7 @@ public class Board : MonoBehaviour
         for (int i = _enemyUnits.Count - 1; i >= 0; i--)
         {
             Unit unit = _enemyUnits[i];
+            unit.tile.ResetUnit();
             _enemyUnits.Remove(unit);
             Destroy(unit.gameObject);
         }
