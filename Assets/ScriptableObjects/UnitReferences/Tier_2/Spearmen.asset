@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Spearmen
   m_EditorClassIdentifier: 
   power: 1
-  hp: 1
-  commandPoints: 2
+  hp: 2
+  commandPoints: 4
   initiative: 2
   traits: 08000000
   friendlySprite:

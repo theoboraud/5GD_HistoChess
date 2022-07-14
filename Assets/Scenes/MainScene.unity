@@ -6139,7 +6139,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6180475923977963476, guid: fdf72637950ee42178790c595c3d2c43, type: 3}
       propertyPath: _tierTwoUnitReferences.Array.size
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6180475923977963476, guid: fdf72637950ee42178790c595c3d2c43, type: 3}
       propertyPath: _tierFourUnitReferences.Array.size
@@ -6147,7 +6147,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6180475923977963476, guid: fdf72637950ee42178790c595c3d2c43, type: 3}
       propertyPath: _tierThreeUnitReferences.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6180475923977963476, guid: fdf72637950ee42178790c595c3d2c43, type: 3}
       propertyPath: _tierOneUnitReferences.Array.data[0]
@@ -6184,11 +6184,11 @@ PrefabInstance:
     - target: {fileID: 6180475923977963476, guid: fdf72637950ee42178790c595c3d2c43, type: 3}
       propertyPath: _tierTwoUnitReferences.Array.data[2]
       value: 
-      objectReference: {fileID: 11400000, guid: 47da669510f711842b0c45385bb3921d, type: 2}
+      objectReference: {fileID: 11400000, guid: 52337d4ca9263fe4daa3268a05d35629, type: 2}
     - target: {fileID: 6180475923977963476, guid: fdf72637950ee42178790c595c3d2c43, type: 3}
       propertyPath: _tierTwoUnitReferences.Array.data[3]
       value: 
-      objectReference: {fileID: 11400000, guid: 52337d4ca9263fe4daa3268a05d35629, type: 2}
+      objectReference: {fileID: 11400000, guid: 2274480b37fde274691f85a07e554223, type: 2}
     - target: {fileID: 6180475923977963476, guid: fdf72637950ee42178790c595c3d2c43, type: 3}
       propertyPath: _tierTwoUnitReferences.Array.data[4]
       value: 
@@ -6221,6 +6221,10 @@ PrefabInstance:
       propertyPath: _tierThreeUnitReferences.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: 01c581618d983684db3c11898f6aa6f4, type: 2}
+    - target: {fileID: 6180475923977963476, guid: fdf72637950ee42178790c595c3d2c43, type: 3}
+      propertyPath: _tierThreeUnitReferences.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 835480a864708a049b5c09af67676484, type: 2}
     - target: {fileID: 6180475923977963477, guid: fdf72637950ee42178790c595c3d2c43, type: 3}
       propertyPath: m_Name
       value: PlayerShop

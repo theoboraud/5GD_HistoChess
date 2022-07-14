@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1f8f60d9c16748e7b0d394fd50e53c9, type: 3}
   m_Name: Berserker
   m_EditorClassIdentifier: 
-  power: 4
+  power: 3
   hp: 1
   commandPoints: 4
   initiative: 4
