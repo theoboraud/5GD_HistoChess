@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   power: 3
   hp: 2
-  commandPoints: 4
+  commandPoints: 5
   initiative: 3
   traits: 020000000a000000
   friendlySprite:

@@ -12,7 +12,7 @@ namespace Enums
 
     public enum Trait
     {
-        Unarmed,
+        Weak,
         Barrage,
         Charge,
         Distance,

@@ -115,9 +115,9 @@ public class BattleManager : MonoBehaviour
                             UnitAttack(unit, targetUnit);
                             targetUnit.HurtFeedback(true);
                             // If the target unit can attack back
-                            if (Board.instance.CanAttack(targetUnit, unit) && !targetUnit.HasTrait(Trait.Unarmed))
+                            if (Board.instance.CanAttack(targetUnit, unit))
                             {
-                                UnitAttack(targetUnit, unit);
+                                UnitAttack(targetUnit, unit, targetUnit.HasTrait(Trait.Weak));
                                 unit.HurtFeedback(true);
                             }
                             yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
@@ -204,9 +204,9 @@ public class BattleManager : MonoBehaviour
                             UnitAttack(unit, targetUnit);
                             targetUnit.HurtFeedback(true);
                             // If the target unit can attack back
-                            if (Board.instance.CanAttack(targetUnit, unit) && !targetUnit.HasTrait(Trait.Unarmed))
+                            if (Board.instance.CanAttack(targetUnit, unit))
                             {
-                                UnitAttack(targetUnit, unit);
+                                UnitAttack(targetUnit, unit, targetUnit.HasTrait(Trait.Weak));
                                 unit.HurtFeedback(true);
                             }
                             yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
@@ -240,11 +240,17 @@ public class BattleManager : MonoBehaviour
     /// </summary>
     /// <param name="attackingUnit"> Unit attacking the target unit </param>
     /// <param name="targetUnit"> Unit targeted by the attack </param>
-    private void UnitAttack(Unit attackingUnit, Unit targetUnit)
+    /// <param name="isWeak"> If the attacking unit is weak or not </param>
+    private void UnitAttack(Unit attackingUnit, Unit targetUnit, bool isWeak = false)
     {
         if (attackingUnit.faction != targetUnit.faction)
         {
             int damage = attackingUnit.GetDamage(targetUnit);
+
+            if (isWeak)
+            {
+                damage--;
+            }
 
             if (targetUnit.HasTrait(Trait.Enrage) && !targetUnit.hasEnraged)
             {
