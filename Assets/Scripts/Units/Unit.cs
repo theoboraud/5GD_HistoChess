@@ -352,24 +352,27 @@ public class Unit : MonoBehaviour, ISelectableEntity
     /// <param name="formationLevel"> New formation level </param>
     public void SetFormationLevel(int formationLevel)
     {
-        _formationLevel = formationLevel;
-
-        if (HasTrait(Trait.Support))
+        if (!HasTrait(Trait.Savage))
         {
-            if (formationLevel == 3)
+            _formationLevel = formationLevel;
+
+            if (HasTrait(Trait.Support))
             {
-                _power = unitReference.power + 2;
-                _hp = unitReference.hp + 2;
-            }
-            else if (formationLevel == 2)
-            {
-                _power = unitReference.power + 1;
-                _hp = unitReference.hp + 1;
-            }
-            else
-            {
-                _power = unitReference.power;
-                _hp = unitReference.hp;
+                if (formationLevel == 3)
+                {
+                    _power = unitReference.power + 2;
+                    _hp = unitReference.hp + 2;
+                }
+                else if (formationLevel == 2)
+                {
+                    _power = unitReference.power + 1;
+                    _hp = unitReference.hp + 1;
+                }
+                else
+                {
+                    _power = unitReference.power;
+                    _hp = unitReference.hp;
+                }
             }
         }
 
