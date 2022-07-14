@@ -4773,6 +4773,10 @@ PrefabInstance:
       value: GameManager
       objectReference: {fileID: 0}
     - target: {fileID: 7032010295709527256, guid: 9f021f30974234193b27423bae80f1bf, type: 3}
+      propertyPath: unknownEnemyStats
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7032010295709527256, guid: 9f021f30974234193b27423bae80f1bf, type: 3}
       propertyPath: formationLevelOneStatColor.a
       value: 1
       objectReference: {fileID: 0}

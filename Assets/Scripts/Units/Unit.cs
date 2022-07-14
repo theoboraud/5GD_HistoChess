@@ -375,4 +375,16 @@ public class Unit : MonoBehaviour, ISelectableEntity
 
         UpdateStats();
     }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Do not render stats of the unit on screen
+    /// </summary>
+    public void UnknownStats()
+    {
+        _powerValue.transform.parent.gameObject.SetActive(false);
+        _hpValue.transform.parent.gameObject.SetActive(false);
+        _commandPointsValue.transform.parent.gameObject.SetActive(false);
+    }
 }

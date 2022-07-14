@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     public Color formationLevelThreeStatColor;
 
     // Variables
+    public bool unknownEnemyStats = false;
     private GameMode _gameMode;
     private int _round;                                         // Round number
 

@@ -337,6 +337,15 @@ public class BattleManager : MonoBehaviour
 
         LoadArmyCompositionDependingOnTier();
 
+        // If the game should not render enemy units stats, delete every enemy unit's stat icons and values
+        if (GameManager.instance.unknownEnemyStats)
+        {
+            foreach(Unit enemyUnit in Board.instance.enemyUnits)
+            {
+                enemyUnit.UnknownStats();
+            }
+        }
+
         while (Board.instance.playerUnits.Count > 0 && Board.instance.enemyUnits.Count > 0)
         {
             yield return StartCoroutine("NextPhase");
