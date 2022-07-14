@@ -81,6 +81,7 @@ public class Reserve : MonoBehaviour
         if (_reserveUnits.Count < _reserveZones.Count)
         {
             _reserveUnits.Add(unit);
+            unit.SetFormationLevel(1);
         }
         ReorderReserveUnits();
     }
