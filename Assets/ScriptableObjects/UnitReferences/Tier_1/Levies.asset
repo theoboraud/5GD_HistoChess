@@ -14,8 +14,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   power: 1
   hp: 1
-  commandPoints: 2
+  commandPoints: 3
   initiative: 2
   traits: 05000000
-  friendlySprite: {fileID: 21300000, guid: 2b82765157ffe460ebbb2a5ed76c3775, type: 3}
-  enemySprite: {fileID: 21300000, guid: 2b82765157ffe460ebbb2a5ed76c3775, type: 3}
+  friendlySprite:
+  - {fileID: 21300000, guid: bb327a2151fc3ca4b9ae648d41e63879, type: 3}
+  - {fileID: 21300000, guid: f5a9725ed5e223d41b3c4e6033cae8a2, type: 3}
+  - {fileID: 21300000, guid: 1966ec985c7dd394297161b7549df0c2, type: 3}
+  - {fileID: 21300000, guid: 9cd9efdf2e5455e4eac50c353fff470c, type: 3}
+  - {fileID: 21300000, guid: 39fc2a88a2d043743a27db7ea83fdf51, type: 3}
+  - {fileID: 21300000, guid: b4bd7acf9f7f0404fbd698ba38b3eedd, type: 3}
+  enemySprite:
+  - {fileID: 21300000, guid: bb327a2151fc3ca4b9ae648d41e63879, type: 3}
+  - {fileID: 21300000, guid: f5a9725ed5e223d41b3c4e6033cae8a2, type: 3}
+  - {fileID: 21300000, guid: 1966ec985c7dd394297161b7549df0c2, type: 3}
+  - {fileID: 21300000, guid: 9cd9efdf2e5455e4eac50c353fff470c, type: 3}
+  - {fileID: 21300000, guid: 39fc2a88a2d043743a27db7ea83fdf51, type: 3}
+  - {fileID: 21300000, guid: b4bd7acf9f7f0404fbd698ba38b3eedd, type: 3}

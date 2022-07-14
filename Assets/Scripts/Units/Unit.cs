@@ -145,6 +145,26 @@ public class Unit : MonoBehaviour, ISelectableEntity
     {
         _powerValue.text = _power.ToString();
         _hpValue.text = _hp.ToString();
+        _commandPointsValue.text = (_commandPoints - _formationLevel + 1).ToString();
+
+        Color color = GameManager.instance.formationLevelOneStatColor;
+
+        if (_formationLevel == 2)
+        {
+            color = GameManager.instance.formationLevelTwoStatColor;
+        }
+        else if (_formationLevel == 3)
+        {
+            color = GameManager.instance.formationLevelThreeStatColor;
+        }
+
+        _commandPointsValue.color = color;
+
+        if (HasTrait(Trait.Support))
+        {
+            _powerValue.color = color;
+            _hpValue.color = color;
+        }
     }
 
     // ----------------------------------------------------------------------------------------
@@ -351,8 +371,8 @@ public class Unit : MonoBehaviour, ISelectableEntity
                 _power = unitReference.power;
                 _hp = unitReference.hp;
             }
-
-            UpdateStats();
         }
+
+        UpdateStats();
     }
 }

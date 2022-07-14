@@ -17,5 +17,11 @@ MonoBehaviour:
   commandPoints: 4
   initiative: 3
   traits: 09000000
-  friendlySprite: {fileID: -457551834, guid: c5c4891d7717a4392b3b8343ee7d1e62, type: 3}
-  enemySprite: {fileID: -457551834, guid: c5c4891d7717a4392b3b8343ee7d1e62, type: 3}
+  friendlySprite:
+  - {fileID: 21300000, guid: 061f1183612e23c4594329766a29e764, type: 3}
+  - {fileID: 21300000, guid: 82fee17f32bddab40bb8831d9cc77e78, type: 3}
+  - {fileID: 21300000, guid: a29956e508d0e114bb3eba31698be3dc, type: 3}
+  enemySprite:
+  - {fileID: 21300000, guid: 061f1183612e23c4594329766a29e764, type: 3}
+  - {fileID: 21300000, guid: 82fee17f32bddab40bb8831d9cc77e78, type: 3}
+  - {fileID: 21300000, guid: a29956e508d0e114bb3eba31698be3dc, type: 3}

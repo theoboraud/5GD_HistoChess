@@ -417,7 +417,7 @@ public class BattleManager : MonoBehaviour
         GameObject spawnedUnitGO = Instantiate(_unitPrefab);
         //spawnedUnitGO.name = $"{_faction}Soldier_{_unitsCount}";
         spawnedUnitGO.transform.parent = Board.instance.enemyUnitsParent;
-        spawnedUnitGO.transform.localScale = Vector3.one * 1.3f;
+        spawnedUnitGO.transform.localScale = Vector3.one * 1.4f;
 
         Unit spawnedUnit = spawnedUnitGO.GetComponent<Unit>();
         Board.instance.MoveUnit(spawnedUnit, Board.instance.GetTile((int) position.x, (int) position.y));

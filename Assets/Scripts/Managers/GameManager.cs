@@ -14,6 +14,11 @@ public class GameManager : MonoBehaviour
     // GameManager static instance
     public static GameManager instance;
 
+    // References
+    public Color formationLevelOneStatColor;
+    public Color formationLevelTwoStatColor;
+    public Color formationLevelThreeStatColor;
+
     // Variables
     private GameMode _gameMode;
     private int _round;                                         // Round number

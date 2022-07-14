@@ -144,7 +144,7 @@ public class Reserve : MonoBehaviour
             Unit unit = _reserveUnits[i];
             unit.transform.parent = _reserveZones[i];
             unit.transform.position = unit.transform.parent.position;
-            unit.transform.localScale = Vector3.one * 1.19f;
+            unit.transform.localScale = Vector3.one * 1.3f;
         }
     }
 
