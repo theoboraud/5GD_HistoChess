@@ -388,11 +388,6 @@ public class Board : MonoBehaviour
         }
         // Reverse the order, to start from the starting tile
         path.Reverse();
-        // Remove starting tile
-        /*if (path.Count > 0)
-        {
-            path.Remove(path[0]);
-        }*/
 
         ResetTiles();
         return path;
