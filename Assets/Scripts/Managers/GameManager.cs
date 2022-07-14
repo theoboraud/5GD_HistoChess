@@ -10,6 +10,8 @@ public class GameManager : MonoBehaviour
 {
     // Constants
     private const int TIERS_ROUND_INCREMENT = 2;                // Number of rounds needed to increment the shop Tier
+    private const int START_COMMAND_POINTS = 8;                 // Number of command points at the start of the game
+    private const int COMMAND_POINTS_INCREMENT = 4;             // How much command points each player gains when reaching a new tier
 
     // GameManager static instance
     public static GameManager instance;
@@ -152,6 +154,26 @@ public class GameManager : MonoBehaviour
         Board.instance.ResetPlayerUnits();
 
         _round++;
+
+        if (TierUnlocked(4))
+        {
+            Board.instance.maxCommandPoints = START_COMMAND_POINTS + 3 * COMMAND_POINTS_INCREMENT;
+        }
+        else if (TierUnlocked(3))
+        {
+            Board.instance.maxCommandPoints = START_COMMAND_POINTS + 2 * COMMAND_POINTS_INCREMENT;
+        }
+        else if (TierUnlocked(2))
+        {
+            Board.instance.maxCommandPoints = START_COMMAND_POINTS + COMMAND_POINTS_INCREMENT;
+        }
+        else
+        {
+            Board.instance.maxCommandPoints = START_COMMAND_POINTS;
+        }
+
+        Board.instance.UpdateCommandPoints();
+
         PlanificationMode();
     }
 
@@ -164,6 +186,6 @@ public class GameManager : MonoBehaviour
     /// <returns> True if the tier is unlocked, false otherwise </returns>
     public bool TierUnlocked(int tier)
     {
-        return _round >= (tier - 1) * TIERS_ROUND_INCREMENT + 1;
+        return _round >= (tier - 1) * TIERS_ROUND_INCREMENT + 1;;
     }
 }

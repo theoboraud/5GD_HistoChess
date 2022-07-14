@@ -12,7 +12,7 @@ using Enums;
 public class Board : MonoBehaviour
 {
     // Variables
-    private const int MAX_COMMAND_POINTS = 14;
+    public int maxCommandPoints = 8;
     [SerializeField] private int _xSize = 8;
     [SerializeField] private int _ySize = 8;
     private int _playerCommandPoints;
@@ -79,6 +79,8 @@ public class Board : MonoBehaviour
                 y++;
             }
         }
+
+        UpdateCommandPoints();
     }
 
     // ----------------------------------------------------------------------------------------
@@ -567,7 +569,7 @@ public class Board : MonoBehaviour
 
             _playerCommandPoints += _playerUnits[i].commandPoints - (formationLevel - 1);
         }
-        _playerCommandPointsValue.text = $"{_playerCommandPoints}/{MAX_COMMAND_POINTS}";
+        _playerCommandPointsValue.text = $"{_playerCommandPoints}/{maxCommandPoints}";
 
         // Update enemy command points
         _enemyCommandPoints = 0;
@@ -580,7 +582,7 @@ public class Board : MonoBehaviour
 
             _enemyCommandPoints += _enemyUnits[i].commandPoints - (formationLevel - 1);
         }
-        _enemyCommandPointsValue.text = $"{_enemyCommandPoints}/{MAX_COMMAND_POINTS}";
+        _enemyCommandPointsValue.text = $"{_enemyCommandPoints}/{maxCommandPoints}";
     }
 
     // ----------------------------------------------------------------------------------------
@@ -812,6 +814,6 @@ public class Board : MonoBehaviour
     /// <returns> True if player command points is lesser or equal than the maximum allowed </returns>
     public bool CanLaunchBattle()
     {
-        return _playerCommandPoints <= MAX_COMMAND_POINTS;
+        return _playerCommandPoints <= maxCommandPoints;
     }
 }
