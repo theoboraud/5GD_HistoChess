@@ -24,6 +24,6 @@ public class UnitReference : ScriptableObject
     public List<Trait> traits = new List<Trait>();  // Unit traits
 
     [Header("Unit sprites")]
-    public Sprite friendlySprite;               // Unit friendly sprite reference
-    public Sprite enemySprite;                  // Unit enemy sprite reference
+    public List<Sprite> friendlySprite = new List<Sprite>();                // Friendly unit sprite references
+    public List<Sprite> enemySprite = new List<Sprite>();                   // Enemy Unit sprite references
 }

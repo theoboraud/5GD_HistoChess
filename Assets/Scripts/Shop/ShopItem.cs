@@ -31,7 +31,7 @@ public class ShopItem : MonoBehaviour, ISelectableEntity
     /// </summary>
     private void Init()
     {
-        _spriteRenderer.sprite = _faction == Faction.Friendly ? _unitReference.friendlySprite : _unitReference.enemySprite;
+        _spriteRenderer.sprite = _faction == Faction.Friendly ? _unitReference.friendlySprite[Random.Range(0, _unitReference.friendlySprite.Count - 1)] : _unitReference.enemySprite[Random.Range(0, _unitReference.enemySprite.Count - 1)];
 
         _powerValue.text = _unitReference.power.ToString();
         _hpValue.text = _unitReference.hp.ToString();

@@ -85,7 +85,7 @@ public class Unit : MonoBehaviour, ISelectableEntity
             {
                 foreach(SpriteRenderer spriteRenderer in _spriteRenderers)
                 {
-                    spriteRenderer.sprite = _unitReference.friendlySprite;
+                    spriteRenderer.sprite = _unitReference.friendlySprite[Random.Range(0, _unitReference.friendlySprite.Count - 1)];
                 }
                 _unitFactionFeedback.GetComponent<SpriteRenderer>().color = _colorFriendly;
             }
@@ -93,7 +93,7 @@ public class Unit : MonoBehaviour, ISelectableEntity
             {
                 foreach(SpriteRenderer spriteRenderer in _spriteRenderers)
                 {
-                    spriteRenderer.sprite = _unitReference.enemySprite;
+                    spriteRenderer.sprite = _unitReference.enemySprite[Random.Range(0, _unitReference.enemySprite.Count - 1)];
                     float currentScale = spriteRenderer.transform.localScale.x;
                     spriteRenderer.transform.localScale = new Vector3(-currentScale, currentScale, currentScale);
                 }
