@@ -80,54 +80,64 @@ public class BattleManager : MonoBehaviour
                 {
                     if (unit != null)
                     {
-                        targetUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits, true);
-
-                        // TESTING ONLY
-                        //yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
-                        //Board.instance.ResetTilesFeedbacks();
-
-                        // Move the unit if not target available
-                        if (!Board.instance.CanAttack(unit, targetUnit) && !unit.hasAttacked)
+                        if (!unit.hasAttacked)
                         {
-                            targetUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits);
+                            targetUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits, true);
 
-                            if (targetUnit != null && !unit.stunned)
+                            // TESTING ONLY
+                            //yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
+                            //Board.instance.ResetTilesFeedbacks();
+
+                            // Move the unit if not target available
+                            if (!Board.instance.CanAttack(unit, targetUnit) && !unit.hasAttacked)
                             {
-                                Board.instance.MoveUnitTowards(unit, targetUnit.tile);
+                                targetUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits);
 
-                                // TESTING ONLY
-                                //Board.instance.ResetTilesFeedbacks();
-                            }
-                        }
-                        yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
+                                if (targetUnit != null && !unit.stunned)
+                                {
+                                    Board.instance.MoveUnitTowards(unit, targetUnit.tile);
 
-                        targetUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits, true);
-
-                        if (unit.HasTrait(Trait.Reload) && unit.hasToReload)
-                        {
-                            yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
-                            unit.hasToReload = false;
-                            Debug.Log("RELOAD");
-                        }
-                        // If the unit can attack the target unit, a fight occurs
-                        else if (Board.instance.CanAttack(unit, targetUnit))
-                        {
-                            UnitAttack(unit, targetUnit);
-                            targetUnit.HurtFeedback(true);
-                            // If the target unit can attack back
-                            if (Board.instance.CanAttack(targetUnit, unit))
-                            {
-                                UnitAttack(targetUnit, unit, targetUnit.HasTrait(Trait.Weak));
-                                unit.HurtFeedback(true);
+                                    // TESTING ONLY
+                                    //Board.instance.ResetTilesFeedbacks();
+                                }
                             }
                             yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
-                            // Reset hurt feedbacks
-                            targetUnit.HurtFeedback(false);
-                            unit.HurtFeedback(false);
 
-                            unit.hasAttacked = true;
+                            targetUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits, true);
 
-                            KillDeathList();
+                            if (unit.HasTrait(Trait.Reload) && unit.hasToReload)
+                            {
+                                yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
+                                unit.hasToReload = false;
+                                Debug.Log("RELOAD");
+                            }
+                            // If the unit can attack the target unit, a fight occurs
+                            else if (Board.instance.CanAttack(unit, targetUnit))
+                            {
+                                UnitAttack(unit, targetUnit);
+                                targetUnit.HurtFeedback(true);
+                                // If the target unit can attack back
+                                if (Board.instance.CanAttack(targetUnit, unit))
+                                {
+                                    if (unit.HasTrait(Trait.Charge) && unit.movePointsUsed > 0 && !targetUnit.HasTrait(Trait.Spear) && targetUnit.hp == 0)
+                                    {
+
+                                    }
+                                    else
+                                    {
+                                        UnitAttack(targetUnit, unit, targetUnit.HasTrait(Trait.Weak));
+                                        unit.HurtFeedback(true);
+                                    }
+                                }
+                                yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
+                                // Reset hurt feedbacks
+                                targetUnit.HurtFeedback(false);
+                                unit.HurtFeedback(false);
+
+                                unit.hasAttacked = true;
+
+                                KillDeathList();
+                            }
                         }
                     }
                 }
@@ -169,54 +179,71 @@ public class BattleManager : MonoBehaviour
                 {
                     if (unit != null)
                     {
-                        targetUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.playerUnits, true);
-
-                        // TESTING ONLY
-                        //yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
-                        //Board.instance.ResetTilesFeedbacks();
-
-                        // Move the unit if not target available
-                        if (!Board.instance.CanAttack(unit, targetUnit) && !unit.hasAttacked)
+                        if (!unit.hasAttacked)
                         {
-                            targetUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.playerUnits);
+                            targetUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.playerUnits, true);
 
-                            if (targetUnit != null && !unit.stunned)
+                            // TESTING ONLY
+                            //yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
+                            //Board.instance.ResetTilesFeedbacks();
+
+                            // Move the unit if not target available
+                            if (!Board.instance.CanAttack(unit, targetUnit) && !unit.hasAttacked)
                             {
-                                Board.instance.MoveUnitTowards(unit, targetUnit.tile);
+                                targetUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.playerUnits);
 
-                                // TESTING ONLY
-                                //Board.instance.ResetTilesFeedbacks();
-                            }
-                        }
-                        yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
+                                if (targetUnit != null && !unit.stunned)
+                                {
+                                    Board.instance.MoveUnitTowards(unit, targetUnit.tile);
 
-                        targetUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.playerUnits, true);
-
-                        if (unit.HasTrait(Trait.Reload) && unit.hasToReload)
-                        {
-                            yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
-                            unit.hasToReload = false;
-                            Debug.Log("RELOAD");
-                        }
-                        // If the unit can attack the target unit, a fight occurs
-                        else if (Board.instance.CanAttack(unit, targetUnit))
-                        {
-                            UnitAttack(unit, targetUnit);
-                            targetUnit.HurtFeedback(true);
-                            // If the target unit can attack back
-                            if (Board.instance.CanAttack(targetUnit, unit))
-                            {
-                                UnitAttack(targetUnit, unit, targetUnit.HasTrait(Trait.Weak));
-                                unit.HurtFeedback(true);
+                                    // TESTING ONLY
+                                    //Board.instance.ResetTilesFeedbacks();
+                                }
                             }
                             yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
-                            // Reset hurt feedbacks
-                            targetUnit.HurtFeedback(false);
-                            unit.HurtFeedback(false);
 
-                            unit.hasAttacked = true;
+                            targetUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.playerUnits, true);
 
-                            KillDeathList();
+                            if (unit.HasTrait(Trait.Reload) && unit.hasToReload)
+                            {
+                                yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
+                                unit.hasToReload = false;
+                                Debug.Log("RELOAD");
+                                unit.hasAttacked = true;
+                            }
+                            // If the unit can attack the target unit, a fight occurs
+                            else if (Board.instance.CanAttack(unit, targetUnit))
+                            {
+                                UnitAttack(unit, targetUnit);
+                                targetUnit.HurtFeedback(true);
+                                // If the target unit can attack back
+                                if (Board.instance.CanAttack(targetUnit, unit))
+                                {
+                                    if (unit.HasTrait(Trait.Charge) && unit.movePointsUsed > 0)
+                                    {
+                                        yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
+                                        targetUnit.HurtFeedback(false);
+                                        if (targetUnit.HasTrait(Trait.Spear) || targetUnit.hp > 0)
+                                        {
+                                            UnitAttack(targetUnit, unit, targetUnit.HasTrait(Trait.Weak));
+                                            unit.HurtFeedback(true);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        UnitAttack(targetUnit, unit, targetUnit.HasTrait(Trait.Weak));
+                                        unit.HurtFeedback(true);
+                                    }
+                                }
+                                yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
+                                // Reset hurt feedbacks
+                                targetUnit.HurtFeedback(false);
+                                unit.HurtFeedback(false);
+
+                                unit.hasAttacked = true;
+
+                                KillDeathList();
+                            }
                         }
                     }
                 }
