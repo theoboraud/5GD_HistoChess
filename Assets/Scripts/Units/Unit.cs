@@ -149,21 +149,27 @@ public class Unit : MonoBehaviour, ISelectableEntity
 
         Color color = GameManager.instance.formationLevelOneStatColor;
 
-        if (_formationLevel == 2)
+        if (_formationLevel == 1)
         {
-            color = GameManager.instance.formationLevelTwoStatColor;
-        }
-        else if (_formationLevel == 3)
-        {
-            color = GameManager.instance.formationLevelThreeStatColor;
+            _commandPointsValue.color = GameManager.instance.formationLevelOneStatColor;
+            _powerValue.color = GameManager.instance.formationLevelOneStatColor;
+            _hpValue.color = GameManager.instance.formationLevelOneStatColor;
         }
 
-        _commandPointsValue.color = color;
-
-        if (HasTrait(Trait.Support))
+        if (_formationLevel > 1)
         {
-            _powerValue.color = color;
-            _hpValue.color = color;
+            _commandPointsValue.color = GameManager.instance.formationLevelTwoStatColor;
+
+            if (HasTrait(Trait.Support))
+            {
+                _powerValue.color = GameManager.instance.formationLevelTwoStatColor;
+                _hpValue.color = GameManager.instance.formationLevelTwoStatColor;
+            }
+        }
+
+        if (_formationLevel > 2)
+        {
+            _commandPointsValue.color = GameManager.instance.formationLevelThreeStatColor;
         }
     }
 
@@ -358,12 +364,7 @@ public class Unit : MonoBehaviour, ISelectableEntity
 
             if (HasTrait(Trait.Support))
             {
-                if (formationLevel == 3)
-                {
-                    _power = unitReference.power + 2;
-                    _hp = unitReference.hp + 2;
-                }
-                else if (formationLevel == 2)
+                if (formationLevel > 1)
                 {
                     _power = unitReference.power + 1;
                     _hp = unitReference.hp + 1;
