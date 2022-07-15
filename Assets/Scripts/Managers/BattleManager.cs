@@ -115,7 +115,6 @@ public class BattleManager : MonoBehaviour
                             else if (Board.instance.CanAttack(unit, targetUnit))
                             {
                                 UnitAttack(unit, targetUnit);
-                                targetUnit.HurtFeedback(true);
                                 // If the target unit can attack back
                                 if (Board.instance.CanAttack(targetUnit, unit))
                                 {
@@ -126,7 +125,6 @@ public class BattleManager : MonoBehaviour
                                     else
                                     {
                                         UnitAttack(targetUnit, unit, targetUnit.HasTrait(Trait.Weak));
-                                        unit.HurtFeedback(true);
                                     }
                                 }
                                 yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
@@ -226,13 +224,11 @@ public class BattleManager : MonoBehaviour
                                         if (targetUnit.HasTrait(Trait.Spear) || targetUnit.hp > 0)
                                         {
                                             UnitAttack(targetUnit, unit, targetUnit.HasTrait(Trait.Weak));
-                                            unit.HurtFeedback(true);
                                         }
                                     }
                                     else
                                     {
                                         UnitAttack(targetUnit, unit, targetUnit.HasTrait(Trait.Weak));
-                                        unit.HurtFeedback(true);
                                     }
                                 }
                                 yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
@@ -285,7 +281,11 @@ public class BattleManager : MonoBehaviour
             }
             else
             {
-                targetUnit.TakeDamage(damage);
+                if (damage > 0)
+                {
+                    targetUnit.TakeDamage(damage);
+                    targetUnit.tile.FeedbackBlood(true);
+                }
             }
 
             //Debug.Log($"BattlePhase.UnitAttack: {attackingUnit} deals {damage} damage to {targetUnit}");
@@ -360,9 +360,9 @@ public class BattleManager : MonoBehaviour
         Board.instance.ResetSelection();
         Board.instance.SavePlayerUnits();
 
-        GameManager.instance.BattleMode();
-
         LoadArmyCompositionDependingOnTier();
+
+        GameManager.instance.BattleMode();
 
         // If the game should not render enemy units stats, delete every enemy unit's stat icons and values
         if (GameManager.instance.unknownEnemyStats)

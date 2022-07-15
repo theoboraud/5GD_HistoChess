@@ -209,7 +209,11 @@ public class Unit : MonoBehaviour, ISelectableEntity
     /// </summary>
     public void ResetTile()
     {
-        _tile = null;
+        if (_tile != null)
+        {
+            _tile.ResetUnit();
+            _tile = null;
+        }
     }
 
     // ----------------------------------------------------------------------------------------

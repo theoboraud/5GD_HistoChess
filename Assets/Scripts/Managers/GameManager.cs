@@ -107,6 +107,7 @@ public class GameManager : MonoBehaviour
     public void PlanificationMode()
     {
         _gameMode = GameMode.Planification;
+
         if (Shop.instance != null)
         {
             Shop.instance.UpdateShop();
@@ -114,6 +115,18 @@ public class GameManager : MonoBehaviour
         if (EnemyShop.instance != null)
         {
             EnemyShop.instance.UpdateShop();
+        }
+
+        if (Board.instance != null)
+        {
+            for (int i = 0; i < Board.instance.xSize; i++)
+            {
+                for (int j = 0; j < Board.instance.ySize; j++)
+                {
+                    Board.instance.GetTile(i, j).FeedbackBlood(false);
+                    Board.instance.GetTile(i, j).FeedbackShadow(false);
+                }
+            }
         }
     }
 
@@ -125,6 +138,16 @@ public class GameManager : MonoBehaviour
     public void BattleMode()
     {
         _gameMode = GameMode.Battle;
+
+        foreach(Unit unit in Board.instance.playerUnits)
+        {
+            unit.tile.FeedbackShadow(true);
+        }
+
+        foreach(Unit unit in Board.instance.enemyUnits)
+        {
+            unit.tile.FeedbackShadow(true);
+        }
     }
 
     // ----------------------------------------------------------------------------------------
@@ -175,6 +198,7 @@ public class GameManager : MonoBehaviour
         Board.instance.UpdateCommandPoints();
 
         PlanificationMode();
+
     }
 
     // ----------------------------------------------------------------------------------------

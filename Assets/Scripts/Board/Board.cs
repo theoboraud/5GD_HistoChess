@@ -35,6 +35,8 @@ public class Board : MonoBehaviour
     public List<Unit> enemyUnits { get => _enemyUnits; set => _enemyUnits = value; }
     public Unit selectedUnit { get => _selectedUnit; set => _selectedUnit = value; }
     public Transform enemyUnitsParent { get => _enemyUnitsParent; set => _enemyUnitsParent = value; }
+    public int xSize { get => _xSize; }
+    public int ySize { get => _ySize; }
 
     // ----------------------------------------------------------------------------------------
 
@@ -156,6 +158,10 @@ public class Board : MonoBehaviour
 
             // Move unit to tile
             unit.Move(tile);
+            if (GameManager.instance.gameMode == GameMode.Battle)
+            {
+                tile.FeedbackShadow(true);
+            }
         }
     }
 
@@ -597,7 +603,6 @@ public class Board : MonoBehaviour
         {
             if (_faction == Faction.Friendly && _selectedUnit.faction == Faction.Friendly)
             {
-                _selectedUnit.tile.ResetUnit();
                 _selectedUnit.ResetTile();
                 Reserve.instance.AddUnit(_selectedUnit);
                 _playerUnits.Remove(_selectedUnit);
