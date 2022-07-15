@@ -29,6 +29,7 @@ public class Board : MonoBehaviour
     [SerializeField] private Transform _enemyUnitsParent;
     [SerializeField] private TMP_Text _playerCommandPointsValue;
     [SerializeField] private TMP_Text _enemyCommandPointsValue;
+    [SerializeField] private GameObject _fog;
 
     // Public get/set
     public List<Unit> playerUnits { get => _playerUnits; set => _playerUnits = value; }
@@ -703,7 +704,8 @@ public class Board : MonoBehaviour
     /// <param name="enable"> Whether or not the feedback must be enabled </param>
     public void DarkEnemyTiles(bool enable)
     {
-        foreach (Tile tile in GetEnemyTiles())
+        _fog.SetActive(enable);
+        /*foreach (Tile tile in GetEnemyTiles())
         {
             if (enable)
             {
@@ -713,7 +715,7 @@ public class Board : MonoBehaviour
             {
                 tile.FeedbackDefault();
             }
-        }
+        }*/
     }
 
     // ----------------------------------------------------------------------------------------

@@ -28,6 +28,8 @@ public class Shop : MonoBehaviour
     [SerializeField] private List<Transform> _shopZones = new List<Transform>();                            // Shop spawning zone where shop items spawn
     [SerializeField] private GameObject _unitPrefab;                                                        // Unit prefab
     [SerializeField] private GameObject _shopItemPrefab;                                                    // ShopItem prefab
+    [SerializeField] private GameObject _btnSell;
+    [SerializeField] private GameObject _btnReroll;
 
     // Trait sprites references
     [Header("Trait sprites")]
@@ -110,7 +112,7 @@ public class Shop : MonoBehaviour
         {
             Player.instance.PayGolds(buyCost);
             SoundManager.instance.UnitBuying();
-            
+
             Reserve.instance.SpawnUnit(shopItem.unitReference);
 
             if (shopItem.unitReference.traits.Contains(Trait.Swarm) && Reserve.instance.unitsCount < Reserve.instance.reserveZonesCount)
@@ -225,5 +227,26 @@ public class Shop : MonoBehaviour
         }
 
         return availableUnits;
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     TODO
+    /// </summary>
+    public void EnableShop(bool enable)
+    {
+        _btnSell.SetActive(enable);
+        _btnReroll.SetActive(enable);
+
+        foreach(Transform shopZone in _shopZones)
+        {
+            shopZone.gameObject.SetActive(enable);
+        }
+
+        foreach(ShopItem shopItem in _shopItems)
+        {
+            shopItem.gameObject.SetActive(enable);
+        }
     }
 }

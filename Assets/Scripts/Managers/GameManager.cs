@@ -121,8 +121,15 @@ public class GameManager : MonoBehaviour
 
         if (Shop.instance != null)
         {
+            Shop.instance.EnableShop(true);
             Shop.instance.UpdateShop();
         }
+
+        if (Reserve.instance != null)
+        {
+            Reserve.instance.EnableReserve(true);
+        }
+
         if (EnemyShop.instance != null)
         {
             EnemyShop.instance.UpdateShop();
@@ -154,6 +161,8 @@ public class GameManager : MonoBehaviour
         _gameMode = GameMode.Battle;
 
         Board.instance.DarkEnemyTiles(false);
+        Shop.instance.EnableShop(false);
+        Reserve.instance.EnableReserve(false);
 
         camera.transform.position = cameraBattlePosition;
         camera.transform.rotation = cameraBattleRotation;

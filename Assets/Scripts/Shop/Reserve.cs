@@ -171,4 +171,23 @@ public class Reserve : MonoBehaviour
     {
         Board.instance.SelectReserve(_faction);
     }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     TODO
+    /// </summary>
+    public void EnableReserve(bool enable)
+    {
+
+        foreach(Transform reserveZone in _reserveZones)
+        {
+            reserveZone.gameObject.SetActive(enable);
+        }
+
+        foreach(Unit unit in _reserveUnits)
+        {
+            unit.gameObject.SetActive(enable);
+        }
+    }
 }
