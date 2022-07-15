@@ -20,6 +20,11 @@ public class GameManager : MonoBehaviour
     public Color formationLevelOneStatColor;
     public Color formationLevelTwoStatColor;
     public Color formationLevelThreeStatColor;
+    public Camera camera;
+    public Vector3 cameraPlanificationPosition;
+    public Quaternion cameraPlanificationRotation;
+    public Vector3 cameraBattlePosition;
+    public Quaternion cameraBattleRotation;
 
     // Variables
     public bool unknownEnemyStats = false;
@@ -128,6 +133,9 @@ public class GameManager : MonoBehaviour
                 }
             }
         }
+
+        camera.transform.position = cameraPlanificationPosition;
+        camera.transform.rotation = cameraPlanificationRotation;
     }
 
     // ----------------------------------------------------------------------------------------
@@ -139,14 +147,21 @@ public class GameManager : MonoBehaviour
     {
         _gameMode = GameMode.Battle;
 
+        camera.transform.position = cameraBattlePosition;
+        camera.transform.rotation = cameraBattleRotation;
+
         foreach(Unit unit in Board.instance.playerUnits)
         {
             unit.tile.FeedbackShadow(true);
+            unit.transform.position += new Vector3(0f, 0.5f, 0f);
+            unit.transform.rotation = camera.transform.rotation;
         }
 
         foreach(Unit unit in Board.instance.enemyUnits)
         {
             unit.tile.FeedbackShadow(true);
+            unit.transform.position += new Vector3(0f, 0.5f, 0f);
+            unit.transform.rotation = camera.transform.rotation;
         }
     }
 
@@ -198,7 +213,6 @@ public class GameManager : MonoBehaviour
         Board.instance.UpdateCommandPoints();
 
         PlanificationMode();
-
     }
 
     // ----------------------------------------------------------------------------------------
