@@ -15,7 +15,7 @@ public class BattleManager : MonoBehaviour
     // References
     public static BattleManager instance;                       // BattleManager static instance
     private List<Unit> _deathList = new List<Unit>();           // List of units dead this round
-    private float _gameSpeed = 0.8f;
+    private float _gameSpeed = 1f;
 
     [SerializeField] private List<ArmyComposition> tierOneArmyCompositions = new List<ArmyComposition>();       // List of army composition in tier 1
     [SerializeField] private List<ArmyComposition> tierTwoArmyCompositions = new List<ArmyComposition>();       // List of army composition in tier 2
@@ -69,11 +69,11 @@ public class BattleManager : MonoBehaviour
             Unit unit = orderedPlayerUnits[i];
             Unit targetUnit = null;
 
-            unit.SelectFeedback(true);
-            yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
-
             if (Board.instance.enemyUnits.Count > 0)
             {
+                unit.SelectFeedback(true);
+                yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
+
                 int speed = unit.speed;
                 // For each unit speed point
                 for (int j = 0; j < speed; j++)
@@ -96,12 +96,12 @@ public class BattleManager : MonoBehaviour
                                 if (targetUnit != null && !unit.stunned)
                                 {
                                     Board.instance.MoveUnitTowards(unit, targetUnit.tile);
+                                    yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
 
                                     // TESTING ONLY
                                     //Board.instance.ResetTilesFeedbacks();
                                 }
                             }
-                            yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
 
                             targetUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.enemyUnits, true);
 
@@ -115,19 +115,26 @@ public class BattleManager : MonoBehaviour
                             else if (Board.instance.CanAttack(unit, targetUnit))
                             {
                                 UnitAttack(unit, targetUnit);
+                                yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
                                 // If the target unit can attack back
-                                if (Board.instance.CanAttack(targetUnit, unit))
+                                if (!unit.HasTrait(Trait.Distance) && Board.instance.CanAttack(targetUnit, unit))
                                 {
-                                    if (unit.HasTrait(Trait.Charge) && unit.movePointsUsed > 0 && !targetUnit.HasTrait(Trait.Spear) && targetUnit.hp == 0)
+                                    if (unit.HasTrait(Trait.Charge) && unit.movePointsUsed > 0)
                                     {
-
+                                        targetUnit.HurtFeedback(false);
+                                        if (targetUnit.HasTrait(Trait.Spear) || targetUnit.hp > 0)
+                                        {
+                                            UnitAttack(targetUnit, unit, targetUnit.HasTrait(Trait.Weak));
+                                            yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
+                                        }
                                     }
                                     else
                                     {
                                         UnitAttack(targetUnit, unit, targetUnit.HasTrait(Trait.Weak));
+                                        yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
                                     }
                                 }
-                                yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
+
                                 // Reset hurt feedbacks
                                 targetUnit.HurtFeedback(false);
                                 unit.HurtFeedback(false);
@@ -166,11 +173,11 @@ public class BattleManager : MonoBehaviour
             Unit unit = orderedEnemyUnits[i];
             Unit targetUnit = null;
 
-            unit.SelectFeedback(true);
-            yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
-
             if (Board.instance.playerUnits.Count > 0)
             {
+                unit.SelectFeedback(true);
+                yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
+
                 int speed = unit.speed;
                 // For each unit speed point
                 for (int j = 0; j < speed; j++)
@@ -193,12 +200,12 @@ public class BattleManager : MonoBehaviour
                                 if (targetUnit != null && !unit.stunned)
                                 {
                                     Board.instance.MoveUnitTowards(unit, targetUnit.tile);
+                                    yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
 
                                     // TESTING ONLY
                                     //Board.instance.ResetTilesFeedbacks();
                                 }
                             }
-                            yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
 
                             targetUnit = Board.instance.FirstUnitByDistanceAndInitiative(unit.tile, Board.instance.playerUnits, true);
 
@@ -213,25 +220,25 @@ public class BattleManager : MonoBehaviour
                             else if (Board.instance.CanAttack(unit, targetUnit))
                             {
                                 UnitAttack(unit, targetUnit);
-                                targetUnit.HurtFeedback(true);
+                                yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
                                 // If the target unit can attack back
-                                if (Board.instance.CanAttack(targetUnit, unit))
+                                if (!unit.HasTrait(Trait.Distance) && Board.instance.CanAttack(targetUnit, unit))
                                 {
                                     if (unit.HasTrait(Trait.Charge) && unit.movePointsUsed > 0)
                                     {
-                                        yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
                                         targetUnit.HurtFeedback(false);
                                         if (targetUnit.HasTrait(Trait.Spear) || targetUnit.hp > 0)
                                         {
                                             UnitAttack(targetUnit, unit, targetUnit.HasTrait(Trait.Weak));
+                                            yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
                                         }
                                     }
                                     else
                                     {
                                         UnitAttack(targetUnit, unit, targetUnit.HasTrait(Trait.Weak));
+                                        yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
                                     }
                                 }
-                                yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
                                 // Reset hurt feedbacks
                                 targetUnit.HurtFeedback(false);
                                 unit.HurtFeedback(false);
@@ -273,6 +280,15 @@ public class BattleManager : MonoBehaviour
             if (isWeak)
             {
                 damage--;
+            }
+
+            if (attackingUnit.HasTrait(Trait.Distance))
+            {
+                SoundManager.instance.UnitAttackDIST(attackingUnit);
+            }
+            else
+            {
+                SoundManager.instance.UnitAttackCAC(attackingUnit);
             }
 
             if (targetUnit.HasTrait(Trait.Enrage) && !targetUnit.hasEnraged)
@@ -373,6 +389,12 @@ public class BattleManager : MonoBehaviour
             }
         }
 
+        SoundManager.instance.AlliedArrival(Board.instance.GetTile(0, 3));
+        yield return new WaitForSeconds(6f);
+
+        SoundManager.instance.EnemyArrival(Board.instance.GetTile(7, 3));
+        yield return new WaitForSeconds(6f);
+
         while (Board.instance.playerUnits.Count > 0 && Board.instance.enemyUnits.Count > 0)
         {
             yield return StartCoroutine("NextPhase");
@@ -388,6 +410,8 @@ public class BattleManager : MonoBehaviour
     /// </summary>
     public void StartAutoPhase()
     {
+        SoundManager.instance.ButtonPressed();
+
         if (Board.instance.CanLaunchBattle())
         {
             StartCoroutine("AutoPhase");

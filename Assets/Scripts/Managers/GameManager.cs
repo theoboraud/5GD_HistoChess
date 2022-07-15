@@ -114,6 +114,11 @@ public class GameManager : MonoBehaviour
     {
         _gameMode = GameMode.Planification;
 
+        if (Board.instance != null)
+        {
+            Board.instance.DarkEnemyTiles(true);
+        }
+
         if (Shop.instance != null)
         {
             Shop.instance.UpdateShop();
@@ -147,6 +152,8 @@ public class GameManager : MonoBehaviour
     public void BattleMode()
     {
         _gameMode = GameMode.Battle;
+
+        Board.instance.DarkEnemyTiles(false);
 
         camera.transform.position = cameraBattlePosition;
         camera.transform.rotation = cameraBattleRotation;

@@ -337,6 +337,10 @@ public class Unit : MonoBehaviour, ISelectableEntity
     public void SelectFeedback(bool active)
     {
         _activeFeedback.SetActive(active);
+        if (active)
+        {
+            SoundManager.instance.UnitSelectionCAC(this);
+        }
     }
 
     // ----------------------------------------------------------------------------------------

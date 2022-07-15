@@ -105,6 +105,7 @@ public class Reserve : MonoBehaviour
     /// </summary>
     public void SellSelectedUnit()
     {
+        SoundManager.instance.ButtonPressed();
         // If there is a Player selected unit
         if (Board.instance.selectedUnit != null)
         {

@@ -79,6 +79,8 @@ public class ShopItem : MonoBehaviour, ISelectableEntity
     /// </summary>
     public void Select()
     {
+        SoundManager.instance.ButtonPressed();
+
         if (_faction == Faction.Friendly)
         {
             Shop.instance.BuyShopItem(this);

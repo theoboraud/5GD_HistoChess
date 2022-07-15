@@ -109,7 +109,8 @@ public class Shop : MonoBehaviour
         if (Player.instance.golds >= buyCost)
         {
             Player.instance.PayGolds(buyCost);
-
+            SoundManager.instance.UnitBuying();
+            
             Reserve.instance.SpawnUnit(shopItem.unitReference);
 
             if (shopItem.unitReference.traits.Contains(Trait.Swarm) && Reserve.instance.unitsCount < Reserve.instance.reserveZonesCount)
@@ -140,6 +141,8 @@ public class Shop : MonoBehaviour
     /// </summary>
     public void RollShop()
     {
+        SoundManager.instance.ShopReroll();
+
         if (Player.instance.golds >= ROLL_COST)
         {
             Player.instance.PayGolds(ROLL_COST);

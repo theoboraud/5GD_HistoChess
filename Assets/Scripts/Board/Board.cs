@@ -83,6 +83,8 @@ public class Board : MonoBehaviour
         }
 
         UpdateCommandPoints();
+
+        Board.instance.DarkEnemyTiles(true);
     }
 
     // ----------------------------------------------------------------------------------------
@@ -162,6 +164,20 @@ public class Board : MonoBehaviour
             {
                 tile.FeedbackShadow(true);
             }
+
+            if (_playerUnits.Contains(unit) || _enemyUnits.Contains(unit))
+            {
+                if (unit.HasTrait(Trait.Charge))
+                {
+                    SoundManager.instance.UnitMoveCAV(unit);
+                }
+                else
+                {
+                    SoundManager.instance.UnitMoveCAC_DIST(unit);
+                }
+            }
+
+
         }
     }
 
@@ -455,18 +471,12 @@ public class Board : MonoBehaviour
     {
         if (GameManager.instance.GetPlanificationMode())
         {
+            Unit oldSelectedUnit = _selectedUnit;
             ResetSelection();
-            _selectedUnit = unit;
 
-            if (unit.faction == Faction.Friendly)
+            if (oldSelectedUnit != unit)
             {
-                DarkPlayerTiles(false);
-                DarkEnemyTiles(true);
-            }
-            else if (unit.faction == Faction.Enemy)
-            {
-                DarkPlayerTiles(true);
-                DarkEnemyTiles(false);
+                _selectedUnit = unit;
             }
         }
     }
@@ -503,8 +513,6 @@ public class Board : MonoBehaviour
 
             UpdateCommandPoints();
             ResetSelection();
-            DarkPlayerTiles(false);
-            DarkEnemyTiles(false);
         }
     }
 
@@ -605,6 +613,7 @@ public class Board : MonoBehaviour
             {
                 _selectedUnit.ResetTile();
                 Reserve.instance.AddUnit(_selectedUnit);
+                SoundManager.instance.UnitStandDown(_selectedUnit);
                 _playerUnits.Remove(_selectedUnit);
             }
 
@@ -613,6 +622,7 @@ public class Board : MonoBehaviour
                 _selectedUnit.tile.ResetUnit();
                 _selectedUnit.ResetTile();
                 EnemyReserve.instance.AddUnit(_selectedUnit);
+                SoundManager.instance.UnitStandDown(_selectedUnit);
                 _enemyUnits.Remove(_selectedUnit);
             }
 
@@ -718,8 +728,6 @@ public class Board : MonoBehaviour
             _selectedUnit.Unselect();
             _selectedUnit = null;
         }
-        DarkPlayerTiles(false);
-        DarkEnemyTiles(false);
     }
 
     // ----------------------------------------------------------------------------------------
