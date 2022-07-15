@@ -337,14 +337,14 @@ public class BattleManager : MonoBehaviour
 
         if (_movePhase)
         {
-            _btnText.text = "Player Phase";
-            _btnText.transform.parent.GetComponent<Image>().color = Color.red;
+            //_btnText.text = "Player Phase";
+            //_btnText.transform.parent.GetComponent<Image>().color = Color.red;
             yield return StartCoroutine("PlayerPhase");
         }
         else
         {
-            _btnText.text = "Enemy Phase";
-            _btnText.transform.parent.GetComponent<Image>().color = Color.green;
+            //_btnText.text = "Enemy Phase";
+            //_btnText.transform.parent.GetComponent<Image>().color = Color.green;
             yield return StartCoroutine("EnemyPhase");
         }
     }
