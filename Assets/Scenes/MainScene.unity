@@ -335,14 +335,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 32865479}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.65, y: 1, z: -10}
+  m_LocalRotation: {x: -0.42261827, y: 0, z: 0, w: 0.9063079}
+  m_LocalPosition: {x: 0, y: -5.8, z: -5.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: -50, y: 0, z: 0}
 --- !u!1 &246110568
 GameObject:
   m_ObjectHideFlags: 0
@@ -4368,12 +4368,20 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7032010295709527256, guid: 9f021f30974234193b27423bae80f1bf, type: 3}
+      propertyPath: unitBattleRotation.w
+      value: -0.8290375
+      objectReference: {fileID: 0}
+    - target: {fileID: 7032010295709527256, guid: 9f021f30974234193b27423bae80f1bf, type: 3}
+      propertyPath: unitBattleRotation.x
+      value: 0.559193
+      objectReference: {fileID: 0}
+    - target: {fileID: 7032010295709527256, guid: 9f021f30974234193b27423bae80f1bf, type: 3}
       propertyPath: cameraBattlePosition.y
-      value: -7.5
+      value: -5.8
       objectReference: {fileID: 0}
     - target: {fileID: 7032010295709527256, guid: 9f021f30974234193b27423bae80f1bf, type: 3}
       propertyPath: cameraBattlePosition.z
-      value: -7.5
+      value: -5.4
       objectReference: {fileID: 0}
     - target: {fileID: 7032010295709527256, guid: 9f021f30974234193b27423bae80f1bf, type: 3}
       propertyPath: cameraBattleRotation.w
@@ -4418,6 +4426,14 @@ PrefabInstance:
     - target: {fileID: 7032010295709527256, guid: 9f021f30974234193b27423bae80f1bf, type: 3}
       propertyPath: formationLevelTwoStatColor.r
       value: 0.15640295
+      objectReference: {fileID: 0}
+    - target: {fileID: 7032010295709527256, guid: 9f021f30974234193b27423bae80f1bf, type: 3}
+      propertyPath: cameraBattleInverseRotation.w
+      value: 0.90630776
+      objectReference: {fileID: 0}
+    - target: {fileID: 7032010295709527256, guid: 9f021f30974234193b27423bae80f1bf, type: 3}
+      propertyPath: cameraBattleInverseRotation.x
+      value: 0.42261827
       objectReference: {fileID: 0}
     - target: {fileID: 7032010295709527256, guid: 9f021f30974234193b27423bae80f1bf, type: 3}
       propertyPath: cameraPlanificationPosition.x
@@ -5784,6 +5800,10 @@ PrefabInstance:
       propertyPath: traitSpriteReload
       value: 
       objectReference: {fileID: 21300000, guid: 954b47c0c6c62314ca7fe4974dc23ae7, type: 3}
+    - target: {fileID: 6180475923977963476, guid: fdf72637950ee42178790c595c3d2c43, type: 3}
+      propertyPath: traitSpriteSavage
+      value: 
+      objectReference: {fileID: 21300000, guid: 9d989024dcbbcf5418d7440f9fa346cf, type: 3}
     - target: {fileID: 6180475923977963476, guid: fdf72637950ee42178790c595c3d2c43, type: 3}
       propertyPath: traitSpriteBarrage
       value: 

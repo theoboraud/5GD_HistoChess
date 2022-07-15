@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     public Quaternion cameraPlanificationRotation;
     public Vector3 cameraBattlePosition;
     public Quaternion cameraBattleRotation;
+    public Quaternion unitBattleRotation;
 
     // Variables
     public bool unknownEnemyStats = false;
@@ -153,15 +154,26 @@ public class GameManager : MonoBehaviour
         foreach(Unit unit in Board.instance.playerUnits)
         {
             unit.tile.FeedbackShadow(true);
-            unit.transform.position += new Vector3(0f, 0.5f, 0f);
-            unit.transform.rotation = camera.transform.rotation;
+            unit.commandPointsIcon.SetActive(false);
+            unit.transform.position += new Vector3(0f, 0.35f - 0.05f * unit.tile.y, 0f);
+            if (unit.HasTrait(Trait.Charge))
+            {
+                unit.transform.position += new Vector3(0f, 0.15f - 0.025f * unit.tile.y, 0f);
+            }
+            unit.transform.rotation = unitBattleRotation;
+
         }
 
         foreach(Unit unit in Board.instance.enemyUnits)
         {
             unit.tile.FeedbackShadow(true);
-            unit.transform.position += new Vector3(0f, 0.5f, 0f);
-            unit.transform.rotation = camera.transform.rotation;
+            unit.commandPointsIcon.SetActive(false);
+            unit.transform.position += new Vector3(0f, 0.35f - 0.05f * unit.tile.y, 0f);
+            if (unit.HasTrait(Trait.Charge))
+            {
+                unit.transform.position += new Vector3(0f, 0.15f - 0.025f * unit.tile.y, 0f);
+            }
+            unit.transform.rotation = unitBattleRotation;
         }
     }
 

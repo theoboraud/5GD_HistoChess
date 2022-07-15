@@ -45,6 +45,7 @@ public class Unit : MonoBehaviour, ISelectableEntity
     [SerializeField] private GameObject _unitFactionFeedback;   // Unit faction feedback game object
     [SerializeField] private Color _colorFriendly;              // Friendly color reference
     [SerializeField] private Color _colorEnemy;                 // Enemy color reference
+    [SerializeField] private Color _colorHurtStat;              // Color to change to for resistance value when unit is hurt
     private Tile _tile;                                         // Tile on which the unit is located, if any
 
     // Public get/set
@@ -63,6 +64,8 @@ public class Unit : MonoBehaviour, ISelectableEntity
     public bool hasEnraged { get => _hasEnraged; set => _hasEnraged = value; }
     public bool hasToReload { get => _hasToReload; set => _hasToReload = value; }
     public int formationLevel { get => _formationLevel; }
+    public List<SpriteRenderer> spriteRenderers { get => _spriteRenderers; set => _spriteRenderers = value; }
+    public GameObject commandPointsIcon { get => _commandPointsIcon; set => _commandPointsIcon = value; }
 
     // ----------------------------------------------------------------------------------------
 
@@ -171,6 +174,12 @@ public class Unit : MonoBehaviour, ISelectableEntity
         {
             _commandPointsValue.color = GameManager.instance.formationLevelThreeStatColor;
         }
+
+        int maxHp = HasTrait(Trait.Support) ? _unitReference.hp + Mathf.Clamp(_formationLevel - 1, 0, 1) : _unitReference.hp;
+        if (_hp < maxHp)
+        {
+            _hpValue.color = _colorHurtStat;
+        }
     }
 
     // ----------------------------------------------------------------------------------------
@@ -199,6 +208,16 @@ public class Unit : MonoBehaviour, ISelectableEntity
             transform.position = tile.transform.position;
             _tile = tile;
             _movePointsUsed++;
+
+            if (GameManager.instance.gameMode == GameMode.Battle)
+            {
+                transform.position += new Vector3(0f, 0.35f - 0.05f * _tile.y, 0f);
+
+                if (HasTrait(Trait.Charge))
+                {
+                    this.transform.position += new Vector3(0f, 0.15f - 0.025f * _tile.y, 0f);
+                }
+            }
         }
     }
 
@@ -247,7 +266,6 @@ public class Unit : MonoBehaviour, ISelectableEntity
     /// <param name="damage"> How much damage this unit is dealt </param>
     public void TakeDamage(int damage)
     {
-        // Minimum 0hp
         _hp = Mathf.Clamp(_hp - damage, 0, _hp);
         UpdateStats();
     }
