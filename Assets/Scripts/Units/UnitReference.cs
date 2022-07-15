@@ -11,8 +11,8 @@ using Enums;
 [CreateAssetMenu(fileName = "UnitReference", menuName = "ScriptableObjects/UnitReference")]
 public class UnitReference : ScriptableObject
 {
-    //[Header("Unit name")]
-    //public string unitName = "";                // Unit name
+    [Header("Unit name")]
+    public string unitName;                     // Unit name
 
     [Header("Unit stats")]
     public int power = 1;                       // How much damage this unit deals when fighting

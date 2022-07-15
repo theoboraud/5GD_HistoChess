@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1f8f60d9c16748e7b0d394fd50e53c9, type: 3}
   m_Name: Guard
   m_EditorClassIdentifier: 
+  unitName: Gardes
   power: 1
   hp: 2
   commandPoints: 5

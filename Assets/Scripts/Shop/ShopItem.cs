@@ -11,13 +11,14 @@ public class ShopItem : MonoBehaviour, ISelectableEntity
 {
     // References
     [SerializeField] private UnitReference _unitReference;          // Unit Reference
+    [SerializeField] private TMP_Text _name;                        // Health point value text reference
     [SerializeField] private SpriteRenderer _spriteRenderer;        // Sprite renderer reference
     [SerializeField] private Faction _faction;                      // Faction reference
     [SerializeField] private TMP_Text _powerValue;                  // Power value text reference
     [SerializeField] private TMP_Text _hpValue;                     // Health point value text reference
-    [SerializeField] private GameObject _rangeIcon;                 // Range icon GameObject reference
     [SerializeField] private GameObject _commandPointsIcon;         // Command points icon GameObject reference
     [SerializeField] private TMP_Text _commandPointsValue;          // Command points value text reference
+    [SerializeField] private List<SpriteRenderer> _traitSprites = new List<SpriteRenderer>();
 
 
     // Public get/set
@@ -32,14 +33,9 @@ public class ShopItem : MonoBehaviour, ISelectableEntity
     private void Init()
     {
         _spriteRenderer.sprite = _faction == Faction.Friendly ? _unitReference.friendlySprite[Random.Range(0, _unitReference.friendlySprite.Count - 1)] : _unitReference.enemySprite[Random.Range(0, _unitReference.enemySprite.Count - 1)];
-
+        _name.text = unitReference.unitName;
         _powerValue.text = _unitReference.power.ToString();
         _hpValue.text = _unitReference.hp.ToString();
-        // Range icon visible only if the unit has a range greater than 1
-        if (_unitReference.traits.Contains(Trait.Distance))
-        {
-            _rangeIcon.SetActive(true);
-        }
         _commandPointsIcon.SetActive(true);
         _commandPointsValue.text = _unitReference.commandPoints.ToString();
 
@@ -48,6 +44,8 @@ public class ShopItem : MonoBehaviour, ISelectableEntity
             float currentScale = _spriteRenderer.transform.localScale.x;
             _spriteRenderer.transform.localScale = new Vector3(-currentScale, currentScale, currentScale);
         }
+
+        LoadTraitSprites();
     }
 
     // ----------------------------------------------------------------------------------------
@@ -109,5 +107,68 @@ public class ShopItem : MonoBehaviour, ISelectableEntity
     public void DeleteFromShop()
     {
         Destroy(gameObject);
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Load trait sprites depending on unit traits
+    /// </summary>
+    public void LoadTraitSprites()
+    {
+        int traitCount = 0;
+
+        foreach(Trait trait in _unitReference.traits)
+        {
+            SpriteRenderer spriteRenderer = _traitSprites[traitCount];
+            spriteRenderer.gameObject.SetActive(true);
+
+            switch(trait)
+            {
+                case Trait.Weak:
+                    spriteRenderer.sprite = Shop.instance.traitSpriteWeak;
+                    break;
+                case Trait.Barrage:
+                    spriteRenderer.sprite = Shop.instance.traitSpriteBarrage;
+                    break;
+                case Trait.Charge:
+                    spriteRenderer.sprite = Shop.instance.traitSpriteCharge;
+                    break;
+                case Trait.Distance:
+                    spriteRenderer.sprite = Shop.instance.traitSpriteDistance;
+                    break;
+                case Trait.Enrage:
+                    spriteRenderer.sprite = Shop.instance.traitSpriteEnrage;
+                    break;
+                case Trait.Cheap:
+                    spriteRenderer.sprite = Shop.instance.traitSpriteCheap;
+                    break;
+                case Trait.Swarm:
+                    spriteRenderer.sprite = Shop.instance.traitSpriteSwarm;
+                    break;
+                case Trait.Reload:
+                    spriteRenderer.sprite = Shop.instance.traitSpriteReload;
+                    break;
+                case Trait.Spear:
+                    spriteRenderer.sprite = Shop.instance.traitSpriteSpear;
+                    break;
+                case Trait.Support:
+                    spriteRenderer.sprite = Shop.instance.traitSpriteSupport;
+                    break;
+                case Trait.Run:
+                    spriteRenderer.sprite = Shop.instance.traitSpriteRun;
+                    break;
+                case Trait.Savage:
+                    spriteRenderer.sprite = Shop.instance.traitSpriteSavage;
+                    break;
+                case Trait.Raid:
+                    spriteRenderer.sprite = Shop.instance.traitSpriteRaid;
+                    break;
+                default:
+                    break;
+            }
+
+            traitCount++;
+        }
     }
 }

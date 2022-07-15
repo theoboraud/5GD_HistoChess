@@ -29,6 +29,22 @@ public class Shop : MonoBehaviour
     [SerializeField] private GameObject _unitPrefab;                                                        // Unit prefab
     [SerializeField] private GameObject _shopItemPrefab;                                                    // ShopItem prefab
 
+    // Trait sprites references
+    [Header("Trait sprites")]
+    public Sprite traitSpriteWeak;
+    public Sprite traitSpriteBarrage;
+    public Sprite traitSpriteCharge;
+    public Sprite traitSpriteDistance;
+    public Sprite traitSpriteEnrage;
+    public Sprite traitSpriteCheap;
+    public Sprite traitSpriteSwarm;
+    public Sprite traitSpriteReload;
+    public Sprite traitSpriteSpear;
+    public Sprite traitSpriteSupport;
+    public Sprite traitSpriteRun;
+    public Sprite traitSpriteSavage;
+    public Sprite traitSpriteRaid;
+
     // ----------------------------------------------------------------------------------------
 
     /// <summary>

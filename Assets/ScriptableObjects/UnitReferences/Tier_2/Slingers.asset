@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1f8f60d9c16748e7b0d394fd50e53c9, type: 3}
   m_Name: Slingers
   m_EditorClassIdentifier: 
+  unitName: Frondeurs
   power: 1
   hp: 1
   commandPoints: 5
   initiative: 1
-  traits: 010000000000000003000000
+  traits: 030000000100000000000000
   friendlySprite:
   - {fileID: 21300000, guid: daa4a2d081c9657469bf69f02b04c3d9, type: 3}
   enemySprite:
