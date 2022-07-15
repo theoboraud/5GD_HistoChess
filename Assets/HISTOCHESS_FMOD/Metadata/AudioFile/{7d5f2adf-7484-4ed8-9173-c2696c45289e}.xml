@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{7d5f2adf-7484-4ed8-9173-c2696c45289e}">
+		<property name="assetPath">
+			<value>skull-crush-with-club-body-falls-to-ground.mp3</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>1.6799999999999999</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{5f0f9337-f1e2-4022-b3a6-95e67f4c0404}</destination>
+		</relationship>
+	</object>
+</objects>

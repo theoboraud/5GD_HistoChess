@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{8391ee69-ca07-4b62-9d21-1ad1ad8fbdf4}">
+		<property name="assetPath">
+			<value>Chain_Impact_3.mp3</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>1.3322448979591837</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{5f0f9337-f1e2-4022-b3a6-95e67f4c0404}</destination>
+		</relationship>
+	</object>
+</objects>
