@@ -20,6 +20,9 @@ public class Tile : MonoBehaviour, ISelectableEntity
     [SerializeField] private Color _searchingColor;
     [SerializeField] private Color _darkColor;
 
+    [SerializeField] private SpriteRenderer _shadow;
+    [SerializeField] private SpriteRenderer _blood;
+
     // Public get/set
     public int x { get => _x; set => _x = value; }
     public int y { get => _y; set => _y = value; }
