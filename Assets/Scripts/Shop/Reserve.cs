@@ -19,6 +19,9 @@ public class Reserve : MonoBehaviour
     [SerializeField] private GameObject _unitPrefab;                                    // Unit prefab
     private int _unitsCount = 0;
 
+    public int reserveZonesCount { get => _reserveZones.Count; }
+    public int unitsCount { get => _unitsCount; }
+
     // ----------------------------------------------------------------------------------------
 
     /// <summary>
@@ -57,12 +60,12 @@ public class Reserve : MonoBehaviour
         // If there is still some place for new units in the reserve
         if (_reserveUnits.Count < _reserveZones.Count)
         {
-            GameObject _spawnedUnitGO = Instantiate(_unitPrefab);
-            _spawnedUnitGO.name = $"{_faction}Soldier_{_unitsCount}";
+            GameObject spawnedUnitGO = Instantiate(_unitPrefab);
+            spawnedUnitGO.name = $"{_faction}Soldier_{_unitsCount}";
             _unitsCount++;
-            Unit _spawnedUnit = _spawnedUnitGO.GetComponent<Unit>();
-            AddUnit(_spawnedUnit);
-            _spawnedUnit.LoadUnitReference(unitReference, _faction);
+            Unit spawnedUnit = spawnedUnitGO.GetComponent<Unit>();
+            AddUnit(spawnedUnit);
+            spawnedUnit.LoadUnitReference(unitReference, _faction);
         }
     }
 
@@ -78,6 +81,7 @@ public class Reserve : MonoBehaviour
         if (_reserveUnits.Count < _reserveZones.Count)
         {
             _reserveUnits.Add(unit);
+            unit.SetFormationLevel(1);
         }
         ReorderReserveUnits();
     }
@@ -97,17 +101,36 @@ public class Reserve : MonoBehaviour
     // ----------------------------------------------------------------------------------------
 
     /// <summary>
-    ///     Remove all units in the reserve
+    ///     Sell the selected unit in the reserve
     /// </summary>
-    public void RemoveAllUnits()
+    public void SellSelectedUnit()
     {
-        for (int i = _reserveUnits.Count - 1; i >= 0; i--)
+        // If there is a Player selected unit
+        if (Board.instance.selectedUnit != null)
         {
-            Unit unit = _reserveUnits[i];
-            _reserveUnits.Remove(unit);
-            Destroy(unit.gameObject);
+            if (Board.instance.selectedUnit.faction == Faction.Friendly)
+            {
+                // Unselect the selected unit
+                Unit unit = Board.instance.selectedUnit;
+                Board.instance.ResetSelection();
+                // The player gain golds when selling the unit
+                Player.instance.SoldUnit(unit);
+
+                if (_reserveUnits.Contains(unit))
+                {
+                    _reserveUnits.Remove(unit);
+                }
+                if (Board.instance.playerUnits.Contains(unit))
+                {
+                    Board.instance.playerUnits.Remove(unit);
+                }
+                Destroy(unit.gameObject);
+
+                ReorderReserveUnits();
+
+            }
         }
-        ReorderReserveUnits();
+        Board.instance.UpdateCommandPoints();
     }
 
     // ----------------------------------------------------------------------------------------
@@ -122,7 +145,7 @@ public class Reserve : MonoBehaviour
             Unit unit = _reserveUnits[i];
             unit.transform.parent = _reserveZones[i];
             unit.transform.position = unit.transform.parent.position;
-            unit.transform.localScale = Vector3.one * 1.2f;
+            unit.transform.localScale = Vector3.one * 1.3f;
         }
     }
 

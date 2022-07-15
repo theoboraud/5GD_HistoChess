@@ -11,14 +11,12 @@ using Enums;
 [CreateAssetMenu(fileName = "UnitReference", menuName = "ScriptableObjects/UnitReference")]
 public class UnitReference : ScriptableObject
 {
-    //[Header("Unit name")]
-    //public string unitName = "";                // Unit name
+    [Header("Unit name")]
+    public string unitName;                     // Unit name
 
     [Header("Unit stats")]
     public int power = 1;                       // How much damage this unit deals when fighting
     public int hp = 1;                          // Unit health points, dies when reduced to 0
-    public int speed = 1;                       // How much tiles this unit moves every battle round
-    public int range = 1;                       // How far the unit attack can reach
     public int commandPoints = 1;               // Cost to place the unit on the board
     public int initiative = 1;                  // Low initiatives will move last but be attacked first
 
@@ -26,6 +24,6 @@ public class UnitReference : ScriptableObject
     public List<Trait> traits = new List<Trait>();  // Unit traits
 
     [Header("Unit sprites")]
-    public Sprite friendlySprite;               // Unit friendly sprite reference
-    public Sprite enemySprite;                  // Unit enemy sprite reference
+    public List<Sprite> friendlySprite = new List<Sprite>();                // Friendly unit sprite references
+    public List<Sprite> enemySprite = new List<Sprite>();                   // Enemy Unit sprite references
 }

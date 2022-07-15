@@ -1,3 +1,7 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
 namespace Enums
 {
     public enum Faction
@@ -8,8 +12,32 @@ namespace Enums
 
     public enum Trait
     {
-        HeavyFoot,
-        Targeting,
-        Charge
+        Weak,
+        Barrage,
+        Charge,
+        Distance,
+        Enrage,
+        Cheap,
+        Swarm,
+        Reload,
+        Spear,
+        Support,
+        Run,
+        Savage,
+        Raid
+    }
+
+    public enum GameMode
+    {
+        Menu,
+        Planification,
+        Battle
+    }
+
+    [System.Serializable]
+    public struct ArmyUnit
+    {
+        public UnitReference unitReference;
+        public Vector2 position;
     }
 }

@@ -20,6 +20,14 @@ public class Unit : MonoBehaviour, ISelectableEntity
     [SerializeField] private int _commandPoints = 1;            // Cost to place the unit on the board
     [SerializeField] private Faction _faction;                  // Faction to which this unit belongs to
 
+    // Variables
+    private bool _stunned;
+    private int _movePointsUsed;
+    private bool _hasAttacked;
+    private bool _hasEnraged;
+    private bool _hasToReload;
+    private int _formationLevel;
+
     [Header("Unit traits")]
     [SerializeField] private List<Trait> _traits = new List<Trait>();   // All unit traits
 
@@ -37,6 +45,7 @@ public class Unit : MonoBehaviour, ISelectableEntity
     [SerializeField] private GameObject _unitFactionFeedback;   // Unit faction feedback game object
     [SerializeField] private Color _colorFriendly;              // Friendly color reference
     [SerializeField] private Color _colorEnemy;                 // Enemy color reference
+    [SerializeField] private Color _colorHurtStat;              // Color to change to for resistance value when unit is hurt
     private Tile _tile;                                         // Tile on which the unit is located, if any
 
     // Public get/set
@@ -47,7 +56,16 @@ public class Unit : MonoBehaviour, ISelectableEntity
     public int initiative { get => _initiative; }
     public int commandPoints { get => _commandPoints; }
     public Faction faction { get => _faction; }
-    public Tile tile { get => _tile; }
+    public Tile tile { get => _tile; set => _tile = value; }
+    public bool stunned { get => _stunned; set => _stunned = value; }
+    public UnitReference unitReference { get => _unitReference; }
+    public int movePointsUsed { get => _movePointsUsed; set => _movePointsUsed = value; }
+    public bool hasAttacked { get => _hasAttacked; set => _hasAttacked = value; }
+    public bool hasEnraged { get => _hasEnraged; set => _hasEnraged = value; }
+    public bool hasToReload { get => _hasToReload; set => _hasToReload = value; }
+    public int formationLevel { get => _formationLevel; }
+    public List<SpriteRenderer> spriteRenderers { get => _spriteRenderers; set => _spriteRenderers = value; }
+    public GameObject commandPointsIcon { get => _commandPointsIcon; set => _commandPointsIcon = value; }
 
     // ----------------------------------------------------------------------------------------
 
@@ -61,16 +79,16 @@ public class Unit : MonoBehaviour, ISelectableEntity
         {
             _power = _unitReference.power;
             _hp = _unitReference.hp;
-            _speed = _unitReference.speed;
-            _range = _unitReference.range;
             _initiative = _unitReference.initiative;
             _commandPoints = _unitReference.commandPoints;
+            _speed = 1;
+            _range = 1;
 
             if (_faction == Faction.Friendly)
             {
                 foreach(SpriteRenderer spriteRenderer in _spriteRenderers)
                 {
-                    spriteRenderer.sprite = _unitReference.friendlySprite;
+                    spriteRenderer.sprite = _unitReference.friendlySprite[Random.Range(0, _unitReference.friendlySprite.Count - 1)];
                 }
                 _unitFactionFeedback.GetComponent<SpriteRenderer>().color = _colorFriendly;
             }
@@ -78,7 +96,7 @@ public class Unit : MonoBehaviour, ISelectableEntity
             {
                 foreach(SpriteRenderer spriteRenderer in _spriteRenderers)
                 {
-                    spriteRenderer.sprite = _unitReference.enemySprite;
+                    spriteRenderer.sprite = _unitReference.enemySprite[Random.Range(0, _unitReference.enemySprite.Count - 1)];
                     float currentScale = spriteRenderer.transform.localScale.x;
                     spriteRenderer.transform.localScale = new Vector3(-currentScale, currentScale, currentScale);
                 }
@@ -99,6 +117,23 @@ public class Unit : MonoBehaviour, ISelectableEntity
             {
                 _traits.Add(trait);
             }
+
+            if (HasTrait(Trait.Distance))
+            {
+                _range = 2;
+            }
+
+            if (HasTrait(Trait.Run))
+            {
+                _speed = 2;
+            }
+
+            _stunned = false;
+            _movePointsUsed = 0;
+            _hasAttacked = false;
+            _hasEnraged = false;
+            _hasToReload = false;
+            _formationLevel = 1;
         }
 
         UpdateStats();
@@ -113,6 +148,38 @@ public class Unit : MonoBehaviour, ISelectableEntity
     {
         _powerValue.text = _power.ToString();
         _hpValue.text = _hp.ToString();
+        _commandPointsValue.text = (_commandPoints - _formationLevel + 1).ToString();
+
+        Color color = GameManager.instance.formationLevelOneStatColor;
+
+        if (_formationLevel == 1)
+        {
+            _commandPointsValue.color = GameManager.instance.formationLevelOneStatColor;
+            _powerValue.color = GameManager.instance.formationLevelOneStatColor;
+            _hpValue.color = GameManager.instance.formationLevelOneStatColor;
+        }
+
+        if (_formationLevel > 1)
+        {
+            _commandPointsValue.color = GameManager.instance.formationLevelTwoStatColor;
+
+            if (HasTrait(Trait.Support))
+            {
+                _powerValue.color = GameManager.instance.formationLevelTwoStatColor;
+                _hpValue.color = GameManager.instance.formationLevelTwoStatColor;
+            }
+        }
+
+        if (_formationLevel > 2)
+        {
+            _commandPointsValue.color = GameManager.instance.formationLevelThreeStatColor;
+        }
+
+        int maxHp = HasTrait(Trait.Support) ? _unitReference.hp + Mathf.Clamp(_formationLevel - 1, 0, 1) : _unitReference.hp;
+        if (_hp < maxHp)
+        {
+            _hpValue.color = _colorHurtStat;
+        }
     }
 
     // ----------------------------------------------------------------------------------------
@@ -136,8 +203,22 @@ public class Unit : MonoBehaviour, ISelectableEntity
     /// <param name="tile"> Tile to which this unit will move </param>
     public void Move(Tile tile)
     {
-        transform.position = tile.transform.position;
-        _tile = tile;
+        if (_tile != tile)
+        {
+            transform.position = tile.transform.position;
+            _tile = tile;
+            _movePointsUsed++;
+
+            if (GameManager.instance.gameMode == GameMode.Battle)
+            {
+                transform.position += new Vector3(0f, 0.35f - 0.05f * _tile.y, 0f);
+
+                if (HasTrait(Trait.Charge))
+                {
+                    this.transform.position += new Vector3(0f, 0.15f - 0.025f * _tile.y, 0f);
+                }
+            }
+        }
     }
 
     // ----------------------------------------------------------------------------------------
@@ -147,7 +228,11 @@ public class Unit : MonoBehaviour, ISelectableEntity
     /// </summary>
     public void ResetTile()
     {
-        _tile = null;
+        if (_tile != null)
+        {
+            _tile.ResetUnit();
+            _tile = null;
+        }
     }
 
     // ----------------------------------------------------------------------------------------
@@ -159,8 +244,18 @@ public class Unit : MonoBehaviour, ISelectableEntity
     /// <returns> Damage dealt to targetUnit </param>
     public int GetDamage(Unit targetUnit)
     {
-        // TODO: Change power depending on unit modificators, targetUnit type, etc...
-        return _power;
+        int damage = _power;
+        // If the unit has charge and has moved this turn, it gains more power for this attack
+        if (HasTrait(Trait.Charge) && _movePointsUsed > 0)
+        {
+            damage++;
+        }
+        if (HasTrait(Trait.Spear) && targetUnit.movePointsUsed > 0)
+        {
+            damage++;
+        }
+
+        return damage;
     }
 
     // ----------------------------------------------------------------------------------------
@@ -171,7 +266,6 @@ public class Unit : MonoBehaviour, ISelectableEntity
     /// <param name="damage"> How much damage this unit is dealt </param>
     public void TakeDamage(int damage)
     {
-        // Minimum 0hp
         _hp = Mathf.Clamp(_hp - damage, 0, _hp);
         UpdateStats();
     }
@@ -216,7 +310,11 @@ public class Unit : MonoBehaviour, ISelectableEntity
     public void Select()
     {
         Board.instance.SelectUnit(this);
-        SelectFeedback(true);
+        // Only if in planification mode
+        if (GameManager.instance.GetPlanificationMode())
+        {
+            SelectFeedback(true);
+        }
     }
 
     // ----------------------------------------------------------------------------------------
@@ -272,5 +370,47 @@ public class Unit : MonoBehaviour, ISelectableEntity
         }
 
         return hasTrait;
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Changes the formation level of the unit
+    /// </summary>
+    /// <param name="formationLevel"> New formation level </param>
+    public void SetFormationLevel(int formationLevel)
+    {
+        if (!HasTrait(Trait.Savage))
+        {
+            _formationLevel = formationLevel;
+
+            if (HasTrait(Trait.Support))
+            {
+                if (formationLevel > 1)
+                {
+                    _power = unitReference.power + 1;
+                    _hp = unitReference.hp + 1;
+                }
+                else
+                {
+                    _power = unitReference.power;
+                    _hp = unitReference.hp;
+                }
+            }
+        }
+
+        UpdateStats();
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Do not render stats of the unit on screen
+    /// </summary>
+    public void UnknownStats()
+    {
+        _powerValue.transform.parent.gameObject.SetActive(false);
+        _hpValue.transform.parent.gameObject.SetActive(false);
+        _commandPointsValue.transform.parent.gameObject.SetActive(false);
     }
 }

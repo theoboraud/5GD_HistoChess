@@ -18,7 +18,10 @@ public class Tile : MonoBehaviour, ISelectableEntity
     // Color variables
     [SerializeField] private Color _defaultColor;
     [SerializeField] private Color _searchingColor;
-    [SerializeField] private Color _searchedColor;
+    [SerializeField] private Color _darkColor;
+
+    [SerializeField] private GameObject _shadowGO;
+    [SerializeField] private GameObject _bloodGO;
 
     // Public get/set
     public int x { get => _x; set => _x = value; }
@@ -43,6 +46,7 @@ public class Tile : MonoBehaviour, ISelectableEntity
     public void ResetUnit()
     {
         _unit = null;
+        FeedbackShadow(false);
     }
 
     // ----------------------------------------------------------------------------------------
@@ -111,8 +115,30 @@ public class Tile : MonoBehaviour, ISelectableEntity
     /// <summary>
     ///     Change tile color to the searched color
     /// </summary>
-    public void FeedbackSearched()
+    public void FeedbackDark()
     {
-        gameObject.GetComponent<SpriteRenderer>().color = _searchedColor;
+        gameObject.GetComponent<SpriteRenderer>().color = _darkColor;
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Enables or disables the blood feedback on the tile
+    /// </summary>
+    /// <param name="setActive"> Whether or not to enable the blood feedback </param>
+    public void FeedbackBlood(bool setActive)
+    {
+        _bloodGO.SetActive(setActive);
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Enables or disables the shadow feedback on the tile
+    /// </summary>
+    /// <param name="setActive"> Whether or not to enable the shadow feedback </param>
+    public void FeedbackShadow(bool setActive)
+    {
+        _shadowGO.SetActive(setActive);
     }
 }

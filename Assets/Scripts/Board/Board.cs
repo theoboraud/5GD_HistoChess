@@ -12,9 +12,9 @@ using Enums;
 public class Board : MonoBehaviour
 {
     // Variables
-    private const int MAX_COMMAND_POINTS = 14;
-    [SerializeField] private int _xSize = 6;
-    [SerializeField] private int _ySize = 6;
+    public int maxCommandPoints = 8;
+    [SerializeField] private int _xSize = 8;
+    [SerializeField] private int _ySize = 8;
     private int _playerCommandPoints;
     private int _enemyCommandPoints;
 
@@ -33,6 +33,10 @@ public class Board : MonoBehaviour
     // Public get/set
     public List<Unit> playerUnits { get => _playerUnits; set => _playerUnits = value; }
     public List<Unit> enemyUnits { get => _enemyUnits; set => _enemyUnits = value; }
+    public Unit selectedUnit { get => _selectedUnit; set => _selectedUnit = value; }
+    public Transform enemyUnitsParent { get => _enemyUnitsParent; set => _enemyUnitsParent = value; }
+    public int xSize { get => _xSize; }
+    public int ySize { get => _ySize; }
 
     // ----------------------------------------------------------------------------------------
 
@@ -57,8 +61,8 @@ public class Board : MonoBehaviour
     /// </summary>
     public void Init()
     {
-        _playerCommandPoints = MAX_COMMAND_POINTS;
-        _enemyCommandPoints = MAX_COMMAND_POINTS;
+        _playerCommandPoints = 0;
+        _enemyCommandPoints = 0;
         int x = 0;
         int y = 0;
 
@@ -77,6 +81,8 @@ public class Board : MonoBehaviour
                 y++;
             }
         }
+
+        UpdateCommandPoints();
     }
 
     // ----------------------------------------------------------------------------------------
@@ -139,6 +145,9 @@ public class Board : MonoBehaviour
     /// <param name="tile"> Tile to which the unit will move </param>
     public void MoveUnit(Unit unit, Tile tile)
     {
+        // Set new tile's unit reference
+        tile.unit = unit;
+
         if (unit.tile != tile)
         {
             // Reset previous tile's unit reference
@@ -149,16 +158,17 @@ public class Board : MonoBehaviour
 
             // Move unit to tile
             unit.Move(tile);
-
-            // Set new tile's unit reference
-            tile.unit = unit;
+            if (GameManager.instance.gameMode == GameMode.Battle)
+            {
+                tile.FeedbackShadow(true);
+            }
         }
     }
 
     // ----------------------------------------------------------------------------------------
 
     /// <summary>
-    ///     Move a given Unit to a given Tile
+    ///     Move a given unit towards a given target unit
     /// </summary>
     /// <param name="unit"> Unit to move </param>
     /// <param name="targetTile"> Tile to which the unit will move </param>
@@ -215,7 +225,17 @@ public class Board : MonoBehaviour
     /// <returns> Units ordered by distance and initiative </returns>
     public List<Unit> OrderUnitsByInitiative(List<Unit> units)
     {
-        List<Unit> orderedUnits = units.OrderByDescending(unit => unit.initiative).ToList();
+        List<Unit> orderedUnits;
+
+        if (units[0].faction == Faction.Friendly)
+        {
+            orderedUnits = units.OrderByDescending(unit => unit.tile.x * 10 + unit.initiative).ToList();
+        }
+        else
+        {
+            orderedUnits = units.OrderBy(unit => unit.tile.x * 10 + unit.initiative).ToList();
+        }
+
         return orderedUnits;
     }
 
@@ -376,11 +396,6 @@ public class Board : MonoBehaviour
         }
         // Reverse the order, to start from the starting tile
         path.Reverse();
-        // Remove starting tile
-        /*if (path.Count > 0)
-        {
-            path.Remove(path[0]);
-        }*/
 
         ResetTiles();
         return path;
@@ -438,7 +453,22 @@ public class Board : MonoBehaviour
     /// <param name="unit"> Unit to select </param>
     public void SelectUnit(Unit unit)
     {
-        _selectedUnit = unit;
+        if (GameManager.instance.GetPlanificationMode())
+        {
+            ResetSelection();
+            _selectedUnit = unit;
+
+            if (unit.faction == Faction.Friendly)
+            {
+                DarkPlayerTiles(false);
+                DarkEnemyTiles(true);
+            }
+            else if (unit.faction == Faction.Enemy)
+            {
+                DarkPlayerTiles(true);
+                DarkEnemyTiles(false);
+            }
+        }
     }
 
     // ----------------------------------------------------------------------------------------
@@ -450,19 +480,14 @@ public class Board : MonoBehaviour
     /// <param name="tile"> Tile to move the selected unit to </param>
     public void SelectTile(Tile tile)
     {
-        if (_selectedUnit != null)
+        if (_selectedUnit != null && GameManager.instance.GetPlanificationMode())
         {
-            // If the corresponding player's command points are sufficient to place down the unit
-            if ((_selectedUnit.faction == Faction.Friendly && !_playerUnits.Contains(_selectedUnit) && _playerCommandPoints >= _selectedUnit.commandPoints) || (_selectedUnit.faction == Faction.Enemy && !_enemyUnits.Contains(_selectedUnit) && _enemyCommandPoints >= _selectedUnit.commandPoints) || _playerUnits.Contains(_selectedUnit) || _enemyUnits.Contains(_selectedUnit))
+            if (_selectedUnit.faction == Faction.Friendly && GetPlayerTiles().Contains(tile))
             {
                 // If the unit was in the reserve, remove it
                 if (Reserve.instance.IsInReserve(_selectedUnit))
                 {
                     Reserve.instance.RemoveUnit(_selectedUnit);
-                }
-                if (EnemyReserve.instance.IsInReserve(_selectedUnit))
-                {
-                    EnemyReserve.instance.RemoveUnit(_selectedUnit);
                 }
                 // If the unit is not yet on the board, add it to the corresponding list
                 if (!GetAllUnits().Contains(_selectedUnit))
@@ -472,18 +497,14 @@ public class Board : MonoBehaviour
                         _playerUnits.Add(_selectedUnit);
                         _selectedUnit.transform.parent = _playerUnitsParent;
                     }
-                    else if (_selectedUnit.faction == Faction.Enemy)
-                    {
-                        _enemyUnits.Add(_selectedUnit);
-                        _selectedUnit.transform.parent = _enemyUnitsParent;
-                    }
                 }
                 MoveUnit(_selectedUnit, tile);
-
             }
+
             UpdateCommandPoints();
-            _selectedUnit.Unselect();
-            _selectedUnit = null;
+            ResetSelection();
+            DarkPlayerTiles(false);
+            DarkEnemyTiles(false);
         }
     }
 
@@ -499,7 +520,7 @@ public class Board : MonoBehaviour
         _playerUnits.Remove(unit);
         _enemyUnits.Remove(unit);
         Destroy(unit.gameObject);
-        UpdateCommandPoints();
+        //UpdateCommandPoints();
     }
 
     // ----------------------------------------------------------------------------------------
@@ -544,20 +565,30 @@ public class Board : MonoBehaviour
     public void UpdateCommandPoints()
     {
         // Update player command points
-        _playerCommandPoints = MAX_COMMAND_POINTS;
+        _playerCommandPoints = 0;
         for (int i = 0; i < _playerUnits.Count; i++)
         {
-            _playerCommandPoints -= _playerUnits[i].commandPoints;
+            int formationLevel = GetFormationLevel(_playerUnits[i]);
+
+            _playerUnits[i].SetFormationLevel(formationLevel);
+            // TODO: CHANGE COMMAND POINTS DEPENDING ON FORMATION LEVEL FOR UNITS
+
+            _playerCommandPoints += _playerUnits[i].commandPoints - (formationLevel - 1);
         }
-        _playerCommandPointsValue.text = $"{_playerCommandPoints}/{MAX_COMMAND_POINTS}";
+        _playerCommandPointsValue.text = $"{_playerCommandPoints}/{maxCommandPoints}";
 
         // Update enemy command points
-        _enemyCommandPoints = MAX_COMMAND_POINTS;
+        _enemyCommandPoints = 0;
         for (int i = 0; i < _enemyUnits.Count; i++)
         {
-            _enemyCommandPoints -= _enemyUnits[i].commandPoints;
+            int formationLevel = GetFormationLevel(_enemyUnits[i]);
+
+            _enemyUnits[i].SetFormationLevel(formationLevel);
+            // TODO: CHANGE COMMAND POINTS DEPENDING ON FORMATION LEVEL FOR UNITS
+
+            _enemyCommandPoints += _enemyUnits[i].commandPoints - (formationLevel - 1);
         }
-        _enemyCommandPointsValue.text = $"{_enemyCommandPoints}/{MAX_COMMAND_POINTS}";
+        _enemyCommandPointsValue.text = $"{_enemyCommandPoints}/{maxCommandPoints}";
     }
 
     // ----------------------------------------------------------------------------------------
@@ -572,7 +603,6 @@ public class Board : MonoBehaviour
         {
             if (_faction == Faction.Friendly && _selectedUnit.faction == Faction.Friendly)
             {
-                _selectedUnit.tile.ResetUnit();
                 _selectedUnit.ResetTile();
                 Reserve.instance.AddUnit(_selectedUnit);
                 _playerUnits.Remove(_selectedUnit);
@@ -586,9 +616,209 @@ public class Board : MonoBehaviour
                 _enemyUnits.Remove(_selectedUnit);
             }
 
-            _selectedUnit.Unselect();
-            _selectedUnit = null;
             UpdateCommandPoints();
         }
+
+        ResetSelection();
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Get all tiles on player's side
+    /// </summary>
+    /// <returns> Returns list of player tiles </returns>
+    public List<Tile> GetPlayerTiles()
+    {
+        List<Tile> playerTiles = new List<Tile>();
+
+        for (int i = 0; i < _xSize/2; i++)
+        {
+            for (int j = 0; j < _ySize; j++)
+            {
+                playerTiles.Add(GetTile(i, j));
+            }
+        }
+
+        return playerTiles;
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Get all tiles on enemy's side
+    /// </summary>
+    /// <returns> Returns list of enemy tiles </returns>
+    public List<Tile> GetEnemyTiles()
+    {
+        List<Tile> enemyTiles = new List<Tile>();
+
+        for (int i = _xSize/2; i < _xSize; i++)
+        {
+            for (int j = 0; j < _ySize; j++)
+            {
+                enemyTiles.Add(GetTile(i, j));
+            }
+        }
+
+        return enemyTiles;
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Enables or disables the dark feedback on player tiles
+    /// </summary>
+    /// <param name="enable"> Whether or not the feedback must be enabled </param>
+    public void DarkPlayerTiles(bool enable)
+    {
+        foreach (Tile tile in GetPlayerTiles())
+        {
+            if (enable)
+            {
+                tile.FeedbackDark();
+            }
+            else
+            {
+                tile.FeedbackDefault();
+            }
+        }
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Enables or disables the dark feedback on enemy tiles
+    /// </summary>
+    /// <param name="enable"> Whether or not the feedback must be enabled </param>
+    public void DarkEnemyTiles(bool enable)
+    {
+        foreach (Tile tile in GetEnemyTiles())
+        {
+            if (enable)
+            {
+                tile.FeedbackDark();
+            }
+            else
+            {
+                tile.FeedbackDefault();
+            }
+        }
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Unselect selected unit, if any
+    /// </summary>
+    public void ResetSelection()
+    {
+        if (_selectedUnit != null)
+        {
+            _selectedUnit.Unselect();
+            _selectedUnit = null;
+        }
+        DarkPlayerTiles(false);
+        DarkEnemyTiles(false);
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Save player units in memory to load them back at the end of the battle phase
+    /// </summary>
+    public void SavePlayerUnits()
+    {
+        Player.instance.SavePlayerUnits(_playerUnits);
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Reset the player units by loading them from memory
+    /// </summary>
+    public void ResetPlayerUnits()
+    {
+        RemovePlayerUnits();
+        _playerUnits = Player.instance.LoadPlayerUnits();
+        foreach (Unit unit in _playerUnits)
+        {
+            unit.gameObject.SetActive(true);
+            MoveUnit(unit, unit.tile);
+        }
+        UpdateCommandPoints();
+
+        Debug.Log(_playerUnits.Count);
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Remove all player units from the board
+    /// </summary>
+    public void RemovePlayerUnits()
+    {
+        for (int i = _playerUnits.Count - 1; i >= 0; i--)
+        {
+            Unit unit = _playerUnits[i];
+            unit.tile.ResetUnit();
+            Destroy(unit.gameObject);
+        }
+
+        _playerUnits = new List<Unit>();
+        UpdateCommandPoints();
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Remove all enemy units from the board
+    /// </summary>
+    public void RemoveEnemyUnits()
+    {
+        for (int i = _enemyUnits.Count - 1; i >= 0; i--)
+        {
+            Unit unit = _enemyUnits[i];
+            unit.tile.ResetUnit();
+            _enemyUnits.Remove(unit);
+            Destroy(unit.gameObject);
+        }
+        UpdateCommandPoints();
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Determines the formation level of a given unit from its neighbour similar units
+    /// </summary>
+    /// <param name="unit"> Unit to look neighbour similar units to determine formation level </param>
+    /// <returns> Formation level of the given unit </returns>
+    public int GetFormationLevel(Unit unit)
+    {
+        int formationLevel = 1;
+
+        foreach(Tile tile in GetNeighbourTiles(unit.tile))
+        {
+            if (tile.unit != null)
+            {
+                if (tile.unit.unitReference == unit.unitReference && tile.unit.faction == unit.faction)
+                {
+                    formationLevel = Mathf.Clamp(formationLevel + 1, 1, 3);
+                }
+            }
+        }
+
+        return formationLevel;
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Determines if the battle phase can be launched, depending on player command points
+    /// </summary>
+    /// <returns> True if player command points is lesser or equal than the maximum allowed </returns>
+    public bool CanLaunchBattle()
+    {
+        return _playerCommandPoints <= maxCommandPoints;
     }
 }
