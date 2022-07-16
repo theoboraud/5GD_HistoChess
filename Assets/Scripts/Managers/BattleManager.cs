@@ -24,6 +24,7 @@ public class BattleManager : MonoBehaviour
 
     [SerializeField] private TMP_Text _btnText;
     [SerializeField] private GameObject _unitPrefab;
+    [SerializeField] private GameObject _btnBattle;
 
     // Variables
     private bool _movePhase = false;                            // Move phase boolean. True if units should move, false if units should attack
@@ -401,6 +402,8 @@ public class BattleManager : MonoBehaviour
         }
 
         GameManager.instance.EndOfRound();
+
+        _btnBattle.SetActive(true);
     }
 
     // ----------------------------------------------------------------------------------------
@@ -411,6 +414,7 @@ public class BattleManager : MonoBehaviour
     public void StartAutoPhase()
     {
         SoundManager.instance.ButtonPressed();
+        _btnBattle.SetActive(false);
 
         if (Board.instance.CanLaunchBattle())
         {

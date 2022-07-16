@@ -22,6 +22,7 @@ public class Player : MonoBehaviour
     [SerializeField] private TMP_Text _victoriesText;           // Victories Text Mesh Pro component reference
     private List<Unit> _savedPlayerUnits = new List<Unit>();    // Player units saved in memory to respawn them at the end of the round
     [SerializeField] private GameObject _unitPrefab;            // Unit prefab
+    [SerializeField] private GameObject _commandPointsIcon;
 
     // Variables
     private int _healthPoints;
@@ -205,5 +206,18 @@ public class Player : MonoBehaviour
         // Reset the saved list
         _savedPlayerUnits = new List<Unit>();
         return units;
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     TODO
+    /// </summary>
+    public void EnableUI(bool enable)
+    {
+        _commandPointsIcon.gameObject.SetActive(enable);
+        _goldsText.transform.parent.gameObject.SetActive(enable);
+        _healthPointsText.transform.parent.gameObject.SetActive(enable);
+        _victoriesText.transform.parent.gameObject.SetActive(enable);
     }
 }

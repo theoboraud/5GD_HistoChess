@@ -130,6 +130,11 @@ public class GameManager : MonoBehaviour
             Reserve.instance.EnableReserve(true);
         }
 
+        if (Player.instance != null)
+        {
+            Player.instance.EnableUI(true);
+        }
+
         if (EnemyShop.instance != null)
         {
             EnemyShop.instance.UpdateShop();
@@ -163,6 +168,7 @@ public class GameManager : MonoBehaviour
         Board.instance.DarkEnemyTiles(false);
         Shop.instance.EnableShop(false);
         Reserve.instance.EnableReserve(false);
+        Player.instance.EnableUI(false);
 
         camera.transform.position = cameraBattlePosition;
         camera.transform.rotation = cameraBattleRotation;
