@@ -22,5 +22,5 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 1a2355d73ff949e42a342d6eb04d762f, type: 3}
   - {fileID: 21300000, guid: 506289ebdae1f2945bb4e9121ffe23cf, type: 3}
   enemySprite:
-  - {fileID: 21300000, guid: 1a2355d73ff949e42a342d6eb04d762f, type: 3}
-  - {fileID: 21300000, guid: 506289ebdae1f2945bb4e9121ffe23cf, type: 3}
+  - {fileID: 21300000, guid: d2ff4f3abcc2d434285d77445a97756e, type: 3}
+  - {fileID: 21300000, guid: 8955e62da38304744a6ee90cb2a1178a, type: 3}

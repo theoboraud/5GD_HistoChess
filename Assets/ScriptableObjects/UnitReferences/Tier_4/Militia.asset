@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unitName: Miliciens
   power: 1
-  hp: 2
+  hp: 1
   commandPoints: 3
   initiative: 3
   traits: 09000000
@@ -23,6 +23,6 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 82fee17f32bddab40bb8831d9cc77e78, type: 3}
   - {fileID: 21300000, guid: a29956e508d0e114bb3eba31698be3dc, type: 3}
   enemySprite:
-  - {fileID: 21300000, guid: 061f1183612e23c4594329766a29e764, type: 3}
-  - {fileID: 21300000, guid: 82fee17f32bddab40bb8831d9cc77e78, type: 3}
-  - {fileID: 21300000, guid: a29956e508d0e114bb3eba31698be3dc, type: 3}
+  - {fileID: 21300000, guid: e0ac9a72e38eabf489fd6e3ce89d4850, type: 3}
+  - {fileID: 21300000, guid: a083f03532385f54792fd9929b15289d, type: 3}
+  - {fileID: 21300000, guid: 93525b8920b99d64caf788b2df76b936, type: 3}

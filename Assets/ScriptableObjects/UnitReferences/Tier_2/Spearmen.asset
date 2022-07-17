@@ -21,4 +21,4 @@ MonoBehaviour:
   friendlySprite:
   - {fileID: 21300000, guid: 6c7bca24a9aac0a4398615423934e757, type: 3}
   enemySprite:
-  - {fileID: 21300000, guid: 6c7bca24a9aac0a4398615423934e757, type: 3}
+  - {fileID: 21300000, guid: d29eba4c8c2fa1142a443ba54292cd4c, type: 3}

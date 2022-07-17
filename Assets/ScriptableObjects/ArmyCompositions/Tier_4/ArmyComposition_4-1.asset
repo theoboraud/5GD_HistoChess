@@ -37,3 +37,19 @@ MonoBehaviour:
     position: {x: 7, y: 4}
   - unitReference: {fileID: 11400000, guid: 5b8b8084a34f141a3bac5dbed1e382cf, type: 2}
     position: {x: 7, y: 5}
+  - unitReference: {fileID: 11400000, guid: 5b8b8084a34f141a3bac5dbed1e382cf, type: 2}
+    position: {x: 5, y: 0}
+  - unitReference: {fileID: 11400000, guid: 5b8b8084a34f141a3bac5dbed1e382cf, type: 2}
+    position: {x: 5, y: 1}
+  - unitReference: {fileID: 11400000, guid: 5b8b8084a34f141a3bac5dbed1e382cf, type: 2}
+    position: {x: 4, y: 4}
+  - unitReference: {fileID: 11400000, guid: 5b8b8084a34f141a3bac5dbed1e382cf, type: 2}
+    position: {x: 4, y: 5}
+  - unitReference: {fileID: 11400000, guid: 5b8b8084a34f141a3bac5dbed1e382cf, type: 2}
+    position: {x: 5, y: 4}
+  - unitReference: {fileID: 11400000, guid: 5b8b8084a34f141a3bac5dbed1e382cf, type: 2}
+    position: {x: 5, y: 5}
+  - unitReference: {fileID: 11400000, guid: 5b8b8084a34f141a3bac5dbed1e382cf, type: 2}
+    position: {x: 4, y: 0}
+  - unitReference: {fileID: 11400000, guid: 5b8b8084a34f141a3bac5dbed1e382cf, type: 2}
+    position: {x: 4, y: 1}

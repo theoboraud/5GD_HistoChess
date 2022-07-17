@@ -10,18 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a1af539f53b384ce4adc2fa7d6978d5f, type: 3}
-  m_Name: ArmyComposition_2-1
+  m_Name: ArmyComposition_3-4
   m_EditorClassIdentifier: 
   armyUnits:
-  - unitReference: {fileID: 11400000, guid: f5a4c6d2ee41b944e8dbca8bb5ad5605, type: 2}
+  - unitReference: {fileID: 11400000, guid: 241edf05eaa264a0795c6038c733a7c5, type: 2}
     position: {x: 4, y: 1}
-  - unitReference: {fileID: 11400000, guid: f5a4c6d2ee41b944e8dbca8bb5ad5605, type: 2}
+  - unitReference: {fileID: 11400000, guid: 241edf05eaa264a0795c6038c733a7c5, type: 2}
     position: {x: 4, y: 2}
+  - unitReference: {fileID: 11400000, guid: 241edf05eaa264a0795c6038c733a7c5, type: 2}
+    position: {x: 5, y: 1}
+  - unitReference: {fileID: 11400000, guid: 241edf05eaa264a0795c6038c733a7c5, type: 2}
+    position: {x: 5, y: 2}
   - unitReference: {fileID: 11400000, guid: f5a4c6d2ee41b944e8dbca8bb5ad5605, type: 2}
     position: {x: 4, y: 3}
   - unitReference: {fileID: 11400000, guid: f5a4c6d2ee41b944e8dbca8bb5ad5605, type: 2}
-    position: {x: 5, y: 1}
-  - unitReference: {fileID: 11400000, guid: f5a4c6d2ee41b944e8dbca8bb5ad5605, type: 2}
-    position: {x: 5, y: 2}
+    position: {x: 4, y: 4}
   - unitReference: {fileID: 11400000, guid: f5a4c6d2ee41b944e8dbca8bb5ad5605, type: 2}
     position: {x: 5, y: 3}
+  - unitReference: {fileID: 11400000, guid: f5a4c6d2ee41b944e8dbca8bb5ad5605, type: 2}
+    position: {x: 5, y: 4}

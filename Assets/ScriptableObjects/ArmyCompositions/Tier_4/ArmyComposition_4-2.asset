@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a1af539f53b384ce4adc2fa7d6978d5f, type: 3}
-  m_Name: ArmyComposition_1-1
+  m_Name: ArmyComposition_4-2
   m_EditorClassIdentifier: 
   armyUnits:
-  - unitReference: {fileID: 11400000, guid: 2caa4a7f9706d40fb8535e5cf37090d9, type: 2}
-    position: {x: 5, y: 1}
-  - unitReference: {fileID: 11400000, guid: 2caa4a7f9706d40fb8535e5cf37090d9, type: 2}
+  - unitReference: {fileID: 11400000, guid: 4a79369bec64042cfb40ad53b14bbecb, type: 2}
     position: {x: 5, y: 2}
-  - unitReference: {fileID: 11400000, guid: 2caa4a7f9706d40fb8535e5cf37090d9, type: 2}
+  - unitReference: {fileID: 11400000, guid: 4a79369bec64042cfb40ad53b14bbecb, type: 2}
     position: {x: 5, y: 3}
-  - unitReference: {fileID: 11400000, guid: 2caa4a7f9706d40fb8535e5cf37090d9, type: 2}
-    position: {x: 5, y: 4}
+  - unitReference: {fileID: 11400000, guid: 4a79369bec64042cfb40ad53b14bbecb, type: 2}
+    position: {x: 6, y: 2}
+  - unitReference: {fileID: 11400000, guid: 4a79369bec64042cfb40ad53b14bbecb, type: 2}
+    position: {x: 6, y: 3}
