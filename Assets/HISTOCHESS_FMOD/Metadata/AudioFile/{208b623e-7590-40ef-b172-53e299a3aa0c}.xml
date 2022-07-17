@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{208b623e-7590-40ef-b172-53e299a3aa0c}">
+		<property name="assetPath">
+			<value>yelling-soldiers-sound-effect-high-audio-quality.mp3</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>69.695999999999998</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{5f0f9337-f1e2-4022-b3a6-95e67f4c0404}</destination>
+		</relationship>
+	</object>
+</objects>
