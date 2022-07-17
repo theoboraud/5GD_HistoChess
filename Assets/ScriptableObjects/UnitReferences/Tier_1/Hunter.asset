@@ -19,6 +19,6 @@ MonoBehaviour:
   initiative: 1
   traits: 0300000000000000
   friendlySprite:
-  - {fileID: 21300000, guid: 50b2ea45ac4b15b43ac62583b1b9ed67, type: 3}
+  - {fileID: 21300000, guid: 0488001dccbdbe04786fd58e68ac71f4, type: 3}
   enemySprite:
-  - {fileID: 21300000, guid: 50b2ea45ac4b15b43ac62583b1b9ed67, type: 3}
+  - {fileID: 21300000, guid: 0488001dccbdbe04786fd58e68ac71f4, type: 3}

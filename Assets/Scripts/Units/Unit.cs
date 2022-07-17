@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Enums;
+using DG.Tweening;
 
 /// <summary>
 ///     An Unit represents the game instance of a given UnitReference in the game
@@ -205,19 +206,31 @@ public class Unit : MonoBehaviour, ISelectableEntity
     {
         if (_tile != tile)
         {
-            transform.position = tile.transform.position;
-            _tile = tile;
-            _movePointsUsed++;
-
             if (GameManager.instance.gameMode == GameMode.Battle)
             {
-                transform.position += new Vector3(0f, 0.35f - 0.05f * _tile.y, 0f);
-
                 if (HasTrait(Trait.Charge))
                 {
-                    this.transform.position += new Vector3(0f, 0.15f - 0.025f * _tile.y, 0f);
+                    transform.DOMove(tile.transform.position + new Vector3(0f, 0.5f - 0.075f * _tile.y, 0f), 0.7f);
+                    foreach(SpriteRenderer sprite in _spriteRenderers)
+                    {
+                        sprite.transform.DOLocalJump(sprite.transform.localPosition, Random.Range(0.02f, 0.1f), 4, Random.Range(0.8f, 1.6f), false);
+                    }
+                }
+                else
+                {
+                    transform.DOMove(tile.transform.position + new Vector3(0f, 0.35f - 0.05f * _tile.y, 0f), 0.9f);
+                    foreach(SpriteRenderer sprite in _spriteRenderers)
+                    {
+                        sprite.transform.DOLocalJump(sprite.transform.localPosition, Random.Range(0.02f, 0.1f), 4, Random.Range(0.8f, 1.6f), false);
+                    }
                 }
             }
+            else
+            {
+                transform.position = tile.transform.position;
+            }
+            _tile = tile;
+            _movePointsUsed++;
         }
     }
 
@@ -340,6 +353,11 @@ public class Unit : MonoBehaviour, ISelectableEntity
         if (active)
         {
             SoundManager.instance.UnitSelectionCAC(this);
+
+            foreach(SpriteRenderer sprite in _spriteRenderers)
+            {
+                sprite.transform.DOLocalJump(sprite.transform.localPosition, Random.Range(0.04f, 0.08f), 2, Random.Range(0.6f, 0.8f), false);
+            }
         }
     }
 
@@ -416,5 +434,38 @@ public class Unit : MonoBehaviour, ISelectableEntity
         _powerValue.transform.parent.gameObject.SetActive(false);
         _hpValue.transform.parent.gameObject.SetActive(false);
         _commandPointsValue.transform.parent.gameObject.SetActive(false);
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Attack animation
+    /// </summary>
+    /// <param name="targetUnit"> Unit targeted by the attack </param>
+    public IEnumerator AnimationAttackMelee(Unit targetUnit)
+    {
+        List<Vector3> spritePositions = new List<Vector3>();
+        for(int i = 0; i < _spriteRenderers.Count; i++)
+        {
+            SpriteRenderer sprite = _spriteRenderers[i];
+            spritePositions.Add(sprite.transform.position);
+            Vector3 spriteOffsetFromUnit = sprite.transform.position - this.transform.position;
+            Vector3 positionOffsetFromTarget = targetUnit.transform.position - this.transform.position;
+            Vector3 targetPosition = targetUnit.transform.position + spriteOffsetFromUnit;
+            float randomTime = 0.1f;//Random.Range(0.1f, 0.12f);
+            sprite.transform.DOJump(targetPosition - positionOffsetFromTarget * 0.25f, Random.Range(0.3f, 0.4f), 1, randomTime, false);
+            yield return new WaitForSeconds(0.1f);
+        }
+
+        yield return new WaitForSeconds(0.9f);
+
+        for(int i = 0; i < _spriteRenderers.Count; i++)
+        {
+            SpriteRenderer sprite = _spriteRenderers[i];
+            float randomTime = 0.2f;//Random.Range(0.2f, 0.3f);
+            //sprite.transform.DOLocalJump(sprite.transform.localPosition, Random.Range(0.04f, 0.08f), 4, randomTime / 4f, false);
+            sprite.transform.DOMove(spritePositions[i], randomTime);
+            yield return new WaitForSeconds(0.1f);//Random.Range(0.08f, 0.11f));
+        }
     }
 }

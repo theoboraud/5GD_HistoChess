@@ -290,6 +290,7 @@ public class BattleManager : MonoBehaviour
             else
             {
                 SoundManager.instance.UnitAttackCAC(attackingUnit);
+                StartCoroutine(attackingUnit.AnimationAttackMelee(targetUnit));
             }
 
             if (targetUnit.HasTrait(Trait.Enrage) && !targetUnit.hasEnraged)
@@ -390,11 +391,12 @@ public class BattleManager : MonoBehaviour
             }
         }
 
-        SoundManager.instance.AlliedArrival(Board.instance.GetTile(0, 3));
+        // TODO: Enable for battle entries
+        /*SoundManager.instance.AlliedArrival(Board.instance.GetTile(0, 3));
         yield return new WaitForSeconds(6f);
 
         SoundManager.instance.EnemyArrival(Board.instance.GetTile(7, 3));
-        yield return new WaitForSeconds(6f);
+        yield return new WaitForSeconds(6f);*/
 
         while (Board.instance.playerUnits.Count > 0 && Board.instance.enemyUnits.Count > 0)
         {
@@ -415,6 +417,7 @@ public class BattleManager : MonoBehaviour
     {
         SoundManager.instance.ButtonPressed();
         _btnBattle.SetActive(false);
+        _movePhase = false;
 
         if (Board.instance.CanLaunchBattle())
         {
