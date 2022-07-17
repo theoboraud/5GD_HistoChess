@@ -465,7 +465,6 @@ public class Unit : MonoBehaviour, ISelectableEntity
             float randomTime = 0.2f;//Random.Range(0.2f, 0.3f);
             //sprite.transform.DOLocalJump(sprite.transform.localPosition, Random.Range(0.04f, 0.08f), 4, randomTime / 4f, false);
             sprite.transform.DOMove(spritePositions[i], randomTime);
-            yield return new WaitForSeconds(0.1f);//Random.Range(0.08f, 0.11f));
         }
     }
 }

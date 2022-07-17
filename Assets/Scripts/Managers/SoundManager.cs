@@ -20,6 +20,8 @@ public class SoundManager : MonoBehaviour
     public FMOD.Studio.EventInstance unit_Buying;
     public FMOD.Studio.EventInstance allied_Arrival;
     public FMOD.Studio.EventInstance enemy_Arrival;
+    public FMOD.Studio.EventInstance unit_Defeated;
+    public FMOD.Studio.EventInstance battle_Start;
 
     // ----------------------------------------------------------------------------------------
 
@@ -55,6 +57,8 @@ public class SoundManager : MonoBehaviour
         unit_Buying = FMODUnity.RuntimeManager.CreateInstance("event:/UI_Feedbacks/Buying_Unit");
         allied_Arrival = FMODUnity.RuntimeManager.CreateInstance("event:/Imagery/Allied_Arrival");
         enemy_Arrival = FMODUnity.RuntimeManager.CreateInstance("event:/Imagery/Enemy_Arrival");
+        unit_Defeated = FMODUnity.RuntimeManager.CreateInstance("event:/Unit_Feedbacks/Classic_Actions/Unit_Defeated");
+        battle_Start = FMODUnity.RuntimeManager.CreateInstance("event:/Imagery/Battle_Start");
     }
 
     // ----------------------------------------------------------------------------------------
@@ -128,6 +132,17 @@ public class SoundManager : MonoBehaviour
     /// <summary>
     ///     TODO
     /// </summary>
+    public void UnitDefeated(Unit unit)
+    {
+        unit_Defeated.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(unit.gameObject));
+        unit_Defeated.start();
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     TODO
+    /// </summary>
     public void UnitBuying()
     {
         unit_Buying.start();
@@ -173,5 +188,15 @@ public class SoundManager : MonoBehaviour
     {
         enemy_Arrival.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(tile.gameObject));
         enemy_Arrival.start();
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     TODO
+    /// </summary>
+    public void BattleStart()
+    {
+        battle_Start.start();
     }
 }

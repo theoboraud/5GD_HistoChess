@@ -142,7 +142,7 @@ public class BattleManager : MonoBehaviour
 
                                 unit.hasAttacked = true;
 
-                                KillDeathList();
+                                yield return StartCoroutine("KillDeathList");
                             }
                         }
                     }
@@ -246,7 +246,7 @@ public class BattleManager : MonoBehaviour
 
                                 unit.hasAttacked = true;
 
-                                KillDeathList();
+                                yield return StartCoroutine("KillDeathList");
                             }
                         }
                     }
@@ -334,12 +334,14 @@ public class BattleManager : MonoBehaviour
     /// <summary>
     ///     Kill every units in the death list
     /// </summary>
-    private void KillDeathList()
+    private IEnumerator KillDeathList()
     {
         for (int i = 0; i < _deathList.Count; i++)
         {
             Unit deadUnit = _deathList[i];
             deadUnit.Die();
+            SoundManager.instance.UnitDefeated(deadUnit);
+            yield return new WaitForSeconds(1f);
         }
         _deathList.Clear();
     }
@@ -391,12 +393,14 @@ public class BattleManager : MonoBehaviour
             }
         }
 
-        // TODO: Enable for battle entries
-        /*SoundManager.instance.AlliedArrival(Board.instance.GetTile(0, 3));
-        yield return new WaitForSeconds(6f);
+
+        yield return new WaitForSeconds(2.2f);
+
+        SoundManager.instance.AlliedArrival(Board.instance.GetTile(0, 3));
+        yield return new WaitForSeconds(3f);
 
         SoundManager.instance.EnemyArrival(Board.instance.GetTile(7, 3));
-        yield return new WaitForSeconds(6f);*/
+        yield return new WaitForSeconds(2.5f);
 
         while (Board.instance.playerUnits.Count > 0 && Board.instance.enemyUnits.Count > 0)
         {
@@ -416,11 +420,12 @@ public class BattleManager : MonoBehaviour
     public void StartAutoPhase()
     {
         SoundManager.instance.ButtonPressed();
-        _btnBattle.SetActive(false);
-        _movePhase = false;
 
         if (Board.instance.CanLaunchBattle())
         {
+            _btnBattle.SetActive(false);
+            _movePhase = false;
+            SoundManager.instance.BattleStart();
             StartCoroutine("AutoPhase");
         }
     }
