@@ -218,7 +218,7 @@ public class GameManager : MonoBehaviour
         }
         else if (Board.instance.enemyUnits.Count == 0 && Board.instance.playerUnits.Count > 0)
         {
-            //Player.instance.WinBattle();
+            Player.instance.WinBattle();
         }
         else if (Board.instance.enemyUnits.Count == 0 && Board.instance.playerUnits.Count == 0)
         {

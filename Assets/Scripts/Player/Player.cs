@@ -222,4 +222,14 @@ public class Player : MonoBehaviour
         _victoriesText.transform.parent.gameObject.SetActive(enable);
         _valuesBackground.SetActive(enable);
     }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     TODO
+    /// </summary>
+    public void WinBattle()
+    {
+        _victories++;
+    }
 }
