@@ -40,4 +40,13 @@ namespace Enums
         public UnitReference unitReference;
         public Vector2 position;
     }
+
+    [System.Serializable]
+    public struct TraitData
+    {
+        public Trait trait;
+        public string name;
+        public string text;
+        public Sprite sprite;
+    }
 }

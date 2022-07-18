@@ -28,6 +28,8 @@ public class Unit : MonoBehaviour, ISelectableEntity
     private bool _hasEnraged;
     private bool _hasToReload;
     private int _formationLevel;
+    private bool _enableTooltip = false;
+    [SerializeField] private float _timeToWaitTooltip = 0.5f;
 
     [Header("Unit traits")]
     [SerializeField] private List<Trait> _traits = new List<Trait>();   // All unit traits
@@ -67,6 +69,7 @@ public class Unit : MonoBehaviour, ISelectableEntity
     public int formationLevel { get => _formationLevel; }
     public List<SpriteRenderer> spriteRenderers { get => _spriteRenderers; set => _spriteRenderers = value; }
     public GameObject commandPointsIcon { get => _commandPointsIcon; set => _commandPointsIcon = value; }
+    public List<Trait> traits { get => _traits; }
 
     // ----------------------------------------------------------------------------------------
 
@@ -466,5 +469,45 @@ public class Unit : MonoBehaviour, ISelectableEntity
             //sprite.transform.DOLocalJump(sprite.transform.localPosition, Random.Range(0.04f, 0.08f), 4, randomTime / 4f, false);
             sprite.transform.DOMove(spritePositions[i], randomTime);
         }
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Start tooltip
+    /// </summary>
+    public void OnMouseEnter()
+    {
+        _enableTooltip = true;
+        StartCoroutine("WaitBeforeTooltip");
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Wait before enabling the tooltip
+    /// </summary>
+    public IEnumerator WaitBeforeTooltip()
+    {
+        UnitTooltip.instance.InitUnit(this);
+
+        yield return new WaitForSeconds(_timeToWaitTooltip);
+
+        if (_enableTooltip)
+        {
+            UnitTooltip.instance.EnableTooltip(true);
+        }
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Stop tooltip
+    /// </summary>
+    public void OnMouseExit()
+    {
+        _enableTooltip = false;
+
+        UnitTooltip.instance.EnableTooltip(false);
     }
 }

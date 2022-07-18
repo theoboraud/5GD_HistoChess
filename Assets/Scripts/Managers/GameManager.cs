@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
     public Vector3 cameraBattlePosition;
     public Quaternion cameraBattleRotation;
     public Quaternion unitBattleRotation;
+    [SerializeField] private List<TraitData> _allTraitData = new List<TraitData>();
+
 
     // Variables
     public bool unknownEnemyStats = false;
@@ -259,5 +261,26 @@ public class GameManager : MonoBehaviour
     public bool TierUnlocked(int tier)
     {
         return _round >= (tier - 1) * TIERS_ROUND_INCREMENT + 1;;
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Return trait data corresponding to given trait
+    /// </summary>
+    public TraitData GetTraitData(Trait trait)
+    {
+        foreach(TraitData traitData in _allTraitData)
+        {
+            if (traitData.trait == trait)
+            {
+                return traitData;
+            }
+        }
+
+        // All traits should be found
+        Debug.LogError($"BattleManager.GetTraitData({trait}): ERROR! {trait} data not found in _allTraitData");
+
+        return _allTraitData[0];
     }
 }
