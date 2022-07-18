@@ -130,9 +130,6 @@
 		</relationship>
 	</object>
 	<object class="EventMixerMaster" id="{73238b08-c69d-406c-bf3f-794dce472e12}">
-		<property name="volume">
-			<value>-5</value>
-		</property>
 		<relationship name="effectChain">
 			<destination>{b9feafbb-301f-406d-81c8-379755302d4d}</destination>
 		</relationship>
@@ -440,6 +437,7 @@
 			<destination>{f5e39b32-9f40-4965-a60e-69433f8326a2}</destination>
 			<destination>{437999ba-d6d4-46d5-9a74-8882118fcab3}</destination>
 			<destination>{388ae014-6d41-4ad1-bc08-61e6b0849061}</destination>
+			<destination>{2d50aebd-6fc2-4622-ba49-81e18c15934f}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{a14a21e8-cfaa-4636-8e4f-c0f3b57e7f87}" />
@@ -685,6 +683,17 @@
 		</property>
 		<property name="wetLevel">
 			<value>-17</value>
+		</property>
+	</object>
+	<object class="ThreeEQEffect" id="{2d50aebd-6fc2-4622-ba49-81e18c15934f}">
+		<property name="lowGain">
+			<value>6.5</value>
+		</property>
+		<property name="midGain">
+			<value>1.5</value>
+		</property>
+		<property name="highGain">
+			<value>-2.5</value>
 		</property>
 	</object>
 	<object class="MixerBusFader" id="{af54313a-9edb-4779-9b57-75417f9e0977}" />
