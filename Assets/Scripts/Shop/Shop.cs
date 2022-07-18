@@ -30,6 +30,7 @@ public class Shop : MonoBehaviour
     [SerializeField] private GameObject _shopItemPrefab;                                                    // ShopItem prefab
     [SerializeField] private GameObject _btnSell;
     [SerializeField] private GameObject _btnReroll;
+    [SerializeField] private GameObject _background;
 
     // Trait sprites references
     [Header("Trait sprites")]
@@ -143,10 +144,11 @@ public class Shop : MonoBehaviour
     /// </summary>
     public void RollShop()
     {
-        SoundManager.instance.ShopReroll();
+        SoundManager.instance.ButtonPressed();
 
         if (Player.instance.golds >= ROLL_COST)
         {
+            SoundManager.instance.ShopReroll();
             Player.instance.PayGolds(ROLL_COST);
 
             UpdateShop();
@@ -238,6 +240,7 @@ public class Shop : MonoBehaviour
     {
         _btnSell.SetActive(enable);
         _btnReroll.SetActive(enable);
+        _background.SetActive(enable);
 
         foreach(Transform shopZone in _shopZones)
         {

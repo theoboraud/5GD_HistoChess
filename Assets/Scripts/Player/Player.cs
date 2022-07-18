@@ -23,6 +23,7 @@ public class Player : MonoBehaviour
     private List<Unit> _savedPlayerUnits = new List<Unit>();    // Player units saved in memory to respawn them at the end of the round
     [SerializeField] private GameObject _unitPrefab;            // Unit prefab
     [SerializeField] private GameObject _commandPointsIcon;
+    [SerializeField] private GameObject _valuesBackground;
 
     // Variables
     private int _healthPoints;
@@ -219,5 +220,6 @@ public class Player : MonoBehaviour
         _goldsText.transform.parent.gameObject.SetActive(enable);
         _healthPointsText.transform.parent.gameObject.SetActive(enable);
         _victoriesText.transform.parent.gameObject.SetActive(enable);
+        _valuesBackground.SetActive(enable);
     }
 }
