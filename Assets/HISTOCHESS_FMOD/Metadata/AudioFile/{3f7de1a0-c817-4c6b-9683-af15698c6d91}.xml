@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.02.00">
+	<object class="AudioFile" id="{3f7de1a0-c817-4c6b-9683-af15698c6d91}">
+		<property name="assetPath">
+			<value>sword-impacts-on-shield.mp3</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>48</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>7.1040000000000001</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{5f0f9337-f1e2-4022-b3a6-95e67f4c0404}</destination>
+		</relationship>
+	</object>
+</objects>
