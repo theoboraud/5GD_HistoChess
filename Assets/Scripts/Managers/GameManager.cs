@@ -199,6 +199,8 @@ public class GameManager : MonoBehaviour
             }
             unit.transform.rotation = unitBattleRotation;
         }
+
+        UnitTooltip.instance.EnableTooltip(false);
     }
 
     // ----------------------------------------------------------------------------------------

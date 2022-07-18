@@ -12,7 +12,7 @@ public class UnitTooltip : MonoBehaviour
     // References
     public static UnitTooltip instance;
     [SerializeField] private List<TraitTooltip> _traitTooltips = new List<TraitTooltip>();
-    private Unit _unit;
+    private UnitReference _unitReference;
 
     // ----------------------------------------------------------------------------------------
 
@@ -34,13 +34,13 @@ public class UnitTooltip : MonoBehaviour
     /// <summary>
     ///     Init variables
     /// </summary>
-    public void InitUnit(Unit unit)
+    public void InitUnit(UnitReference unitReference)
     {
-        _unit = unit;
+        _unitReference = unitReference;
 
-        for (int i = 0; i < _unit.traits.Count; i++)
+        for (int i = 0; i < _unitReference.traits.Count; i++)
         {
-            Trait trait = _unit.traits[i];
+            Trait trait = _unitReference.traits[i];
 
             _traitTooltips[i].InitTrait(trait);
         }
@@ -53,9 +53,12 @@ public class UnitTooltip : MonoBehaviour
     /// </summary>
     public void EnableTooltip(bool enable)
     {
-        for (int i = 0; i < _unit.traits.Count; i++)
+        if (GameManager.instance.GetPlanificationMode())
         {
-            _traitTooltips[i].gameObject.SetActive(enable);
+            for (int i = 0; i < _unitReference.traits.Count; i++)
+            {
+                _traitTooltips[i].gameObject.SetActive(enable);
+            }
         }
     }
 }

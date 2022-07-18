@@ -489,7 +489,7 @@ public class Unit : MonoBehaviour, ISelectableEntity
     /// </summary>
     public IEnumerator WaitBeforeTooltip()
     {
-        UnitTooltip.instance.InitUnit(this);
+        UnitTooltip.instance.InitUnit(_unitReference);
 
         yield return new WaitForSeconds(_timeToWaitTooltip);
 
