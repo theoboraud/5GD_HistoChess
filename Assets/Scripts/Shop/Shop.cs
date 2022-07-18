@@ -238,18 +238,27 @@ public class Shop : MonoBehaviour
     /// </summary>
     public void EnableShop(bool enable)
     {
-        _btnSell.SetActive(enable);
-        _btnReroll.SetActive(enable);
-        _background.SetActive(enable);
+        Fade[] fades = this.transform.GetComponentsInChildren<Fade>();
 
-        foreach(Transform shopZone in _shopZones)
+        foreach (Fade fade in fades)
         {
-            shopZone.gameObject.SetActive(enable);
+            if (enable)
+            {
+                fade.Appear();
+            }
+            else
+            {
+                fade.Disappear();
+            }
         }
 
-        foreach(ShopItem shopItem in _shopItems)
+        if (!enable)
         {
-            shopItem.gameObject.SetActive(enable);
+            // Delete current shop items, if any
+            for (int i = _shopItems.Count - 1; i >= 0; i--)
+            {
+                DeleteShopItem(_shopItems[i]);
+            }
         }
     }
 }

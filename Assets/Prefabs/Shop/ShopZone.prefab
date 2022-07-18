@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8479260350467699399}
   - component: {fileID: 8479260350467699398}
+  - component: {fileID: 1761761928352549465}
   m_Layer: 0
   m_Name: ShopZone
   m_TagString: Untagged
@@ -84,3 +85,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1761761928352549465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8479260350467699448}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1177b03401978c43965359613c12801, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _alphaIncrement: 4
+  _desiredAlpha: 1

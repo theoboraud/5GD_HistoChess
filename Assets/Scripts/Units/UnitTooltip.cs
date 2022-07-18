@@ -53,11 +53,23 @@ public class UnitTooltip : MonoBehaviour
     /// </summary>
     public void EnableTooltip(bool enable)
     {
-        if (GameManager.instance.GetPlanificationMode())
+        if (GameManager.instance.GetPlanificationMode() && _unitReference != null)
         {
             for (int i = 0; i < _unitReference.traits.Count; i++)
             {
-                _traitTooltips[i].gameObject.SetActive(enable);
+                Fade[] fades = _traitTooltips[i].transform.GetComponentsInChildren<Fade>();
+
+                foreach (Fade fade in fades)
+                {
+                    if (enable)
+                    {
+                        fade.Appear();
+                    }
+                    else
+                    {
+                        fade.Disappear();
+                    }
+                }
             }
         }
     }

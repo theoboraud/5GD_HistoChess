@@ -268,7 +268,7 @@ public class Unit : MonoBehaviour, ISelectableEntity
         {
             damage++;
         }*/
-        
+
         if (HasTrait(Trait.Spear) && targetUnit.movePointsUsed > 0)
         {
             damage++;
@@ -492,12 +492,11 @@ public class Unit : MonoBehaviour, ISelectableEntity
     /// </summary>
     public IEnumerator WaitBeforeTooltip()
     {
-        UnitTooltip.instance.InitUnit(_unitReference);
-
         yield return new WaitForSeconds(_timeToWaitTooltip);
 
         if (_enableTooltip)
         {
+            UnitTooltip.instance.InitUnit(_unitReference);
             UnitTooltip.instance.EnableTooltip(true);
         }
     }
