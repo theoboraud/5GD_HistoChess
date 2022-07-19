@@ -118,7 +118,7 @@ public class Shop : MonoBehaviour
 
             if (shopItem.unitReference.traits.Contains(Trait.Swarm) && Reserve.instance.unitsCount < Reserve.instance.reserveZonesCount)
             {
-                Reserve.instance.SpawnUnit(shopItem.unitReference);
+                Reserve.instance.SpawnUnit(shopItem.unitReference, true);
             }
 
             DeleteShopItem(shopItem);

@@ -55,7 +55,7 @@ public class Reserve : MonoBehaviour
     ///     Spawns a given unit and add it in the reserve
     /// </summary>
     /// <param name="unitReference"> Unit Reference of the unit to spawn in the reserve </param>
-    public void SpawnUnit(UnitReference unitReference)
+    public void SpawnUnit(UnitReference unitReference, bool hasSwarm = false)
     {
         // If there is still some place for new units in the reserve
         if (_reserveUnits.Count < _reserveZones.Count)
@@ -66,6 +66,11 @@ public class Reserve : MonoBehaviour
             Unit spawnedUnit = spawnedUnitGO.GetComponent<Unit>();
             AddUnit(spawnedUnit);
             spawnedUnit.LoadUnitReference(unitReference, _faction);
+
+            if (hasSwarm)
+            {
+                SoundManager.instance.TraitSwarm(spawnedUnit);
+            }
         }
     }
 
