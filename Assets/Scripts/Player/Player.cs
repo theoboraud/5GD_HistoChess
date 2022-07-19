@@ -82,7 +82,7 @@ public class Player : MonoBehaviour
     /// <param name="goldsToPay"> Amount of golds to add </param>
     public void GainGolds(int goldsToAdd)
     {
-        _golds += goldsToAdd;
+        _golds = goldsToAdd;
         _golds = Mathf.Clamp(_golds, 0, 99);
         UpdateUI();
     }

@@ -20,6 +20,9 @@ public class ShopItem : MonoBehaviour, ISelectableEntity
     [SerializeField] private TMP_Text _commandPointsValue;          // Command points value text reference
     [SerializeField] private List<SpriteRenderer> _traitSprites = new List<SpriteRenderer>();
 
+    // Variables
+    private bool _enableTooltip = false;
+    [SerializeField] private float _timeToWaitTooltip = 0.5f;
 
     // Public get/set
     public UnitReference unitReference { get => _unitReference; }
@@ -172,5 +175,45 @@ public class ShopItem : MonoBehaviour, ISelectableEntity
 
             traitCount++;
         }
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Start tooltip
+    /// </summary>
+    public void OnMouseEnter()
+    {
+        _enableTooltip = true;
+        StartCoroutine("WaitBeforeTooltip");
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Wait before enabling the tooltip
+    /// </summary>
+    public IEnumerator WaitBeforeTooltip()
+    {
+        UnitTooltip.instance.InitUnit(_unitReference);
+
+        yield return new WaitForSeconds(_timeToWaitTooltip);
+
+        if (_enableTooltip)
+        {
+            UnitTooltip.instance.EnableTooltip(true);
+        }
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Stop tooltip
+    /// </summary>
+    public void OnMouseExit()
+    {
+        _enableTooltip = false;
+
+        UnitTooltip.instance.EnableTooltip(false);
     }
 }

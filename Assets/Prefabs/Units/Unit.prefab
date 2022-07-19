@@ -743,6 +743,7 @@ MonoBehaviour:
   _initiative: 1
   _commandPoints: 1
   _faction: 0
+  _timeToWait: 1
   _traits: 
   _unitReference: {fileID: 11400000, guid: 2caa4a7f9706d40fb8535e5cf37090d9, type: 2}
   _spriteRenderers:
