@@ -227,7 +227,7 @@ public class BattleManager : MonoBehaviour
                                 UnitAttack(unit, targetUnit);
                                 yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
                                 // If the target unit can attack back
-                                if (!unit.HasTrait(Trait.Distance) && Board.instance.CanAttack(targetUnit, unit))
+                                if (!(unit.HasTrait(Trait.Distance) && Board.instance.GetDistance(unit, targetUnit) == 2) && Board.instance.CanAttack(targetUnit, unit))
                                 {
                                     if (unit.HasTrait(Trait.Charge) && unit.movePointsUsed > 0)
                                     {
@@ -295,7 +295,6 @@ public class BattleManager : MonoBehaviour
                 damage--;
             }
 
-
             if (attackingUnit.HasTrait(Trait.Barrage))
             {
                 SoundManager.instance.TraitBarrage(attackingUnit);
@@ -309,11 +308,6 @@ public class BattleManager : MonoBehaviour
                 SoundManager.instance.TraitCharge(attackingUnit);
                 StartCoroutine(attackingUnit.AnimationAttackMelee(targetUnit));
             }
-            else if (targetUnit.HasTrait(Trait.Weak))
-            {
-                SoundManager.instance.TraitWeak(attackingUnit);
-                StartCoroutine(attackingUnit.AnimationAttackMelee(targetUnit));
-            }
             else if (attackingUnit.HasTrait(Trait.Enrage) && !targetUnit.hasEnraged)
             {
                  SoundManager.instance.TraitEnrage(attackingUnit);
@@ -323,6 +317,11 @@ public class BattleManager : MonoBehaviour
             {
                 SoundManager.instance.UnitAttackCAC(attackingUnit);
                 StartCoroutine(attackingUnit.AnimationAttackMelee(targetUnit));
+            }
+
+            if (targetUnit.HasTrait(Trait.Weak))
+            {
+                SoundManager.instance.TraitWeak(targetUnit);
             }
 
             if (targetUnit.HasTrait(Trait.Enrage) && !targetUnit.hasEnraged)

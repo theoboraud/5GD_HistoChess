@@ -8,6 +8,7 @@ using UnityEngine;
 public class ScaleHover : MonoBehaviour
 {
     [SerializeField] private float _hoverAmount = 1.1f;
+    private bool _hasScaledUp = false;
 
     // ----------------------------------------------------------------------------------------
 
@@ -16,7 +17,11 @@ public class ScaleHover : MonoBehaviour
     /// </summary>
     public void OnMouseEnter()
     {
-        transform.localScale *= _hoverAmount;
+        if (!_hasScaledUp)
+        {
+            _hasScaledUp = true;
+            transform.localScale *= _hoverAmount;
+        }
     }
 
     // ----------------------------------------------------------------------------------------
@@ -26,6 +31,10 @@ public class ScaleHover : MonoBehaviour
     /// </summary>
     public void OnMouseExit()
     {
-        transform.localScale /= _hoverAmount;
+        if (_hasScaledUp)
+        {
+            _hasScaledUp = false;
+            transform.localScale /= _hoverAmount;
+        }
     }
 }

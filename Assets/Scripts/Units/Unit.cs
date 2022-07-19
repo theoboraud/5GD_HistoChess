@@ -356,9 +356,16 @@ public class Unit : MonoBehaviour, ISelectableEntity
     public void SelectFeedback(bool active)
     {
         _activeFeedback.SetActive(active);
+
         if (active)
         {
             SoundManager.instance.UnitSelectionCAC(this);
+
+            if (_tile != null)
+            {
+                _activeFeedback.transform.position = _tile.transform.position + new Vector3 (0f, 0f, 0.01f);
+                _activeFeedback.transform.rotation = _tile.transform.rotation;
+            }
 
             foreach(SpriteRenderer sprite in _spriteRenderers)
             {
