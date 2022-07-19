@@ -314,7 +314,7 @@ public class Unit : MonoBehaviour, ISelectableEntity
     {
         // TODO: Change death behaviour (graveyard?)
         EnableUnit(false);
-        
+
         yield return new WaitForSeconds(0.7f);
 
         Board.instance.KillUnit(this);
@@ -476,7 +476,7 @@ public class Unit : MonoBehaviour, ISelectableEntity
     // ----------------------------------------------------------------------------------------
 
     /// <summary>
-    ///     Attack animation
+    ///     Melee attack animation
     /// </summary>
     /// <param name="targetUnit"> Unit targeted by the attack </param>
     public IEnumerator AnimationAttackMelee(Unit targetUnit)
@@ -502,6 +502,35 @@ public class Unit : MonoBehaviour, ISelectableEntity
             float randomTime = 0.2f;//Random.Range(0.2f, 0.3f);
             //sprite.transform.DOLocalJump(sprite.transform.localPosition, Random.Range(0.04f, 0.08f), 4, randomTime / 4f, false);
             sprite.transform.DOMove(spritePositions[i], randomTime);
+        }
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Distance attack animation
+    /// </summary>
+    /// <param name="targetUnit"> Unit targeted by the attack </param>
+    public IEnumerator AnimationAttackDistance(Unit targetUnit)
+    {
+        List<Vector3> spritePositions = new List<Vector3>();
+        for(int i = 0; i < _spriteRenderers.Count; i++)
+        {
+            SpriteRenderer sprite = _spriteRenderers[i];
+            spritePositions.Add(sprite.transform.position);
+            Vector3 spriteOffsetFromUnit = sprite.transform.position - this.transform.position;
+            Vector3 positionOffsetFromTarget = targetUnit.transform.position - this.transform.position;
+            Vector3 targetPosition = targetUnit.transform.position + spriteOffsetFromUnit;
+            float randomTime = 0.1f;//Random.Range(0.1f, 0.12f);
+            sprite.transform.DOMove(spritePositions[i] + new Vector3(0f, -0.08f, 0f), 0.2f);
+        }
+
+        yield return new WaitForSeconds(0.2f);
+
+        for(int i = 0; i < _spriteRenderers.Count; i++)
+        {
+            float randomTime = 0.1f;//Random.Range(0.1f, 0.12f);
+            _spriteRenderers[i].transform.DOJump(spritePositions[i], Random.Range(0.3f, 0.4f), 1, randomTime, false);
         }
     }
 

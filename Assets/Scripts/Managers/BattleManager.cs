@@ -298,10 +298,12 @@ public class BattleManager : MonoBehaviour
             if (attackingUnit.HasTrait(Trait.Barrage))
             {
                 SoundManager.instance.TraitBarrage(attackingUnit);
+                StartCoroutine(attackingUnit.AnimationAttackDistance(targetUnit));
             }
             else if (attackingUnit.HasTrait(Trait.Distance) && Board.instance.GetDistance(attackingUnit, targetUnit) == 2)
             {
                 SoundManager.instance.UnitAttackDIST(attackingUnit);
+                StartCoroutine(attackingUnit.AnimationAttackDistance(targetUnit));
             }
             else if (attackingUnit.HasTrait(Trait.Charge) && attackingUnit.movePointsUsed > 0)
             {
