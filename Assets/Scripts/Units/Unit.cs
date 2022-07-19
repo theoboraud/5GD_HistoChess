@@ -410,6 +410,11 @@ public class Unit : MonoBehaviour, ISelectableEntity
     {
         if (!HasTrait(Trait.Savage))
         {
+            if (formationLevel > _formationLevel && _faction == Faction.Friendly && this.gameObject.activeSelf)
+            {
+                SoundManager.instance.TraitSupport(this);
+            }
+
             _formationLevel = formationLevel;
 
             if (HasTrait(Trait.Support))

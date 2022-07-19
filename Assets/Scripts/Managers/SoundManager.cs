@@ -23,6 +23,10 @@ public class SoundManager : MonoBehaviour
     public FMOD.Studio.EventInstance unit_Defeated;
     public FMOD.Studio.EventInstance battle_Start;
     public FMOD.Studio.EventInstance trait_Swarm;
+    public FMOD.Studio.EventInstance formation_Start;
+    public FMOD.Studio.EventInstance trait_Support;
+    public FMOD.Studio.EventInstance trait_Charge;
+    public FMOD.Studio.EventInstance unit_SufferCharge;
 
     // ----------------------------------------------------------------------------------------
 
@@ -61,6 +65,10 @@ public class SoundManager : MonoBehaviour
         unit_Defeated = FMODUnity.RuntimeManager.CreateInstance("event:/Unit_Feedbacks/Classic_Actions/Unit_Defeated");
         battle_Start = FMODUnity.RuntimeManager.CreateInstance("event:/Imagery/Battle_Start");
         trait_Swarm = FMODUnity.RuntimeManager.CreateInstance("event:/Unit_Feedbacks/Special_Traits/ST_Swarm");
+        //formation_Start = FMODUnity.RuntimeManager.CreateInstance("event:/Unit_Feedbacks/Special_Traits/Formation_Start");
+        trait_Support = FMODUnity.RuntimeManager.CreateInstance("event:/Unit_Feedbacks/Special_Traits/ST_Support");
+        trait_Charge = FMODUnity.RuntimeManager.CreateInstance("event:/Unit_Feedbacks/Special_Traits/ST_Charge");
+        //unit_SufferCharge = FMODUnity.RuntimeManager.CreateInstance("event:/Unit_Feedbacks/Unit_SufferCharge");
     }
 
     // ----------------------------------------------------------------------------------------
@@ -211,5 +219,38 @@ public class SoundManager : MonoBehaviour
     {
         trait_Swarm.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(unit.gameObject));
         trait_Swarm.start();
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     TODO
+    /// </summary>
+    public void TraitSupport(Unit unit)
+    {
+        trait_Support.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(unit.gameObject));
+        trait_Support.start();
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     TODO
+    /// </summary>
+    public void TraitCharge(Unit unit)
+    {
+        trait_Charge.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(unit.gameObject));
+        trait_Charge.start();
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     TODO
+    /// </summary>
+    public void UnitSufferCharge(Unit unit)
+    {
+        unit_SufferCharge.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(unit.gameObject));
+        unit_SufferCharge.start();
     }
 }

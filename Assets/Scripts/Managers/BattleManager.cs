@@ -128,6 +128,10 @@ public class BattleManager : MonoBehaviour
                                             UnitAttack(targetUnit, unit, targetUnit.HasTrait(Trait.Weak));
                                             yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
                                         }
+                                        else
+                                        {
+                                            SoundManager.instance.UnitSufferCharge(targetUnit);
+                                        }
                                     }
                                     else
                                     {
@@ -286,6 +290,11 @@ public class BattleManager : MonoBehaviour
             if (attackingUnit.HasTrait(Trait.Distance))
             {
                 SoundManager.instance.UnitAttackDIST(attackingUnit);
+            }
+            else if (attackingUnit.HasTrait(Trait.Charge) && attackingUnit.movePointsUsed > 0)
+            {
+                SoundManager.instance.TraitCharge(attackingUnit);
+                StartCoroutine(attackingUnit.AnimationAttackMelee(targetUnit));
             }
             else
             {
