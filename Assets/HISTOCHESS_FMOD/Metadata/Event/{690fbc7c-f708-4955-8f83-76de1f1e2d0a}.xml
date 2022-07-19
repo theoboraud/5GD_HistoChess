@@ -172,6 +172,9 @@
 		<relationship name="modulators">
 			<destination>{a0d0e966-2ca3-4903-8c1d-c66dbe15a102}</destination>
 		</relationship>
+		<relationship name="fadeInCurve">
+			<destination>{56be0dd2-e9ad-4dfc-baac-9090a0811089}</destination>
+		</relationship>
 		<relationship name="fadeOutCurve">
 			<destination>{0b1d78fd-d357-4d94-9171-a9c9163b6f13}</destination>
 		</relationship>
@@ -181,7 +184,7 @@
 	</object>
 	<object class="EventMixerGroup" id="{04a60c78-ba4b-4452-92dc-dadf72257322}">
 		<property name="volume">
-			<value>-19</value>
+			<value>-21.5</value>
 		</property>
 		<property name="name">
 			<value>Audio 3</value>
@@ -238,6 +241,14 @@
 		<property name="nameOfPropertyBeingModulated">
 			<value>pitch</value>
 		</property>
+	</object>
+	<object class="FadeCurve" id="{56be0dd2-e9ad-4dfc-baac-9090a0811089}">
+		<relationship name="startPoint">
+			<destination>{9edffb94-741e-4fc7-bdf4-72756c491ee7}</destination>
+		</relationship>
+		<relationship name="endPoint">
+			<destination>{3df2b5eb-ab36-42e0-b110-2556bfd6a881}</destination>
+		</relationship>
 	</object>
 	<object class="FadeCurve" id="{0b1d78fd-d357-4d94-9171-a9c9163b6f13}">
 		<relationship name="startPoint">
@@ -314,6 +325,25 @@
 		</property>
 		<property name="wetLevel">
 			<value>-10.5</value>
+		</property>
+	</object>
+	<object class="AutomationPoint" id="{9edffb94-741e-4fc7-bdf4-72756c491ee7}">
+		<property name="position">
+			<value>0</value>
+		</property>
+		<property name="value">
+			<value>0</value>
+		</property>
+		<property name="curveShape">
+			<value>-0.2547189</value>
+		</property>
+	</object>
+	<object class="AutomationPoint" id="{3df2b5eb-ab36-42e0-b110-2556bfd6a881}">
+		<property name="position">
+			<value>0.16</value>
+		</property>
+		<property name="value">
+			<value>1</value>
 		</property>
 	</object>
 	<object class="AutomationPoint" id="{5c3bbff5-3e2e-4899-a997-8f0eef24385b}">

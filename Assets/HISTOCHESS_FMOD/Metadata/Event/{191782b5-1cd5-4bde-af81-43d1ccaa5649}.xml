@@ -130,7 +130,7 @@
 	<object class="MixerBusPanner" id="{0c60f32f-69aa-4007-882a-549ba7981dae}" />
 	<object class="SingleSound" id="{4d6e3f89-18ba-42f6-984a-4ff516259ce6}">
 		<property name="length">
-			<value>1.8</value>
+			<value>1.4411267710900226</value>
 		</property>
 		<property name="timelockedOffset">
 			<value>0.59689770341430259</value>
@@ -164,7 +164,7 @@
 	</object>
 	<object class="SingleSound" id="{8a53c85b-edc6-472a-9fa5-44497383e29b}">
 		<property name="length">
-			<value>1.8</value>
+			<value>1.4251768498051347</value>
 		</property>
 		<property name="timelockedOffset">
 			<value>0.60000000000000009</value>
@@ -294,6 +294,7 @@
 	<object class="MixerBusEffectChain" id="{4840c96f-070e-4ca0-8c12-d791296795d6}">
 		<relationship name="effects">
 			<destination>{37b5e63c-fb81-474b-ad26-eb4943ea6c80}</destination>
+			<destination>{da33f2ac-df64-4d08-8fd3-2a22f8901dcc}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{da2c7528-1770-411c-a720-b5b45e65121c}" />
@@ -338,7 +339,7 @@
 	</object>
 	<object class="AutomationPoint" id="{3c49d75e-1750-49d7-90a5-d73024fad9f1}">
 		<property name="position">
-			<value>0.70000000000000007</value>
+			<value>0.90000000000000002</value>
 		</property>
 		<property name="value">
 			<value>1</value>
@@ -349,7 +350,7 @@
 	</object>
 	<object class="AutomationPoint" id="{db2d8127-83db-4736-8df3-4013a55ccc4d}">
 		<property name="position">
-			<value>1.8</value>
+			<value>1.4411267710900226</value>
 		</property>
 		<property name="value">
 			<value>0</value>
@@ -366,7 +367,7 @@
 	</object>
 	<object class="AutomationPoint" id="{b039e8b6-00eb-4c24-8ad2-9b2e0e29017b}">
 		<property name="position">
-			<value>1.26</value>
+			<value>0.77517684980513479</value>
 		</property>
 		<property name="value">
 			<value>1</value>
@@ -377,13 +378,21 @@
 	</object>
 	<object class="AutomationPoint" id="{5f694ae0-0f98-4595-9b02-1bdb50a04ac9}">
 		<property name="position">
-			<value>1.8</value>
+			<value>1.4251768498051347</value>
 		</property>
 		<property name="value">
 			<value>0</value>
 		</property>
 	</object>
 	<object class="MixerBusFader" id="{37b5e63c-fb81-474b-ad26-eb4943ea6c80}" />
+	<object class="SFXReverbEffect" id="{da33f2ac-df64-4d08-8fd3-2a22f8901dcc}">
+		<property name="wetLevel">
+			<value>-14.5</value>
+		</property>
+		<property name="dryLevel">
+			<value>4</value>
+		</property>
+	</object>
 	<object class="MixerBusFader" id="{83cd3a87-36c3-444d-9b24-0310000cb6eb}" />
 	<object class="SFXReverbEffect" id="{0e24f2cf-fef1-4bd5-bed4-dcf52efaf0f8}">
 		<property name="wetLevel">
