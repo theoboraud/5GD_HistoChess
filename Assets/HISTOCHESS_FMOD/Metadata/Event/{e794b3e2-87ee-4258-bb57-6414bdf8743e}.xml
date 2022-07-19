@@ -194,7 +194,7 @@
 	</object>
 	<object class="SingleSound" id="{1577a885-b096-4aeb-8695-7fce1ceba45d}">
 		<property name="start">
-			<value>0.071904895561605911</value>
+			<value>0.071904895561605842</value>
 		</property>
 		<property name="length">
 			<value>0.38599806564261979</value>
@@ -222,7 +222,7 @@
 	</object>
 	<object class="SingleSound" id="{efd2a1e9-2681-4a42-82d8-c08d350d64b2}">
 		<property name="start">
-			<value>0.35000000000000003</value>
+			<value>0.3500000000000002</value>
 		</property>
 		<property name="length">
 			<value>1.0499999999999998</value>
@@ -250,7 +250,7 @@
 	</object>
 	<object class="SingleSound" id="{47408497-7fe2-493b-b47d-3b875fa55dad}">
 		<property name="start">
-			<value>0.50062758620689651</value>
+			<value>0.50062758620689662</value>
 		</property>
 		<property name="length">
 			<value>1.1539999999999999</value>
@@ -284,7 +284,7 @@
 	</object>
 	<object class="SingleSound" id="{8f508eb4-9071-492b-bd05-5025dcd41f24}">
 		<property name="start">
-			<value>0.46067746135552912</value>
+			<value>0.46067746135552923</value>
 		</property>
 		<property name="length">
 			<value>1.0993724137931036</value>
@@ -458,7 +458,7 @@
 	</object>
 	<object class="AutomationPoint" id="{c62d50ac-d2c9-45c0-96b8-566cea61c9eb}">
 		<property name="position">
-			<value>0.05999999999999997</value>
+			<value>0.060000000000000164</value>
 		</property>
 		<property name="value">
 			<value>1</value>
@@ -466,7 +466,7 @@
 	</object>
 	<object class="AutomationPoint" id="{f915af98-2f61-4067-9bda-b5482a0f2b62}">
 		<property name="position">
-			<value>0.51865316326497268</value>
+			<value>0.51865316326497279</value>
 		</property>
 		<property name="value">
 			<value>1</value>
@@ -477,7 +477,7 @@
 	</object>
 	<object class="AutomationPoint" id="{0b27f415-c045-41a8-9180-57765c756120}">
 		<property name="position">
-			<value>0.99416336734660482</value>
+			<value>0.99416336734660471</value>
 		</property>
 		<property name="value">
 			<value>0</value>
