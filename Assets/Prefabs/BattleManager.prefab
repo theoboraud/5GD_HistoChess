@@ -44,3 +44,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 781b240d32cff41aba99db23d9dd5618, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tierOneArmyCompositions:
+  - {fileID: 11400000, guid: 0dd78f2eaf35049748156df947612739, type: 2}
+  - {fileID: 11400000, guid: 47db5f6049ee08f49b3d9645e4cd4b23, type: 2}
+  - {fileID: 11400000, guid: c23214b6328f9e745a03997ab977ce10, type: 2}
+  - {fileID: 11400000, guid: 1abcb36f6364ee24aa308c2903a8d222, type: 2}
+  tierTwoArmyCompositions:
+  - {fileID: 11400000, guid: 65969324114234ebcaea404a3ce30e5e, type: 2}
+  - {fileID: 11400000, guid: f93e640afc81ee549b490235af5124de, type: 2}
+  - {fileID: 11400000, guid: d8837c615dc8ca34782a7a5d3a0c90d7, type: 2}
+  - {fileID: 11400000, guid: e4af24f75b04fca499bc8df98327c8b4, type: 2}
+  - {fileID: 11400000, guid: e21dc113dbd2e1d48adc0923b3b41868, type: 2}
+  - {fileID: 11400000, guid: 2882e0bc743ff54478c42f3bf92c710e, type: 2}
+  tierThreeArmyCompositions:
+  - {fileID: 11400000, guid: 13faa7133d05f4427ad7c4c916de3a52, type: 2}
+  - {fileID: 11400000, guid: f7e9dd67ef9c2474e93710a87dcd3df1, type: 2}
+  - {fileID: 11400000, guid: 49bad9f330c1e7c4bad5b0642bff498c, type: 2}
+  - {fileID: 11400000, guid: c8623315c486bc347abe7c243825cb7b, type: 2}
+  - {fileID: 11400000, guid: 986beec5fa108ed4687c8d8d46f65f1c, type: 2}
+  - {fileID: 11400000, guid: 87306c570a643604da62bd6f0a51872c, type: 2}
+  - {fileID: 11400000, guid: 699e258e6c9ab9048a3d529fb4b9eb61, type: 2}
+  tierFourArmyCompositions:
+  - {fileID: 11400000, guid: ad585e199b1fa41ccbffa2afd8e15057, type: 2}
+  - {fileID: 11400000, guid: be5bcdd1f6127d042adf695280e4b4f7, type: 2}
+  - {fileID: 11400000, guid: 109d59d20701e104d9798caf095f4111, type: 2}
+  - {fileID: 11400000, guid: 97cd0dc7af812d343a53d9db40097b89, type: 2}
+  - {fileID: 11400000, guid: 98031a985fa002a439b7e3c76ad69b28, type: 2}
+  - {fileID: 11400000, guid: ab0a7b6feeb18bd48ac0d831f0504044, type: 2}
+  _btnText: {fileID: 0}
+  _unitPrefab: {fileID: 3756878204011121526, guid: e514a29b35f623d4dae12b3cf8d2bad0, type: 3}
+  _btnBattle: {fileID: 0}
+  _mask: {fileID: 0}

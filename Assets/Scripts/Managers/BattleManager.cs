@@ -22,9 +22,9 @@ public class BattleManager : MonoBehaviour
     [SerializeField] private List<ArmyComposition> tierThreeArmyCompositions = new List<ArmyComposition>();     // List of army composition in tier 3
     [SerializeField] private List<ArmyComposition> tierFourArmyCompositions = new List<ArmyComposition>();      // List of army composition in tier 4
 
-    [SerializeField] private TMP_Text _btnText;
     [SerializeField] private GameObject _unitPrefab;
     [SerializeField] private GameObject _btnBattle;
+    [SerializeField] private GameObject _mask;
 
     // Variables
     private bool _movePhase = false;                            // Move phase boolean. True if units should move, false if units should attack
@@ -118,7 +118,7 @@ public class BattleManager : MonoBehaviour
                                 UnitAttack(unit, targetUnit);
                                 yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
                                 // If the target unit can attack back
-                                if (!unit.HasTrait(Trait.Distance) && Board.instance.CanAttack(targetUnit, unit))
+                                if (!(unit.HasTrait(Trait.Distance) && Board.instance.GetDistance(unit, targetUnit) == 2) && Board.instance.CanAttack(targetUnit, unit))
                                 {
                                     if (unit.HasTrait(Trait.Charge) && unit.movePointsUsed > 0)
                                     {
@@ -409,36 +409,90 @@ public class BattleManager : MonoBehaviour
     /// </summary>
     private IEnumerator AutoPhase()
     {
+        _mask.GetComponent<Fade>().Appear();
+
+        yield return new WaitForSeconds(0.5f);
+
         // Unselect currently selected unit
         Board.instance.ResetSelection();
         Board.instance.SavePlayerUnits();
+
+        Board.instance.DarkEnemyTiles(false);
+        Shop.instance.EnableShop(false);
+        Reserve.instance.EnableReserve(false);
+        Player.instance.EnableUI(false);
+        UnitTooltip.instance.EnableTooltip(false);
 
         LoadArmyCompositionDependingOnTier();
 
         GameManager.instance.BattleMode();
 
-        // If the game should not render enemy units stats, delete every enemy unit's stat icons and values
-        if (GameManager.instance.unknownEnemyStats)
+        foreach(Unit unit in Board.instance.playerUnits)
         {
-            foreach(Unit enemyUnit in Board.instance.enemyUnits)
+            unit.EnableUnit(false);
+            unit.tile.FeedbackShadow(false);
+        }
+
+        foreach(Unit unit in Board.instance.enemyUnits)
+        {
+            unit.EnableUnit(false);
+            unit.tile.FeedbackShadow(false);
+
+            if (GameManager.instance.unknownEnemyStats)
             {
-                enemyUnit.UnknownStats();
+                unit.UnknownStats();
             }
         }
 
+        yield return new WaitForSeconds(1f);
 
-        yield return new WaitForSeconds(2.2f);
+        _mask.GetComponent<Fade>().Disappear();
+
+        yield return new WaitForSeconds(1f);
 
         SoundManager.instance.AlliedArrival(Board.instance.GetTile(0, 3));
+        foreach(Unit unit in Board.instance.playerUnits)
+        {
+            unit.EnableUnit(true);
+            unit.tile.FeedbackShadow(true);
+        }
+
         yield return new WaitForSeconds(3f);
 
         SoundManager.instance.EnemyArrival(Board.instance.GetTile(7, 3));
+        foreach(Unit unit in Board.instance.enemyUnits)
+        {
+            unit.EnableUnit(true);
+            unit.tile.FeedbackShadow(true);
+        }
+
         yield return new WaitForSeconds(2.5f);
 
         while (Board.instance.playerUnits.Count > 0 && Board.instance.enemyUnits.Count > 0)
         {
             yield return StartCoroutine("NextPhase");
         }
+
+        _mask.GetComponent<Fade>().Appear();
+
+        if (Board.instance.playerUnits.Count == 0 && Board.instance.enemyUnits.Count > 0)
+        {
+
+            SoundManager.instance.PlayerDefeat();
+        }
+        else if (Board.instance.enemyUnits.Count == 0 && Board.instance.playerUnits.Count > 0)
+        {
+            SoundManager.instance.PlayerWin();
+        }
+        else if (Board.instance.enemyUnits.Count == 0 && Board.instance.playerUnits.Count == 0)
+        {
+            // TODO: Draw results?
+            //SoundManager.instance.PlayerDraw();
+        }
+
+        yield return new WaitForSeconds(1f);
+
+        _mask.GetComponent<Fade>().Disappear();
 
         GameManager.instance.EndOfRound();
 

@@ -170,11 +170,6 @@ public class GameManager : MonoBehaviour
     {
         _gameMode = GameMode.Battle;
 
-        Board.instance.DarkEnemyTiles(false);
-        Shop.instance.EnableShop(false);
-        Reserve.instance.EnableReserve(false);
-        Player.instance.EnableUI(false);
-
         Board.instance.EnableTrees(true);
 
         camera.transform.position = cameraBattlePosition;
@@ -182,7 +177,7 @@ public class GameManager : MonoBehaviour
 
         foreach(Unit unit in Board.instance.playerUnits)
         {
-            unit.tile.FeedbackShadow(true);
+            //unit.tile.FeedbackShadow(true);
             unit.commandPointsIcon.SetActive(false);
             unit.transform.position += new Vector3(0f, 0.35f - 0.05f * unit.tile.y, 0f);
             if (unit.HasTrait(Trait.Charge))
@@ -195,7 +190,7 @@ public class GameManager : MonoBehaviour
 
         foreach(Unit unit in Board.instance.enemyUnits)
         {
-            unit.tile.FeedbackShadow(true);
+            //unit.tile.FeedbackShadow(true);
             unit.commandPointsIcon.SetActive(false);
             unit.transform.position += new Vector3(0f, 0.35f - 0.05f * unit.tile.y, 0f);
             if (unit.HasTrait(Trait.Charge))
@@ -220,17 +215,10 @@ public class GameManager : MonoBehaviour
         {
             Player.instance.LoseHealthPoints(1);
             Board.instance.RemoveEnemyUnits();
-            SoundManager.instance.PlayerDefeat();
         }
         else if (Board.instance.enemyUnits.Count == 0 && Board.instance.playerUnits.Count > 0)
         {
             Player.instance.WinBattle();
-            SoundManager.instance.PlayerWin();
-        }
-        else if (Board.instance.enemyUnits.Count == 0 && Board.instance.playerUnits.Count == 0)
-        {
-            // TODO: Draw results?
-            //SoundManager.instance.PlayerDraw();
         }
 
         Player.instance.EndOfBattle();

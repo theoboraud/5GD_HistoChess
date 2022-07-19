@@ -522,14 +522,14 @@ public class Unit : MonoBehaviour, ISelectableEntity
             Vector3 positionOffsetFromTarget = targetUnit.transform.position - this.transform.position;
             Vector3 targetPosition = targetUnit.transform.position + spriteOffsetFromUnit;
             float randomTime = 0.1f;//Random.Range(0.1f, 0.12f);
-            sprite.transform.DOMove(spritePositions[i] + new Vector3(0f, -0.08f, 0f), 0.2f);
+            sprite.transform.DOMove(spritePositions[i] + new Vector3(0f, -0.02f, 0f), 0.2f);
         }
 
         yield return new WaitForSeconds(0.2f);
 
         for(int i = 0; i < _spriteRenderers.Count; i++)
         {
-            float randomTime = 0.1f;//Random.Range(0.1f, 0.12f);
+            float randomTime = 0.3f;//Random.Range(0.1f, 0.12f);
             _spriteRenderers[i].transform.DOJump(spritePositions[i], Random.Range(0.3f, 0.4f), 1, randomTime, false);
         }
     }
@@ -588,7 +588,7 @@ public class Unit : MonoBehaviour, ISelectableEntity
         {
             _damageTakenValue.color = Color.white;
         }
-
+        _damageTakenValue.gameObject.SetActive(true);
         _damageTakenValue.GetComponent<Fade>().Appear();
         _damageTakenValue.GetComponent<ScaleBlip>().StartScaleBlip();
 
