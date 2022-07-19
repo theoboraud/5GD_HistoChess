@@ -77,6 +77,17 @@ public class Reserve : MonoBehaviour
     // ----------------------------------------------------------------------------------------
 
     /// <summary>
+    ///     TODO
+    /// </summary>
+    public IEnumerator SpawnSwarmUnit(UnitReference unitReference)
+    {
+        yield return new WaitForSeconds(0.5f);
+        SpawnUnit(unitReference, true);
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
     ///     Add the given unit to the reserve
     /// </summary>
     /// <param name="unit"> Unit to add to the reserve </param>
