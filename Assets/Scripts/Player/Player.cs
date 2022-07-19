@@ -146,12 +146,20 @@ public class Player : MonoBehaviour
         // The player gains 10 golds, plus eventual unit bonuses
         int goldsToAdd = 10;
 
+        bool raidUnit = false;
         foreach(Unit unit in Board.instance.playerUnits)
         {
             if (unit.HasTrait(Trait.Raid))
             {
+                SoundManager.instance.TraitRaid(unit);
+                raidUnit = true;
                 goldsToAdd++;
             }
+        }
+
+        if (raidUnit)
+        {
+            //SoundManager.instance.TraitRaid();
         }
 
         SetGolds(goldsToAdd);

@@ -29,6 +29,13 @@ public class SoundManager : MonoBehaviour
     public FMOD.Studio.EventInstance unit_SufferCharge;
     public FMOD.Studio.EventInstance trait_Weak;
     public FMOD.Studio.EventInstance trait_Barrage;
+    public FMOD.Studio.EventInstance trait_Spear;
+    public FMOD.Studio.EventInstance trait_Raid;
+    public FMOD.Studio.EventInstance trait_Enrage;
+    public FMOD.Studio.EventInstance player_Win;
+    public FMOD.Studio.EventInstance player_Defeat;
+    //public FMOD.Studio.EventInstance player_Draw;
+    public FMOD.Studio.EventInstance tier_Up;
 
     // ----------------------------------------------------------------------------------------
 
@@ -73,6 +80,13 @@ public class SoundManager : MonoBehaviour
         unit_SufferCharge = FMODUnity.RuntimeManager.CreateInstance("event:/Unit_Feedbacks/Classic_Actions/Unit_Suffer_Charge");
         trait_Weak = FMODUnity.RuntimeManager.CreateInstance("event:/Unit_Feedbacks/Special_Traits/ST_Weak");
         trait_Barrage = FMODUnity.RuntimeManager.CreateInstance("event:/Unit_Feedbacks/Special_Traits/ST_Barrage");
+        trait_Spear = FMODUnity.RuntimeManager.CreateInstance("event:/Unit_Feedbacks/Special_Traits/ST_Spear");
+        trait_Enrage = FMODUnity.RuntimeManager.CreateInstance("event:/Unit_Feedbacks/Special_Traits/ST_Enrage");
+        trait_Raid = FMODUnity.RuntimeManager.CreateInstance("event:/Unit_Feedbacks/Special_Traits/ST_Raid");
+        player_Win = FMODUnity.RuntimeManager.CreateInstance("event:/Imagery/Player_Win");
+        //player_Draw = FMODUnity.RuntimeManager.CreateInstance("event:/Imagery/Player_Draw");
+        player_Defeat = FMODUnity.RuntimeManager.CreateInstance("event:/Imagery/Player_Defeat");
+        tier_Up = FMODUnity.RuntimeManager.CreateInstance("event:/UI_Feedbacks/Tier_Up");
     }
 
     // ----------------------------------------------------------------------------------------
@@ -278,5 +292,78 @@ public class SoundManager : MonoBehaviour
     {
         trait_Barrage.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(unit.gameObject));
         trait_Barrage.start();
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     TODO
+    /// </summary>
+    public void TraitSpear(Unit unit)
+    {
+        trait_Spear.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(unit.gameObject));
+        trait_Spear.start();
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     TODO
+    /// </summary>
+    public void TraitRaid(Unit unit)
+    {
+        trait_Raid.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(unit.gameObject));
+        trait_Raid.start();
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     TODO
+    /// </summary>
+    public void TraitEnrage(Unit unit)
+    {
+        trait_Enrage.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(unit.gameObject));
+        trait_Enrage.start();
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     TODO
+    /// </summary>
+    public void PlayerWin()
+    {
+        player_Win.start();
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     TODO
+    /// </summary>
+    public void PlayerDefeat()
+    {
+        player_Defeat.start();
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     TODO
+    /// </summary>
+    public void PlayerDraw()
+    {
+        //player_Draw.start();
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     TODO
+    /// </summary>
+    public void TierUp()
+    {
+        tier_Up.start();
     }
 }

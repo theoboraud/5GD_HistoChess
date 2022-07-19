@@ -33,6 +33,7 @@ public class GameManager : MonoBehaviour
     public bool unknownEnemyStats = false;
     private GameMode _gameMode;
     private int _round;                                         // Round number
+    private int _tier;
 
     // Public get/set
     public GameMode gameMode { get => _gameMode; }
@@ -61,6 +62,7 @@ public class GameManager : MonoBehaviour
     private void Init()
     {
         _round = 1;
+        _tier = 1;
         PlanificationMode();
     }
 
@@ -215,15 +217,17 @@ public class GameManager : MonoBehaviour
         {
             Player.instance.LoseHealthPoints(1);
             Board.instance.RemoveEnemyUnits();
+            SoundManager.instance.PlayerDefeat();
         }
         else if (Board.instance.enemyUnits.Count == 0 && Board.instance.playerUnits.Count > 0)
         {
             Player.instance.WinBattle();
+            SoundManager.instance.PlayerWin();
         }
         else if (Board.instance.enemyUnits.Count == 0 && Board.instance.playerUnits.Count == 0)
         {
             // TODO: Draw results?
-
+            //SoundManager.instance.PlayerDraw();
         }
 
         Player.instance.EndOfBattle();
@@ -262,7 +266,15 @@ public class GameManager : MonoBehaviour
     /// <returns> True if the tier is unlocked, false otherwise </returns>
     public bool TierUnlocked(int tier)
     {
-        return _round >= (tier - 1) * TIERS_ROUND_INCREMENT + 1;;
+        bool tierUnlocked = _round >= (tier - 1) * TIERS_ROUND_INCREMENT + 1;
+
+        if (tierUnlocked && tier > _tier)
+        {
+            _tier = tier;
+            SoundManager.instance.TierUp();
+        }
+
+        return _round >= (tier - 1) * TIERS_ROUND_INCREMENT + 1;
     }
 
     // ----------------------------------------------------------------------------------------

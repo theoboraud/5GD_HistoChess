@@ -234,6 +234,10 @@ public class BattleManager : MonoBehaviour
                                         targetUnit.HurtFeedback(false);
                                         if (targetUnit.HasTrait(Trait.Spear) || targetUnit.hp > 0)
                                         {
+                                            if (targetUnit.HasTrait(Trait.Spear))
+                                            {
+                                                SoundManager.instance.TraitSpear(targetUnit);
+                                            }
                                             UnitAttack(targetUnit, unit, targetUnit.HasTrait(Trait.Weak));
                                             yield return new WaitForSeconds(_gameSpeed / _speedMultiplier);
                                         }
@@ -296,7 +300,7 @@ public class BattleManager : MonoBehaviour
             {
                 SoundManager.instance.TraitBarrage(attackingUnit);
             }
-            else if (attackingUnit.HasTrait(Trait.Distance))
+            else if (attackingUnit.HasTrait(Trait.Distance) && Board.instance.GetDistance(attackingUnit, targetUnit) == 2)
             {
                 SoundManager.instance.UnitAttackDIST(attackingUnit);
             }
@@ -308,6 +312,12 @@ public class BattleManager : MonoBehaviour
             else if (targetUnit.HasTrait(Trait.Weak))
             {
                 SoundManager.instance.TraitWeak(attackingUnit);
+                StartCoroutine(attackingUnit.AnimationAttackMelee(targetUnit));
+            }
+            else if (attackingUnit.HasTrait(Trait.Enrage) && !targetUnit.hasEnraged)
+            {
+                 SoundManager.instance.TraitEnrage(attackingUnit);
+                 StartCoroutine(attackingUnit.AnimationAttackMelee(targetUnit));
             }
             else
             {

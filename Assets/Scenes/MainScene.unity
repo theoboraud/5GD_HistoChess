@@ -559,6 +559,11 @@ RectTransform:
   m_AnchoredPosition: {x: 625, y: 475}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &359573772 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5216714473228797013, guid: a464bdc530c184f099c0992eb7eafcba, type: 3}
+  m_PrefabInstance: {fileID: 1752796245316424314}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &378107114 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4483338590699586280, guid: 71c20eb7682d34b84881ae38670ae059, type: 3}
@@ -1674,6 +1679,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1015101335}
   m_CullTransparentMesh: 1
+--- !u!1 &1136570324 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8948974865034463048, guid: a464bdc530c184f099c0992eb7eafcba, type: 3}
+  m_PrefabInstance: {fileID: 1752796245316424314}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1200340423
 GameObject:
   m_ObjectHideFlags: 0
@@ -4056,6 +4066,74 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1752796244812315949, guid: a464bdc530c184f099c0992eb7eafcba, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3132955875624403549, guid: a464bdc530c184f099c0992eb7eafcba, type: 3}
+      propertyPath: _x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3132955875624403549, guid: a464bdc530c184f099c0992eb7eafcba, type: 3}
+      propertyPath: _y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3132955875624403549, guid: a464bdc530c184f099c0992eb7eafcba, type: 3}
+      propertyPath: _bloodGO
+      value: 
+      objectReference: {fileID: 359573772}
+    - target: {fileID: 3132955875624403549, guid: a464bdc530c184f099c0992eb7eafcba, type: 3}
+      propertyPath: _shadowGO
+      value: 
+      objectReference: {fileID: 1136570324}
+    - target: {fileID: 3132955875624403549, guid: a464bdc530c184f099c0992eb7eafcba, type: 3}
+      propertyPath: _darkColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3132955875624403549, guid: a464bdc530c184f099c0992eb7eafcba, type: 3}
+      propertyPath: _darkColor.b
+      value: 0.5283019
+      objectReference: {fileID: 0}
+    - target: {fileID: 3132955875624403549, guid: a464bdc530c184f099c0992eb7eafcba, type: 3}
+      propertyPath: _darkColor.g
+      value: 0.5283019
+      objectReference: {fileID: 0}
+    - target: {fileID: 3132955875624403549, guid: a464bdc530c184f099c0992eb7eafcba, type: 3}
+      propertyPath: _darkColor.r
+      value: 0.5283019
+      objectReference: {fileID: 0}
+    - target: {fileID: 3132955875624403549, guid: a464bdc530c184f099c0992eb7eafcba, type: 3}
+      propertyPath: _defaultColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3132955875624403549, guid: a464bdc530c184f099c0992eb7eafcba, type: 3}
+      propertyPath: _defaultColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3132955875624403549, guid: a464bdc530c184f099c0992eb7eafcba, type: 3}
+      propertyPath: _defaultColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3132955875624403549, guid: a464bdc530c184f099c0992eb7eafcba, type: 3}
+      propertyPath: _defaultColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3132955875624403549, guid: a464bdc530c184f099c0992eb7eafcba, type: 3}
+      propertyPath: _searchingColor.a
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3132955875624403549, guid: a464bdc530c184f099c0992eb7eafcba, type: 3}
+      propertyPath: _searchingColor.b
+      value: 0.78431374
+      objectReference: {fileID: 0}
+    - target: {fileID: 3132955875624403549, guid: a464bdc530c184f099c0992eb7eafcba, type: 3}
+      propertyPath: _searchingColor.g
+      value: 0.78431374
+      objectReference: {fileID: 0}
+    - target: {fileID: 3132955875624403549, guid: a464bdc530c184f099c0992eb7eafcba, type: 3}
+      propertyPath: _searchingColor.r
+      value: 0.78431374
+      objectReference: {fileID: 0}
+    - target: {fileID: 8704573134584731092, guid: a464bdc530c184f099c0992eb7eafcba, type: 3}
+      propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
