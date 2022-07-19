@@ -689,8 +689,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6073591780353281122}
   - component: {fileID: 2945082662981233049}
-  - component: {fileID: 3781518649072761902}
   - component: {fileID: 4740386064635383874}
+  - component: {fileID: 940505387618655512}
   m_Layer: 0
   m_Name: Unit
   m_TagString: Untagged
@@ -763,19 +763,7 @@ MonoBehaviour:
   _colorFriendly: {r: 0, g: 0.459795, b: 1, a: 0.9019608}
   _colorEnemy: {r: 1, g: 0, b: 0, a: 0.78431374}
   _colorHurtStat: {r: 0.9811321, g: 0.21751513, b: 0.21751513, a: 1}
---- !u!114 &3781518649072761902
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2945082662981233029}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2d4af6246e4664a2bb1a588a66888bc7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _hoverAmount: 1.2
+  _scaleBlip: {fileID: 940505387618655512}
 --- !u!61 &4740386064635383874
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -802,6 +790,18 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &940505387618655512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2945082662981233029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4271cbc22c5112649bc0092ee0a1d4a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3027996874569582307
 GameObject:
   m_ObjectHideFlags: 0

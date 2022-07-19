@@ -50,6 +50,7 @@ public class Unit : MonoBehaviour, ISelectableEntity
     [SerializeField] private Color _colorEnemy;                 // Enemy color reference
     [SerializeField] private Color _colorHurtStat;              // Color to change to for resistance value when unit is hurt
     private Tile _tile;                                         // Tile on which the unit is located, if any
+    [SerializeField] private ScaleBlip _scaleBlip;
 
     // Public get/set
     public int power { get => _power; }
@@ -141,6 +142,8 @@ public class Unit : MonoBehaviour, ISelectableEntity
         }
 
         UpdateStats();
+
+        _scaleBlip.StartScaleBlip();
     }
 
     // ----------------------------------------------------------------------------------------

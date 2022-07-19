@@ -77,8 +77,6 @@ public class Fade : MonoBehaviour
     /// </summary>
     public void Appear()
     {
-        Debug.Log("Appear");
-
         _desiredAlpha = 1f;
     }
 
@@ -89,8 +87,6 @@ public class Fade : MonoBehaviour
     /// </summary>
     public void Disappear()
     {
-        Debug.Log("Disappear");
-
         _desiredAlpha = 0f;
     }
 }

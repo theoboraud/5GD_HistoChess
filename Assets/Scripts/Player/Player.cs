@@ -83,6 +83,7 @@ public class Player : MonoBehaviour
     {
         _golds += goldsToAdd;
         _golds = Mathf.Clamp(_golds, 0, 99);
+        _goldsText.GetComponent<ScaleBlip>().StartScaleBlip();
         UpdateUI();
     }
 
