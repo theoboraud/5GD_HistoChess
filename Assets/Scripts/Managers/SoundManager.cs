@@ -27,6 +27,8 @@ public class SoundManager : MonoBehaviour
     public FMOD.Studio.EventInstance trait_Support;
     public FMOD.Studio.EventInstance trait_Charge;
     public FMOD.Studio.EventInstance unit_SufferCharge;
+    public FMOD.Studio.EventInstance trait_Weak;
+    public FMOD.Studio.EventInstance trait_Barrage;
 
     // ----------------------------------------------------------------------------------------
 
@@ -68,7 +70,9 @@ public class SoundManager : MonoBehaviour
         //formation_Start = FMODUnity.RuntimeManager.CreateInstance("event:/Unit_Feedbacks/Special_Traits/Formation_Start");
         trait_Support = FMODUnity.RuntimeManager.CreateInstance("event:/Unit_Feedbacks/Special_Traits/ST_Support");
         trait_Charge = FMODUnity.RuntimeManager.CreateInstance("event:/Unit_Feedbacks/Special_Traits/ST_Charge");
-        //unit_SufferCharge = FMODUnity.RuntimeManager.CreateInstance("event:/Unit_Feedbacks/Unit_SufferCharge");
+        unit_SufferCharge = FMODUnity.RuntimeManager.CreateInstance("event:/Unit_Feedbacks/Classic_Actions/Unit_Suffer_Charge");
+        trait_Weak = FMODUnity.RuntimeManager.CreateInstance("event:/Unit_Feedbacks/Special_Traits/ST_Weak");
+        trait_Barrage = FMODUnity.RuntimeManager.CreateInstance("event:/Unit_Feedbacks/Special_Traits/ST_Barrage");
     }
 
     // ----------------------------------------------------------------------------------------
@@ -252,5 +256,27 @@ public class SoundManager : MonoBehaviour
     {
         unit_SufferCharge.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(unit.gameObject));
         unit_SufferCharge.start();
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     TODO
+    /// </summary>
+    public void TraitWeak(Unit unit)
+    {
+        trait_Weak.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(unit.gameObject));
+        trait_Weak.start();
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     TODO
+    /// </summary>
+    public void TraitBarrage(Unit unit)
+    {
+        trait_Barrage.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(unit.gameObject));
+        trait_Barrage.start();
     }
 }
