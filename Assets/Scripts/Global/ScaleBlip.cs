@@ -8,7 +8,7 @@ using UnityEngine;
 public class ScaleBlip : MonoBehaviour
 {
     private float _scaleUpMax = 1.3f;
-    private float _time = 1.1f;
+    private float _time = 4f;
     private float _maxScale;
     private float _oldScale = 1f;
     private float _currentScale = 1f;

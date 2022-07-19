@@ -425,12 +425,20 @@ public class Unit : MonoBehaviour, ISelectableEntity
                 SoundManager.instance.TraitSupport(this);
             }
 
-            _formationLevel = formationLevel;
+            if (_formationLevel < formationLevel)
+            {
+                _commandPointsValue.GetComponent<ScaleBlip>().StartScaleBlip();
+            }
 
             if (HasTrait(Trait.Support))
             {
                 if (formationLevel > 1)
                 {
+                    if (_formationLevel < 2)
+                    {
+                        _powerValue.GetComponent<ScaleBlip>().StartScaleBlip();
+                        _hpValue.GetComponent<ScaleBlip>().StartScaleBlip();
+                    }
                     _power = unitReference.power + 1;
                     _hp = unitReference.hp + 1;
                 }
@@ -440,6 +448,8 @@ public class Unit : MonoBehaviour, ISelectableEntity
                     _hp = unitReference.hp;
                 }
             }
+
+            _formationLevel = formationLevel;
         }
 
         UpdateStats();

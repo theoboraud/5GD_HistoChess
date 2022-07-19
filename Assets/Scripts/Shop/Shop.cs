@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 using Enums;
 
 /// <summary>
@@ -31,6 +32,7 @@ public class Shop : MonoBehaviour
     [SerializeField] private GameObject _btnSell;
     [SerializeField] private GameObject _btnReroll;
     [SerializeField] private GameObject _background;
+    [SerializeField] private TMP_Text _tierText;
 
     // Trait sprites references
     [Header("Trait sprites")]
@@ -260,5 +262,36 @@ public class Shop : MonoBehaviour
                 DeleteShopItem(_shopItems[i]);
             }
         }
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     TODO
+    /// </summary>
+    public void SetTierText(int tier)
+    {
+        if (tier == 1)
+        {
+            _tierText.text = "I";
+        }
+        else if (tier == 2)
+        {
+            _tierText.text = "II";
+        }
+        else if (tier == 3)
+        {
+            _tierText.text = "III";
+        }
+        else if (tier == 4)
+        {
+            _tierText.text = "IV";
+        }
+        else if (tier == 5)
+        {
+            _tierText.text = "V";
+        }
+
+        _tierText.GetComponent<ScaleBlip>().StartScaleBlip();
     }
 }

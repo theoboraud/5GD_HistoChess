@@ -84,6 +84,7 @@ public class Player : MonoBehaviour
         _golds += goldsToAdd;
         _golds = Mathf.Clamp(_golds, 0, 99);
         _goldsText.GetComponent<ScaleBlip>().StartScaleBlip();
+        SoundManager.instance.UnitBuying();
         UpdateUI();
     }
 
@@ -97,6 +98,8 @@ public class Player : MonoBehaviour
     {
         _golds = goldsToSet;
         _golds = Mathf.Clamp(_golds, 0, 99);
+        _goldsText.GetComponent<ScaleBlip>().StartScaleBlip();
+        SoundManager.instance.UnitBuying();
         UpdateUI();
     }
 
@@ -260,5 +263,6 @@ public class Player : MonoBehaviour
     public void WinBattle()
     {
         _victories++;
+        _victoriesText.GetComponent<ScaleBlip>().StartScaleBlip();
     }
 }

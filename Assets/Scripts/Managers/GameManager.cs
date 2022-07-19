@@ -275,6 +275,7 @@ public class GameManager : MonoBehaviour
         {
             _tier = tier;
             SoundManager.instance.TierUp();
+            Shop.instance.SetTierText(_tier);
         }
 
         return _round >= (tier - 1) * TIERS_ROUND_INCREMENT + 1;
