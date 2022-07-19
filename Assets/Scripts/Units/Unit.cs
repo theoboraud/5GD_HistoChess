@@ -261,11 +261,14 @@ public class Unit : MonoBehaviour, ISelectableEntity
     public int GetDamage(Unit targetUnit)
     {
         int damage = _power;
+
+        // LEGACY Charge trait
         // If the unit has charge and has moved this turn, it gains more power for this attack
-        if (HasTrait(Trait.Charge) && _movePointsUsed > 0)
+        /*if (HasTrait(Trait.Charge) && _movePointsUsed > 0)
         {
             damage++;
-        }
+        }*/
+
         if (HasTrait(Trait.Spear) && targetUnit.movePointsUsed > 0)
         {
             damage++;
@@ -489,12 +492,11 @@ public class Unit : MonoBehaviour, ISelectableEntity
     /// </summary>
     public IEnumerator WaitBeforeTooltip()
     {
-        UnitTooltip.instance.InitUnit(_unitReference);
-
         yield return new WaitForSeconds(_timeToWaitTooltip);
 
         if (_enableTooltip)
         {
+            UnitTooltip.instance.InitUnit(_unitReference);
             UnitTooltip.instance.EnableTooltip(true);
         }
     }

@@ -111,6 +111,10 @@ public class ShopItem : MonoBehaviour, ISelectableEntity
     /// </summary>
     public void DeleteFromShop()
     {
+        _enableTooltip = false;
+
+        UnitTooltip.instance.EnableTooltip(false);
+        
         Destroy(gameObject);
     }
 
@@ -195,12 +199,11 @@ public class ShopItem : MonoBehaviour, ISelectableEntity
     /// </summary>
     public IEnumerator WaitBeforeTooltip()
     {
-        UnitTooltip.instance.InitUnit(_unitReference);
-
         yield return new WaitForSeconds(_timeToWaitTooltip);
 
         if (_enableTooltip)
         {
+            UnitTooltip.instance.InitUnit(_unitReference);
             UnitTooltip.instance.EnableTooltip(true);
         }
     }

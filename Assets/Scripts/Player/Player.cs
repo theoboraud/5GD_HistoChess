@@ -22,8 +22,7 @@ public class Player : MonoBehaviour
     [SerializeField] private TMP_Text _victoriesText;           // Victories Text Mesh Pro component reference
     private List<Unit> _savedPlayerUnits = new List<Unit>();    // Player units saved in memory to respawn them at the end of the round
     [SerializeField] private GameObject _unitPrefab;            // Unit prefab
-    [SerializeField] private GameObject _commandPointsIcon;
-    [SerializeField] private GameObject _valuesBackground;
+    [SerializeField] private GameObject _UI;
 
     // Variables
     private int _healthPoints;
@@ -79,10 +78,23 @@ public class Player : MonoBehaviour
     /// <summary>
     ///     Increase the amount of golds by the given value
     /// </summary>
-    /// <param name="goldsToPay"> Amount of golds to add </param>
+    /// <param name="goldsToAdd"> Amount of golds to add </param>
     public void GainGolds(int goldsToAdd)
     {
-        _golds = goldsToAdd;
+        _golds += goldsToAdd;
+        _golds = Mathf.Clamp(_golds, 0, 99);
+        UpdateUI();
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Set the amount of golds to the given value
+    /// </summary>
+    /// <param name="goldsToSet"> Amount of golds to add </param>
+    public void SetGolds(int goldsToSet)
+    {
+        _golds = goldsToSet;
         _golds = Mathf.Clamp(_golds, 0, 99);
         UpdateUI();
     }
@@ -142,7 +154,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        GainGolds(goldsToAdd);
+        SetGolds(goldsToAdd);
 
         UpdateUI();
     }
@@ -216,10 +228,28 @@ public class Player : MonoBehaviour
     /// </summary>
     public void EnableUI(bool enable)
     {
-        _commandPointsIcon.gameObject.SetActive(enable);
-        _goldsText.transform.parent.gameObject.SetActive(enable);
-        _healthPointsText.transform.parent.gameObject.SetActive(enable);
-        _victoriesText.transform.parent.gameObject.SetActive(enable);
-        _valuesBackground.SetActive(enable);
+        Fade[] fades = _UI.transform.GetComponentsInChildren<Fade>();
+
+        foreach (Fade fade in fades)
+        {
+            if (enable)
+            {
+                fade.Appear();
+            }
+            else
+            {
+                fade.Disappear();
+            }
+        }
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     TODO
+    /// </summary>
+    public void WinBattle()
+    {
+        _victories++;
     }
 }
