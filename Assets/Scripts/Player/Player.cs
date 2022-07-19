@@ -78,10 +78,23 @@ public class Player : MonoBehaviour
     /// <summary>
     ///     Increase the amount of golds by the given value
     /// </summary>
-    /// <param name="goldsToPay"> Amount of golds to add </param>
+    /// <param name="goldsToAdd"> Amount of golds to add </param>
     public void GainGolds(int goldsToAdd)
     {
-        _golds = goldsToAdd;
+        _golds += goldsToAdd;
+        _golds = Mathf.Clamp(_golds, 0, 99);
+        UpdateUI();
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Set the amount of golds to the given value
+    /// </summary>
+    /// <param name="goldsToSet"> Amount of golds to add </param>
+    public void SetGolds(int goldsToSet)
+    {
+        _golds = goldsToSet;
         _golds = Mathf.Clamp(_golds, 0, 99);
         UpdateUI();
     }
@@ -141,7 +154,7 @@ public class Player : MonoBehaviour
             }
         }
 
-        GainGolds(goldsToAdd);
+        SetGolds(goldsToAdd);
 
         UpdateUI();
     }

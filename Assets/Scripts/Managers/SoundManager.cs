@@ -22,6 +22,7 @@ public class SoundManager : MonoBehaviour
     public FMOD.Studio.EventInstance enemy_Arrival;
     public FMOD.Studio.EventInstance unit_Defeated;
     public FMOD.Studio.EventInstance battle_Start;
+    public FMOD.Studio.EventInstance trait_Swarm;
 
     // ----------------------------------------------------------------------------------------
 
@@ -59,6 +60,7 @@ public class SoundManager : MonoBehaviour
         enemy_Arrival = FMODUnity.RuntimeManager.CreateInstance("event:/Imagery/Enemy_Arrival");
         unit_Defeated = FMODUnity.RuntimeManager.CreateInstance("event:/Unit_Feedbacks/Classic_Actions/Unit_Defeated");
         battle_Start = FMODUnity.RuntimeManager.CreateInstance("event:/Imagery/Battle_Start");
+        trait_Swarm = FMODUnity.RuntimeManager.CreateInstance("event:/Unit_Feedbacks/Special_Traits/ST_Swarm");
     }
 
     // ----------------------------------------------------------------------------------------
@@ -198,5 +200,16 @@ public class SoundManager : MonoBehaviour
     public void BattleStart()
     {
         battle_Start.start();
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     TODO
+    /// </summary>
+    public void TraitSwarm(Unit unit)
+    {
+        trait_Swarm.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(unit.gameObject));
+        trait_Swarm.start();
     }
 }
