@@ -310,9 +310,13 @@ public class Unit : MonoBehaviour, ISelectableEntity
     /// <summary>
     ///     Death behaviour when this unit dies
     /// </summary>
-    public void Die()
+    public IEnumerator Die()
     {
         // TODO: Change death behaviour (graveyard?)
+        EnableUnit(false);
+        
+        yield return new WaitForSeconds(0.7f);
+
         Board.instance.KillUnit(this);
     }
 
@@ -563,5 +567,27 @@ public class Unit : MonoBehaviour, ISelectableEntity
 
         _damageTakenValue.GetComponent<Fade>().Disappear();
 
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     TODO
+    /// </summary>
+    public void EnableUnit(bool enable)
+    {
+        Fade[] fades = this.transform.GetComponentsInChildren<Fade>();
+
+        foreach (Fade fade in fades)
+        {
+            if (enable)
+            {
+                fade.Appear();
+            }
+            else
+            {
+                fade.Disappear();
+            }
+        }
     }
 }

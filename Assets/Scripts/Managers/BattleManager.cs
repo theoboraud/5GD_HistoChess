@@ -370,11 +370,11 @@ public class BattleManager : MonoBehaviour
         for (int i = 0; i < _deathList.Count; i++)
         {
             Unit deadUnit = _deathList[i];
-            deadUnit.Die();
+            StartCoroutine(deadUnit.Die());
             SoundManager.instance.UnitDefeated(deadUnit);
-            yield return new WaitForSeconds(1f);
         }
         _deathList.Clear();
+        yield return new WaitForSeconds(1f);
     }
 
     // ----------------------------------------------------------------------------------------
