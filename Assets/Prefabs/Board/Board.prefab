@@ -121,6 +121,7 @@ MonoBehaviour:
   _playerCommandPointsValue: {fileID: 0}
   _enemyCommandPointsValue: {fileID: 0}
   _fog: {fileID: 3552761784874661813}
+  _treesGO: {fileID: 0}
 --- !u!1 &1752796244818184880
 GameObject:
   m_ObjectHideFlags: 0
@@ -3771,7 +3772,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3686565871966305686, guid: 65b8ba269441d4329a235deddcbdf59d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3686565871966305686, guid: 65b8ba269441d4329a235deddcbdf59d, type: 3}
       propertyPath: m_LocalPosition.y

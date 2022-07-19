@@ -121,6 +121,7 @@ public class GameManager : MonoBehaviour
         if (Board.instance != null)
         {
             Board.instance.DarkEnemyTiles(true);
+            Board.instance.EnableTrees(false);
         }
 
         if (Shop.instance != null)
@@ -173,6 +174,8 @@ public class GameManager : MonoBehaviour
         Shop.instance.EnableShop(false);
         Reserve.instance.EnableReserve(false);
         Player.instance.EnableUI(false);
+
+        Board.instance.EnableTrees(true);
 
         camera.transform.position = cameraBattlePosition;
         camera.transform.rotation = cameraBattleRotation;

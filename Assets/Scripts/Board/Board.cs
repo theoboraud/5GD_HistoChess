@@ -30,6 +30,7 @@ public class Board : MonoBehaviour
     [SerializeField] private TMP_Text _playerCommandPointsValue;
     [SerializeField] private TMP_Text _enemyCommandPointsValue;
     [SerializeField] private GameObject _fog;
+    [SerializeField] private GameObject _treesGO;
 
     // Public get/set
     public List<Unit> playerUnits { get => _playerUnits; set => _playerUnits = value; }
@@ -830,5 +831,19 @@ public class Board : MonoBehaviour
     public bool CanLaunchBattle()
     {
         return _playerCommandPoints <= maxCommandPoints;
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Spawns or unspawns the trees on the board
+    /// </summary>
+    public void EnableTrees(bool enable)
+    {
+        _treesGO.SetActive(enable);
+        /*foreach (GameObject tree in _trees)
+        {
+            tree.SetActive(enable);
+        }*/
     }
 }
