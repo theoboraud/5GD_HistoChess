@@ -162,8 +162,9 @@ public class SoundManager : MonoBehaviour
     /// </summary>
     public void UnitDefeated(Unit unit)
     {
-        unit_Defeated.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(unit.gameObject));
-        unit_Defeated.start();
+        //unit_Defeated.set3DAttributes(FMODUnity.RuntimeUtils.To3DAttributes(unit.gameObject));
+        //unit_Defeated.start();
+        FMODUnity.RuntimeManager.PlayOneShot("event:/Unit_Feedbacks/Classic_Actions/Unit_Defeated");
     }
 
     // ----------------------------------------------------------------------------------------

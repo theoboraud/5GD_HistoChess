@@ -51,6 +51,7 @@ public class Unit : MonoBehaviour, ISelectableEntity
     [SerializeField] private Color _colorHurtStat;              // Color to change to for resistance value when unit is hurt
     private Tile _tile;                                         // Tile on which the unit is located, if any
     [SerializeField] private ScaleBlip _scaleBlip;
+    [SerializeField] private TMP_Text _damageTakenValue;
 
     // Public get/set
     public int power { get => _power; }
@@ -289,6 +290,7 @@ public class Unit : MonoBehaviour, ISelectableEntity
     public void TakeDamage(int damage)
     {
         _hp = Mathf.Clamp(_hp - damage, 0, _hp);
+        StartCoroutine("DamageTaken", damage);
         UpdateStats();
     }
 
@@ -536,5 +538,30 @@ public class Unit : MonoBehaviour, ISelectableEntity
         _enableTooltip = false;
 
         UnitTooltip.instance.EnableTooltip(false);
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Wait before enabling the tooltip
+    /// </summary>
+    public IEnumerator DamageTaken(int damage)
+    {
+        if (damage > 0)
+        {
+            _damageTakenValue.color = Color.red;
+        }
+        else
+        {
+            _damageTakenValue.color = Color.white;
+        }
+
+        _damageTakenValue.GetComponent<Fade>().Appear();
+        _damageTakenValue.GetComponent<ScaleBlip>().StartScaleBlip();
+
+        yield return new WaitForSeconds(0.7f);
+
+        _damageTakenValue.GetComponent<Fade>().Disappear();
+
     }
 }
