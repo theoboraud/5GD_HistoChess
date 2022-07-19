@@ -126,6 +126,9 @@
 	</object>
 	<object class="MixerBusPanner" id="{9524d321-dcdd-4fcd-9183-5a9b7be16249}" />
 	<object class="SingleSound" id="{ed2cea27-9769-4623-9042-cd97a8881744}">
+		<property name="start">
+			<value>1</value>
+		</property>
 		<property name="length">
 			<value>0.99416336734660482</value>
 		</property>
@@ -164,7 +167,7 @@
 	</object>
 	<object class="SingleSound" id="{b6e83a3a-51f5-48b9-a466-451115f0e9b6}">
 		<property name="start">
-			<value>0.071904895561605911</value>
+			<value>1.0719048955616057</value>
 		</property>
 		<property name="length">
 			<value>0.38599806564261979</value>
@@ -191,6 +194,9 @@
 		</relationship>
 	</object>
 	<object class="SingleSound" id="{69c5536f-db98-49ae-acbb-e51a8ef7448b}">
+		<property name="start">
+			<value>1</value>
+		</property>
 		<property name="length">
 			<value>4.2232617663029233</value>
 		</property>
@@ -220,7 +226,7 @@
 	</object>
 	<object class="SingleSound" id="{ab6a5687-4c92-40ba-b2ae-8cf6f31a03db}">
 		<property name="start">
-			<value>0.022713621690347574</value>
+			<value>1.0227136216903476</value>
 		</property>
 		<property name="length">
 			<value>0.5694583333333334</value>
@@ -308,7 +314,7 @@
 	</object>
 	<object class="AutomationPoint" id="{6d1e869f-ca55-4f19-ab5b-eb065b8ab308}">
 		<property name="position">
-			<value>0</value>
+			<value>1</value>
 		</property>
 		<property name="value">
 			<value>0</value>
@@ -319,7 +325,7 @@
 	</object>
 	<object class="AutomationPoint" id="{038c7a92-b9da-44be-b3a4-49b86398649b}">
 		<property name="position">
-			<value>0.05999999999999997</value>
+			<value>1.0600000000000001</value>
 		</property>
 		<property name="value">
 			<value>1</value>
@@ -327,7 +333,7 @@
 	</object>
 	<object class="AutomationPoint" id="{2ca2d959-0ccc-4ddd-a814-df3510c2d34d}">
 		<property name="position">
-			<value>0.51865316326497268</value>
+			<value>1.5186531632649731</value>
 		</property>
 		<property name="value">
 			<value>1</value>
@@ -338,7 +344,7 @@
 	</object>
 	<object class="AutomationPoint" id="{5b1dc4d6-181f-4e1c-a961-29589b5cedfb}">
 		<property name="position">
-			<value>0.99416336734660482</value>
+			<value>1.994163367346605</value>
 		</property>
 		<property name="value">
 			<value>0</value>
