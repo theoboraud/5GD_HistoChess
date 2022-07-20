@@ -8,7 +8,7 @@
 			<value>ST_Raid</value>
 		</property>
 		<property name="outputFormat">
-			<value>1</value>
+			<value>2</value>
 		</property>
 		<relationship name="folder">
 			<destination>{acf4ec61-eca4-4501-bacc-dc66a937fa9e}</destination>
@@ -255,6 +255,7 @@
 	<object class="MixerBusEffectChain" id="{b27091ae-b59d-4065-a87b-bb719309e6db}">
 		<relationship name="effects">
 			<destination>{b5db12a7-6ae5-4dee-91ae-4573f7b564d8}</destination>
+			<destination>{924d7dde-52b5-4e36-b753-5b0b313b35a6}</destination>
 		</relationship>
 	</object>
 	<object class="MixerBusPanner" id="{fb895c01-6a2e-422e-8262-422a2b82e51e}" />
@@ -312,6 +313,11 @@
 	</object>
 	<object class="MixerBusPanner" id="{9900c8dd-b99f-413c-838f-f2c6e4753392}" />
 	<object class="MixerBusFader" id="{b5db12a7-6ae5-4dee-91ae-4573f7b564d8}" />
+	<object class="SpatialiserEffect" id="{924d7dde-52b5-4e36-b753-5b0b313b35a6}">
+		<property name="maximumDistance">
+			<value>100</value>
+		</property>
+	</object>
 	<object class="AutomationPoint" id="{bbe90da4-8f3f-4db1-a983-66c18dcc9a85}">
 		<property name="position">
 			<value>0</value>
