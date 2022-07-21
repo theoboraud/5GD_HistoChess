@@ -17,6 +17,26 @@ public class ScaleHover : MonoBehaviour
     /// </summary>
     public void OnMouseEnter()
     {
+        ScaleUp();
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Decrease the scale when hovering stopped
+    /// </summary>
+    public void OnMouseExit()
+    {
+        ScaleDown();
+    }
+
+    // ----------------------------------------------------------------------------------------
+
+    /// <summary>
+    ///     Decrease the scale when hovering stopped
+    /// </summary>
+    public void ScaleUp()
+    {
         if (!_hasScaledUp)
         {
             _hasScaledUp = true;
@@ -29,7 +49,7 @@ public class ScaleHover : MonoBehaviour
     /// <summary>
     ///     Decrease the scale when hovering stopped
     /// </summary>
-    public void OnMouseExit()
+    public void ScaleDown()
     {
         if (_hasScaledUp)
         {

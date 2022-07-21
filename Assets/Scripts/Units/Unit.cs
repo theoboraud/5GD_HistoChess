@@ -542,6 +542,7 @@ public class Unit : MonoBehaviour, ISelectableEntity
     public void OnMouseEnter()
     {
         _enableTooltip = true;
+        this.GetComponent<ScaleHover>().ScaleUp();
         StartCoroutine("WaitBeforeTooltip");
     }
 
@@ -569,7 +570,7 @@ public class Unit : MonoBehaviour, ISelectableEntity
     public void OnMouseExit()
     {
         _enableTooltip = false;
-
+        this.GetComponent<ScaleHover>().ScaleDown();
         UnitTooltip.instance.EnableTooltip(false);
     }
 
@@ -588,6 +589,7 @@ public class Unit : MonoBehaviour, ISelectableEntity
         {
             _damageTakenValue.color = Color.white;
         }
+        _damageTakenValue.text = "-" + damage.ToString();
         _damageTakenValue.gameObject.SetActive(true);
         _damageTakenValue.GetComponent<Fade>().Appear();
         _damageTakenValue.GetComponent<ScaleBlip>().StartScaleBlip();
